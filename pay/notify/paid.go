@@ -6,8 +6,8 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/donetkit/wechat/util"
 	"github.com/fatih/structs"
-	"github.com/silenceper/wechat/v2/util"
 	"github.com/spf13/cast"
 )
 

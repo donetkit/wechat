@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/silenceper/wechat/v2/util"
+	"github.com/donetkit/wechat/util"
 )
 
 //ResCreateQRCode 获取二维码的返回实体

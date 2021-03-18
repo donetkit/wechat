@@ -1,7 +1,7 @@
 # WeChat SDK for Go
-![Go](https://github.com/silenceper/wechat/workflows/Go/badge.svg?branch=release-2.0)
-[![Go Report Card](https://goreportcard.com/badge/github.com/silenceper/wechat)](https://goreportcard.com/report/github.com/silenceper/wechat)
-[![pkg](https://img.shields.io/badge/dev-reference-007d9c?logo=go&logoColor=white&style=flat)](https://pkg.go.dev/github.com/silenceper/wechat/v2?tab=doc)
+![Go](https://github.com/donetkit/wechat/workflows/Go/badge.svg?branch=release-2.0)
+[![Go Report Card](https://goreportcard.com/badge/github.com/donetkit/wechat)](https://goreportcard.com/report/github.com/donetkit/wechat)
+[![pkg](https://img.shields.io/badge/dev-reference-007d9c?logo=go&logoColor=white&style=flat)](https://pkg.go.dev/github.com/donetkit/wechat?tab=doc)
 
 使用Golang开发的微信SDK，简单、易用。
 >当前版本为v2版本
@@ -14,7 +14,7 @@
 
 ## 快速开始
 ```
-import "github.com/silenceper/wechat/v2"
+import "github.com/donetkit/wechat"
 ```
 
 以下是一个微信公众号处理消息接收以及回复的例子：

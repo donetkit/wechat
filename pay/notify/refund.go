@@ -7,7 +7,7 @@ import (
 	"encoding/xml"
 	"errors"
 
-	"github.com/silenceper/wechat/v2/util"
+	"github.com/donetkit/wechat/util"
 )
 
 // reference: https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_16&index=10

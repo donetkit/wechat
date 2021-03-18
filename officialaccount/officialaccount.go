@@ -3,21 +3,21 @@ package officialaccount
 import (
 	"net/http"
 
-	"github.com/silenceper/wechat/v2/officialaccount/datacube"
+	"github.com/donetkit/wechat/officialaccount/datacube"
 
-	"github.com/silenceper/wechat/v2/credential"
-	"github.com/silenceper/wechat/v2/officialaccount/basic"
-	"github.com/silenceper/wechat/v2/officialaccount/broadcast"
-	"github.com/silenceper/wechat/v2/officialaccount/config"
-	"github.com/silenceper/wechat/v2/officialaccount/context"
-	"github.com/silenceper/wechat/v2/officialaccount/device"
-	"github.com/silenceper/wechat/v2/officialaccount/js"
-	"github.com/silenceper/wechat/v2/officialaccount/material"
-	"github.com/silenceper/wechat/v2/officialaccount/menu"
-	"github.com/silenceper/wechat/v2/officialaccount/message"
-	"github.com/silenceper/wechat/v2/officialaccount/oauth"
-	"github.com/silenceper/wechat/v2/officialaccount/server"
-	"github.com/silenceper/wechat/v2/officialaccount/user"
+	"github.com/donetkit/wechat/credential"
+	"github.com/donetkit/wechat/officialaccount/basic"
+	"github.com/donetkit/wechat/officialaccount/broadcast"
+	"github.com/donetkit/wechat/officialaccount/config"
+	"github.com/donetkit/wechat/officialaccount/context"
+	"github.com/donetkit/wechat/officialaccount/device"
+	"github.com/donetkit/wechat/officialaccount/js"
+	"github.com/donetkit/wechat/officialaccount/material"
+	"github.com/donetkit/wechat/officialaccount/menu"
+	"github.com/donetkit/wechat/officialaccount/message"
+	"github.com/donetkit/wechat/officialaccount/oauth"
+	"github.com/donetkit/wechat/officialaccount/server"
+	"github.com/donetkit/wechat/officialaccount/user"
 )
 
 //OfficialAccount 微信公众号相关API
