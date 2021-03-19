@@ -3,6 +3,7 @@ package oauth
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"net/http"
 	"net/url"
 
@@ -36,12 +37,12 @@ func (oauth *Oauth) GetRedirectURL(redirectURI, scope, state, appID string) (str
 }
 
 //Redirect 第三方平台 - 跳转到网页授权
-func (oauth *Oauth) Redirect(writer http.ResponseWriter, req *http.Request, redirectURI, scope, state, appID string) error {
+func (oauth *Oauth) Redirect(c *gin.Context, redirectURI, scope, state, appID string) error {
 	location, err := oauth.GetRedirectURL(redirectURI, scope, state, appID)
 	if err != nil {
 		return err
 	}
-	http.Redirect(writer, req, location, http.StatusFound)
+	c.Redirect(http.StatusFound, location)
 	return nil
 }
 

@@ -2,16 +2,15 @@ package server
 
 import (
 	"encoding/xml"
-	"net/http"
+	"github.com/gin-gonic/gin"
 )
 
 var xmlContentType = []string{"application/xml; charset=utf-8"}
 var plainContentType = []string{"text/plain; charset=utf-8"}
 
-func writeContextType(w http.ResponseWriter, value []string) {
-	header := w.Header()
-	if val := header["Content-Type"]; len(val) == 0 {
-		header["Content-Type"] = value
+func writeContextType(c *gin.Context, value []string) {
+	if val := c.Request.Header.Get("Content-Type"); len(val) == 0 {
+		c.Request.Header.Add("Content-Type", value[0])
 	}
 }
 
@@ -19,22 +18,18 @@ func writeContextType(w http.ResponseWriter, value []string) {
 func (srv *Server) Render(bytes []byte) {
 	//debug
 	//fmt.Println("response msg = ", string(bytes))
-	srv.Writer.WriteHeader(200)
-	_, err := srv.Writer.Write(bytes)
-	if err != nil {
-		panic(err)
-	}
+	srv.GContext.Writer.WriteString(string(bytes))
 }
 
 //String render from string
 func (srv *Server) String(str string) {
-	writeContextType(srv.Writer, plainContentType)
+	writeContextType(srv.GContext, plainContentType)
 	srv.Render([]byte(str))
 }
 
 //XML render to xml
 func (srv *Server) XML(obj interface{}) {
-	writeContextType(srv.Writer, xmlContentType)
+	writeContextType(srv.GContext, xmlContentType)
 	bytes, err := xml.Marshal(obj)
 	if err != nil {
 		panic(err)
@@ -50,8 +45,8 @@ func (srv *Server) Query(key string) string {
 
 // GetQuery is like Query(), it returns the keyed url query value
 func (srv *Server) GetQuery(key string) (string, bool) {
-	req := srv.Request
-	if values, ok := req.URL.Query()[key]; ok && len(values) > 0 {
+	req := srv.GContext
+	if values, ok := req.Request.URL.Query()[key]; ok && len(values) > 0 {
 		return values[0], true
 	}
 	return "", false

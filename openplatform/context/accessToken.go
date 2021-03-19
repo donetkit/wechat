@@ -22,17 +22,18 @@ const (
 	//getComponentConfigURL = "https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_option?component_access_token=%s"
 	//TODO 获取已授权的账号信息
 	//getuthorizerListURL = "POST https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_list?component_access_token=%s"
-)
 
-// ComponentAccessToken 第三方平台
-type ComponentAccessToken struct {
-	AccessToken string `json:"component_access_token"`
-	ExpiresIn   int64  `json:"expires_in"`
-}
+	// 开放平台 AccessToken
+	ComponentAccessTokenCacheKey = "WeiXin:Container:Open:AccessToken:%s"
+	// 开放平台授权 公众号/小程序 AccessToken
+	AuthorizerAccessTokenCacheKey = "WeiXin:Container:Open:AuthorizerAccessToken:%s"
+)
 
 // GetComponentAccessToken 获取 ComponentAccessToken
 func (ctx *Context) GetComponentAccessToken() (string, error) {
-	accessTokenCacheKey := fmt.Sprintf("component_access_token_%s", ctx.AppID)
+	ctx.Lock.Lock()
+	defer ctx.Lock.Unlock()
+	accessTokenCacheKey := fmt.Sprintf(ComponentAccessTokenCacheKey, ctx.AppID)
 	val := ctx.Cache.Get(accessTokenCacheKey)
 	if val == nil {
 		return "", fmt.Errorf("cann't get component access token")
@@ -42,6 +43,8 @@ func (ctx *Context) GetComponentAccessToken() (string, error) {
 
 // SetComponentAccessToken 通过component_verify_ticket 获取 ComponentAccessToken
 func (ctx *Context) SetComponentAccessToken(verifyTicket string) (*ComponentAccessToken, error) {
+	ctx.Lock.Lock()
+	defer ctx.Lock.Unlock()
 	body := map[string]string{
 		"component_appid":         ctx.AppID,
 		"component_appsecret":     ctx.AppSecret,
@@ -57,7 +60,7 @@ func (ctx *Context) SetComponentAccessToken(verifyTicket string) (*ComponentAcce
 		return nil, err
 	}
 
-	accessTokenCacheKey := fmt.Sprintf("component_access_token_%s", ctx.AppID)
+	accessTokenCacheKey := fmt.Sprintf(ComponentAccessTokenCacheKey, ctx.AppID)
 	expires := at.ExpiresIn - 1500
 	if err := ctx.Cache.Set(accessTokenCacheKey, at.AccessToken, time.Duration(expires)*time.Second); err != nil {
 		return nil, nil
@@ -108,30 +111,6 @@ func (ctx *Context) GetBindComponentURL(redirectURI string, authType int, bizApp
 	return fmt.Sprintf(bindComponentURL, authType, ctx.AppID, code, url.QueryEscape(redirectURI), bizAppID), nil
 }
 
-// ID 微信返回接口中各种类型字段
-type ID struct {
-	ID int `json:"id"`
-}
-
-// AuthBaseInfo 授权的基本信息
-type AuthBaseInfo struct {
-	AuthrAccessToken
-	FuncInfo []AuthFuncInfo `json:"func_info"`
-}
-
-// AuthFuncInfo 授权的接口内容
-type AuthFuncInfo struct {
-	FuncscopeCategory ID `json:"funcscope_category"`
-}
-
-// AuthrAccessToken 授权方AccessToken
-type AuthrAccessToken struct {
-	Appid        string `json:"authorizer_appid"`
-	AccessToken  string `json:"authorizer_access_token"`
-	ExpiresIn    int64  `json:"expires_in"`
-	RefreshToken string `json:"authorizer_refresh_token"`
-}
-
 // QueryAuthCode 使用授权码换取公众号或小程序的接口调用凭据和授权信息
 func (ctx *Context) QueryAuthCode(authCode string) (*AuthBaseInfo, error) {
 	cat, err := ctx.GetComponentAccessToken()
@@ -161,70 +140,76 @@ func (ctx *Context) QueryAuthCode(authCode string) (*AuthBaseInfo, error) {
 		err = fmt.Errorf("QueryAuthCode error : errcode=%v , errmsg=%v", ret.ErrCode, ret.ErrMsg)
 		return nil, err
 	}
+	accessTokenCacheKey := fmt.Sprintf(AuthorizerAccessTokenCacheKey, ret.Info.Appid)
+	authorizerAccessToken := &AuthorizerAccessToken{
+		AuthorizationInfoExpireTime: time.Now().Unix() + ExpiryTimeSpan(ret.Info.ExpiresIn),
+		AuthorizerAccessToken:       ret.Info.AuthrAccessToken,
+	}
+	val, _ := json.Marshal(authorizerAccessToken)
+	if err := ctx.Cache.Set(accessTokenCacheKey, val, -1); err != nil {
+		return nil, nil
+	}
 	return ret.Info, nil
 }
 
-// RefreshAuthrToken 获取（刷新）授权公众号或小程序的接口调用凭据（令牌）
-func (ctx *Context) RefreshAuthrToken(appid, refreshToken string) (*AuthrAccessToken, error) {
+// RefreshAuthToken 获取（刷新）授权公众号或小程序的接口调用凭据（令牌）
+func (ctx *Context) refreshAuthToken(appId, refreshToken string) (string, error) {
 	cat, err := ctx.GetComponentAccessToken()
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
 	req := map[string]string{
 		"component_appid":          ctx.AppID,
-		"authorizer_appid":         appid,
+		"authorizer_appid":         appId,
 		"authorizer_refresh_token": refreshToken,
 	}
 	uri := fmt.Sprintf(refreshTokenURL, cat)
 	body, err := util.PostJSON(uri, req)
 	if err != nil {
-		return nil, err
+		return "", err
+	}
+	ret := AuthrAccessToken{}
+	if err := json.Unmarshal(body, &ret); err != nil {
+		return "", err
 	}
 
-	ret := &AuthrAccessToken{}
-	if err := json.Unmarshal(body, ret); err != nil {
-		return nil, err
-	}
-
-	authrTokenKey := "authorizer_access_token_" + appid
-	if err := ctx.Cache.Set(authrTokenKey, ret.AccessToken, time.Minute*80); err != nil {
-		return nil, err
-	}
-	return ret, nil
-}
-
-// GetAuthrAccessToken 获取授权方AccessToken
-func (ctx *Context) GetAuthrAccessToken(appid string) (string, error) {
-	authrTokenKey := "authorizer_access_token_" + appid
-	val := ctx.Cache.Get(authrTokenKey)
+	authTokenKey := fmt.Sprintf(AuthorizerAccessTokenCacheKey, appId)
+	authorizerAccessToken := &AuthorizerAccessToken{}
+	val := ctx.Cache.Get(authTokenKey)
 	if val == nil {
-		return "", fmt.Errorf("cannot get authorizer %s access token", appid)
+		return "", fmt.Errorf("cannot get authorizer %s access token", appId)
 	}
-	return val.(string), nil
+	if err := json.Unmarshal([]byte(val.(string)), &authorizerAccessToken); err != nil {
+		return "", err
+	}
+	authorizerAccessToken.AuthorizerAccessToken = ret
+	authorizerAccessToken.AuthorizationInfoExpireTime = time.Now().Unix() + ExpiryTimeSpan(ret.ExpiresIn)
+	if err := ctx.Cache.Set(authTokenKey, ret.AccessToken, -1); err != nil {
+		return "", err
+	}
+	return ret.AccessToken, nil
 }
 
-// AuthorizerInfo 授权方详细信息
-type AuthorizerInfo struct {
-	NickName        string `json:"nick_name"`
-	HeadImg         string `json:"head_img"`
-	ServiceTypeInfo ID     `json:"service_type_info"`
-	VerifyTypeInfo  ID     `json:"verify_type_info"`
-	UserName        string `json:"user_name"`
-	PrincipalName   string `json:"principal_name"`
-	BusinessInfo    struct {
-		OpenStore string `json:"open_store"`
-		OpenScan  string `json:"open_scan"`
-		OpenPay   string `json:"open_pay"`
-		OpenCard  string `json:"open_card"`
-		OpenShake string `json:"open_shake"`
+// GetAuthAccessToken 获取授权方AccessToken
+func (ctx *Context) GetAuthAccessToken(appId string) (string, error) {
+	authorizerAccessToken := AuthorizerAccessToken{}
+	authTokenKey := fmt.Sprintf(AuthorizerAccessTokenCacheKey, appId)
+	val := ctx.Cache.Get(authTokenKey)
+	if val == nil {
+		return "", fmt.Errorf("cannot get authorizer %s access token", appId)
 	}
-	Alias     string `json:"alias"`
-	QrcodeURL string `json:"qrcode_url"`
+	if err := json.Unmarshal([]byte(val.(string)), &authorizerAccessToken); err != nil {
+		return "", err
+	}
+	if authorizerAccessToken.AuthorizationInfoExpireTime < time.Now().Unix() {
+		return ctx.refreshAuthToken(appId, authorizerAccessToken.AuthorizerAccessToken.RefreshToken)
+	}
+	return authorizerAccessToken.AuthorizerAccessToken.AccessToken, nil
 }
 
-// GetAuthrInfo 获取授权方的帐号基本信息
-func (ctx *Context) GetAuthrInfo(appid string) (*AuthorizerInfo, *AuthBaseInfo, error) {
+// GetAuthInfo 获取授权方的帐号基本信息
+func (ctx *Context) GetAuthInfo(appId string) (*AuthorizerInfo, *AuthBaseInfo, error) {
 	cat, err := ctx.GetComponentAccessToken()
 	if err != nil {
 		return nil, nil, err
@@ -232,7 +217,7 @@ func (ctx *Context) GetAuthrInfo(appid string) (*AuthorizerInfo, *AuthBaseInfo, 
 
 	req := map[string]string{
 		"component_appid":  ctx.AppID,
-		"authorizer_appid": appid,
+		"authorizer_appid": appId,
 	}
 
 	uri := fmt.Sprintf(getComponentInfoURL, cat)
@@ -250,4 +235,15 @@ func (ctx *Context) GetAuthrInfo(appid string) (*AuthorizerInfo, *AuthBaseInfo, 
 	}
 
 	return ret.AuthorizerInfo, ret.AuthorizationInfo, nil
+}
+
+func ExpiryTimeSpan(expireInSeconds int64) int64 {
+	if expireInSeconds > 3600 {
+		expireInSeconds -= 600
+	} else if expireInSeconds > 1800 {
+		expireInSeconds -= 300
+	} else if expireInSeconds > 1800 {
+		expireInSeconds -= 30
+	}
+	return expireInSeconds
 }

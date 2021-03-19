@@ -1,9 +1,8 @@
 package officialaccount
 
 import (
-	"net/http"
-
 	"github.com/donetkit/wechat/officialaccount/datacube"
+	"github.com/gin-gonic/gin"
 
 	"github.com/donetkit/wechat/credential"
 	"github.com/donetkit/wechat/officialaccount/basic"
@@ -56,10 +55,9 @@ func (officialAccount *OfficialAccount) GetMenu() *menu.Menu {
 }
 
 // GetServer 消息管理：接收事件，被动回复消息管理
-func (officialAccount *OfficialAccount) GetServer(req *http.Request, writer http.ResponseWriter) *server.Server {
+func (officialAccount *OfficialAccount) GetServer(c *gin.Context) *server.Server {
 	srv := server.NewServer(officialAccount.ctx)
-	srv.Request = req
-	srv.Writer = writer
+	srv.GContext = c
 	return srv
 }
 

@@ -1,14 +1,13 @@
 package openplatform
 
 import (
-	"net/http"
-
 	"github.com/donetkit/wechat/officialaccount/server"
 	"github.com/donetkit/wechat/openplatform/account"
 	"github.com/donetkit/wechat/openplatform/config"
 	"github.com/donetkit/wechat/openplatform/context"
 	"github.com/donetkit/wechat/openplatform/miniprogram"
 	"github.com/donetkit/wechat/openplatform/officialaccount"
+	"github.com/gin-gonic/gin"
 )
 
 //OpenPlatform 微信开放平台相关api
@@ -28,9 +27,9 @@ func NewOpenPlatform(cfg *config.Config) *OpenPlatform {
 }
 
 //GetServer get server
-func (openPlatform *OpenPlatform) GetServer(req *http.Request, writer http.ResponseWriter) *server.Server {
+func (openPlatform *OpenPlatform) GetServer(c *gin.Context) *server.Server {
 	off := officialaccount.NewOfficialAccount(openPlatform.Context, "")
-	return off.GetServer(req, writer)
+	return off.GetServer(c)
 }
 
 //GetOfficialAccount 公众号代处理

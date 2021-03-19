@@ -56,5 +56,5 @@ func NewDefaultAuthrAccessToken(opCtx *opContext.Context, appID string) credenti
 
 //GetAccessToken 获取ak
 func (ak *DefaultAuthrAccessToken) GetAccessToken() (string, error) {
-	return ak.opCtx.GetAuthrAccessToken(ak.appID)
+	return ak.opCtx.GetAuthAccessToken(ak.appID)
 }

@@ -4,8 +4,8 @@ import (
 	"encoding/xml"
 	"errors"
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"io/ioutil"
-	"net/http"
 	"reflect"
 	"runtime/debug"
 	"strconv"
@@ -20,9 +20,7 @@ import (
 //Server struct
 type Server struct {
 	*context.Context
-	Writer  http.ResponseWriter
-	Request *http.Request
-
+	GContext     *gin.Context
 	skipValidate bool
 
 	openID string
@@ -125,7 +123,7 @@ func (srv *Server) getMessage() (interface{}, error) {
 	var err error
 	if srv.isSafeMode {
 		var encryptedXMLMsg message.EncryptedXMLMsg
-		if err := xml.NewDecoder(srv.Request.Body).Decode(&encryptedXMLMsg); err != nil {
+		if err := xml.NewDecoder(srv.GContext.Request.Body).Decode(&encryptedXMLMsg); err != nil {
 			return nil, fmt.Errorf("从body中解析xml失败,err=%v", err)
 		}
 
@@ -149,7 +147,7 @@ func (srv *Server) getMessage() (interface{}, error) {
 			return nil, fmt.Errorf("消息解密失败, err=%v", err)
 		}
 	} else {
-		rawXMLMsgBytes, err = ioutil.ReadAll(srv.Request.Body)
+		rawXMLMsgBytes, err = ioutil.ReadAll(srv.GContext.Request.Body)
 		if err != nil {
 			return nil, fmt.Errorf("从body中解析xml失败, err=%v", err)
 		}
