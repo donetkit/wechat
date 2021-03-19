@@ -16,8 +16,9 @@ const (
 	queryAuthURL            = "https://api.weixin.qq.com/cgi-bin/component/api_query_auth?component_access_token=%s"
 	refreshTokenURL         = "https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token?component_access_token=%s"
 	getComponentInfoURL     = "https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_info?component_access_token=%s"
-	componentLoginURL       = "https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=%s&pre_auth_code=%s&redirect_uri=%s&auth_type=%d&biz_appid=%s"
-	bindComponentURL        = "https://mp.weixin.qq.com/safe/bindcomponent?action=bindcomponent&auth_type=%d&no_scan=1&component_appid=%s&pre_auth_code=%s&redirect_uri=%s&biz_appid=%s#wechat_redirect"
+	componentLoginURL       = "https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=%s&pre_auth_code=%s&redirect_uri=%s"
+	// componentLoginURL= "https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=%s&pre_auth_code=%s&redirect_uri=%s&auth_type=%d&biz_appid=%s"
+	bindComponentURL = "https://mp.weixin.qq.com/safe/bindcomponent?action=bindcomponent&auth_type=%d&no_scan=1&component_appid=%s&pre_auth_code=%s&redirect_uri=%s&biz_appid=%s#wechat_redirect"
 	//TODO 获取授权方选项信息
 	//getComponentConfigURL = "https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_option?component_access_token=%s"
 	//TODO 获取已授权的账号信息
@@ -99,7 +100,12 @@ func (ctx *Context) GetComponentLoginPage(redirectURI string, authType int, bizA
 	if err != nil {
 		return "", err
 	}
-	return fmt.Sprintf(componentLoginURL, ctx.AppID, code, url.QueryEscape(redirectURI), authType, bizAppID), nil
+
+	componentLoginURLNew := fmt.Sprintf(componentLoginURL, ctx.AppID, code, url.QueryEscape(redirectURI)) // , authType
+	if bizAppID != "" {
+		componentLoginURLNew = fmt.Sprintf("%s&biz_appid=%s", componentLoginURLNew, bizAppID)
+	}
+	return componentLoginURLNew, nil
 }
 
 // GetBindComponentURL 获取第三方公众号授权链接(链接跳转，适用移动端)
@@ -146,7 +152,7 @@ func (ctx *Context) QueryAuthCode(authCode string) (*AuthBaseInfo, error) {
 		AuthorizerAccessToken:       ret.Info.AuthrAccessToken,
 	}
 	val, _ := json.Marshal(authorizerAccessToken)
-	if err := ctx.Cache.Set(accessTokenCacheKey, val, -1); err != nil {
+	if err := ctx.Cache.Set(accessTokenCacheKey, val, 31*24*3600*time.Second); err != nil {
 		return nil, nil
 	}
 	return ret.Info, nil
@@ -185,7 +191,7 @@ func (ctx *Context) refreshAuthToken(appId, refreshToken string) (string, error)
 	}
 	authorizerAccessToken.AuthorizerAccessToken = ret
 	authorizerAccessToken.AuthorizationInfoExpireTime = time.Now().Unix() + ExpiryTimeSpan(ret.ExpiresIn)
-	if err := ctx.Cache.Set(authTokenKey, ret.AccessToken, -1); err != nil {
+	if err := ctx.Cache.Set(authTokenKey, ret.AccessToken, 31*24*3600*time.Second); err != nil {
 		return "", err
 	}
 	return ret.AccessToken, nil
