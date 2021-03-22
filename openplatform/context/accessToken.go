@@ -152,7 +152,7 @@ func (ctx *Context) QueryAuthCode(authCode string) (*AuthBaseInfo, error) {
 		AuthorizerAccessToken:       ret.Info.AuthrAccessToken,
 	}
 	val, _ := json.Marshal(authorizerAccessToken)
-	if err := ctx.Cache.Set(accessTokenCacheKey, val, 31*24*3600*time.Second); err != nil {
+	if err := ctx.Cache.Set(accessTokenCacheKey, string(val), 31*24*3600*time.Second); err != nil {
 		return nil, nil
 	}
 	return ret.Info, nil
@@ -191,7 +191,12 @@ func (ctx *Context) refreshAuthToken(appId, refreshToken string) (string, error)
 	}
 	authorizerAccessToken.AuthorizerAccessToken = ret
 	authorizerAccessToken.AuthorizationInfoExpireTime = time.Now().Unix() + ExpiryTimeSpan(ret.ExpiresIn)
-	if err := ctx.Cache.Set(authTokenKey, ret.AccessToken, 31*24*3600*time.Second); err != nil {
+
+	res, err := json.Marshal(authorizerAccessToken)
+	if err != nil {
+		return "", fmt.Errorf("json Marshal authorizer %s access token", appId)
+	}
+	if err := ctx.Cache.Set(authTokenKey, string(res), 31*24*3600*time.Second); err != nil {
 		return "", err
 	}
 	return ret.AccessToken, nil

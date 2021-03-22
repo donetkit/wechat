@@ -2,6 +2,7 @@ package miniprogram
 
 import (
 	openContext "github.com/donetkit/wechat/openplatform/context"
+	"github.com/donetkit/wechat/openplatform/miniprogram/auth"
 	"github.com/donetkit/wechat/openplatform/miniprogram/basic"
 	"github.com/donetkit/wechat/openplatform/miniprogram/component"
 )
@@ -29,4 +30,9 @@ func (miniProgram *MiniProgram) GetComponent() *component.Component {
 //GetBasic 基础信息设置
 func (miniProgram *MiniProgram) GetBasic() *basic.Basic {
 	return basic.NewBasic(miniProgram.openContext, miniProgram.AppID)
+}
+
+//GetBasic 基础信息设置
+func (miniProgram *MiniProgram) GetAuth() *auth.Auth {
+	return auth.NewAuth(miniProgram.openContext, miniProgram.AppID)
 }

@@ -61,13 +61,9 @@ server.Send()
 - openplatform:开放平台API
 - work:企业微信
 - aispeech:智能对话
-
-## 贡献
-- 提交issue，描述需要贡献的内容
-- 完成更改后，提交PR
-
-## 公众号
-![img](https://silenceper.oss-cn-beijing.aliyuncs.com/qrcode/search_study_program.png)
+ 
+## Thanks
+- 感谢大佬 [silenceper](https://github.com/silenceper/wechat) 
 
 ## License
 
