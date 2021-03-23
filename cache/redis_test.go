@@ -7,14 +7,15 @@ import (
 
 func TestRedis(t *testing.T) {
 	opts := &RedisOpts{
-		Host: "127.0.0.1:6379",
+		Host:     "127.0.0.1:6379",
+		Password: "",
+		Database: 0,
 	}
 	redis := NewRedis(opts)
-	redis.SetConn(redis.conn)
 	var err error
-	timeoutDuration := 1 * time.Second
+	timeoutDuration := 100 * time.Second
 
-	if err = redis.Set("username", "silenceper", timeoutDuration); err != nil {
+	if err = redis.Set("username", "TestRedis", timeoutDuration); err != nil {
 		t.Error("set Error", err)
 	}
 
@@ -23,7 +24,7 @@ func TestRedis(t *testing.T) {
 	}
 
 	name := redis.Get("username").(string)
-	if name != "silenceper" {
+	if name != "TestRedis" {
 		t.Error("get Error")
 	}
 

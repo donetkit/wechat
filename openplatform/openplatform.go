@@ -27,8 +27,8 @@ func NewOpenPlatform(cfg *config.Config) *OpenPlatform {
 }
 
 //GetServer get server
-func (openPlatform *OpenPlatform) GetServer(c *gin.Context) *server.Server {
-	off := officialaccount.NewOfficialAccount(openPlatform.Context, "")
+func (openPlatform *OpenPlatform) GetServer(c *gin.Context, appID string) *server.Server {
+	off := officialaccount.NewOfficialAccount(openPlatform.Context, appID)
 	return off.GetServer(c)
 }
 
