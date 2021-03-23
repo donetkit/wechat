@@ -7,7 +7,8 @@ import (
 
 func TestRedis(t *testing.T) {
 	opts := &RedisOpts{
-		Host:     "127.0.0.1:6379",
+		Host:     "127.0.0.1",
+		Port:     6379,
 		Password: "",
 		Database: 0,
 	}
