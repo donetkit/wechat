@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"time"
 
+	"github.com/go-redis/redis/v8"
+
 	"github.com/bradfitz/gomemcache/memcache"
 )
 
@@ -54,4 +56,19 @@ func (mem *Memcache) Set(key string, val interface{}, timeout time.Duration) (er
 // Delete delete value in memcache.
 func (mem *Memcache) Delete(key string) error {
 	return mem.conn.Delete(key)
+}
+
+//XRead
+func (mem *Memcache) XRead(key string, count int64) []redis.XStream {
+	return nil
+}
+
+// XAdd
+func (mem *Memcache) XAdd(key, id string, values map[string]interface{}) (string, error) {
+	return id, nil
+}
+
+// XDel
+func (mem *Memcache) XDel(key string, id string) (int64, error) {
+	return 0, nil
 }

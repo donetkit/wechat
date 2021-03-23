@@ -77,3 +77,30 @@ func (r *Redis) Delete(key string) error {
 	}
 	return nil
 }
+
+//XRead
+func (r *Redis) XRead(key string, count int64) []redis.XStream {
+	return r.client.XReadStreams(ctx, key, string(count)).Val()
+}
+
+// XAdd
+func (r *Redis) XAdd(key, id string, values map[string]interface{}) (string, error) {
+	id, err := r.client.XAdd(ctx, &redis.XAddArgs{
+		Stream: key,
+		ID:     id,
+		Values: values,
+	}).Result()
+	if err != nil {
+		return "", err
+	}
+	return id, nil
+}
+
+// XDel
+func (r *Redis) XDel(key string, id string) (int64, error) {
+	n, err := r.client.XDel(ctx, key, id).Result()
+	if err != nil {
+		return 0, err
+	}
+	return n, nil
+}

@@ -1,6 +1,10 @@
 package cache
 
-import "time"
+import (
+	"time"
+
+	"github.com/go-redis/redis/v8"
+)
 
 // Cache interface
 type Cache interface {
@@ -8,4 +12,8 @@ type Cache interface {
 	Set(key string, val interface{}, timeout time.Duration) error
 	IsExist(key string) bool
 	Delete(key string) error
+
+	XRead(key string, count int64) []redis.XStream
+	XAdd(key, id string, values map[string]interface{}) (string, error)
+	XDel(key string, id string) (int64, error)
 }
