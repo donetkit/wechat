@@ -84,7 +84,7 @@ func (r *Redis) XRead(key string, count int64) []redis.XStream {
 }
 
 // XAdd
-func (r *Redis) XAdd(key, id string, values map[string]interface{}) (string, error) {
+func (r *Redis) XAdd(key, id string, values []string) (string, error) {
 	id, err := r.client.XAdd(ctx, &redis.XAddArgs{
 		Stream: key,
 		ID:     id,

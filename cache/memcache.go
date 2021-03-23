@@ -64,7 +64,7 @@ func (mem *Memcache) XRead(key string, count int64) []redis.XStream {
 }
 
 // XAdd
-func (mem *Memcache) XAdd(key, id string, values map[string]interface{}) (string, error) {
+func (mem *Memcache) XAdd(key, id string, values []string) (string, error) {
 	return id, nil
 }
 
