@@ -80,7 +80,7 @@ func (r *Redis) Delete(key string) error {
 
 //XRead
 func (r *Redis) XRead(key string, count int64) []redis.XStream {
-	return r.client.XReadStreams(ctx, key, string(count)).Val()
+	return r.client.XReadStreams(ctx, key, fmt.Sprintf("%d", count)).Val()
 }
 
 // XAdd

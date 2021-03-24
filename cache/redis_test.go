@@ -1,6 +1,7 @@
 package cache
 
 import (
+	"fmt"
 	"testing"
 	"time"
 )
@@ -32,4 +33,12 @@ func TestRedis(t *testing.T) {
 	if err = redis.Delete("username"); err != nil {
 		t.Errorf("delete Error , err=%v", err)
 	}
+
+	d1, err := redis.XAdd("123456", "", []string{"", "troixtres21"}) //  []string{"tres", "troix"}
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	fmt.Println(d1)
+	dataXRead := redis.XRead("123456", 0)
+	fmt.Println(dataXRead)
 }
