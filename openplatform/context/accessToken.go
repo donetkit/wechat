@@ -179,7 +179,7 @@ func (ctx *Context) refreshAuthToken(appId, refreshToken string) (string, error)
 	if err := json.Unmarshal(body, &ret); err != nil {
 		return "", err
 	}
-
+	ret.Appid = appId
 	authTokenKey := fmt.Sprintf(AuthorizerAccessTokenCacheKey, appId)
 	authorizerAccessToken := &AuthorizerAccessToken{}
 	val := ctx.Cache.Get(authTokenKey)
