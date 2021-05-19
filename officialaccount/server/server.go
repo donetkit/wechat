@@ -4,11 +4,12 @@ import (
 	"encoding/xml"
 	"errors"
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"io/ioutil"
 	"reflect"
 	"runtime/debug"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
 
 	"github.com/donetkit/wechat/officialaccount/context"
 	"github.com/donetkit/wechat/officialaccount/message"
@@ -25,10 +26,10 @@ type Server struct {
 
 	openID string
 
-	messageHandler func(message.MixMessage) *message.Reply
+	messageHandler func(*message.MixMessage) *message.Reply
 
 	RequestRawXMLMsg  []byte
-	RequestMsg        message.MixMessage
+	RequestMsg        *message.MixMessage
 	ResponseRawXMLMsg []byte
 	ResponseMsg       interface{}
 
@@ -103,7 +104,7 @@ func (srv *Server) handleRequest() (reply *message.Reply, err error) {
 	if err != nil {
 		return
 	}
-	mixMessage, success := msg.(message.MixMessage)
+	mixMessage, success := msg.(*message.MixMessage)
 	if !success {
 		err = errors.New("消息类型转换失败")
 	}
@@ -158,14 +159,14 @@ func (srv *Server) getMessage() (interface{}, error) {
 	return srv.parseRequestMessage(rawXMLMsgBytes)
 }
 
-func (srv *Server) parseRequestMessage(rawXMLMsgBytes []byte) (msg message.MixMessage, err error) {
-	msg = message.MixMessage{}
-	err = xml.Unmarshal(rawXMLMsgBytes, &msg)
+func (srv *Server) parseRequestMessage(rawXMLMsgBytes []byte) (msg *message.MixMessage, err error) {
+	msg = &message.MixMessage{}
+	err = xml.Unmarshal(rawXMLMsgBytes, msg)
 	return
 }
 
 //SetMessageHandler 设置用户自定义的回调方法
-func (srv *Server) SetMessageHandler(handler func(message.MixMessage) *message.Reply) {
+func (srv *Server) SetMessageHandler(handler func(*message.MixMessage) *message.Reply) {
 	srv.messageHandler = handler
 }
 
