@@ -2,6 +2,7 @@ package officialaccount
 
 import (
 	"github.com/donetkit/wechat/officialaccount/datacube"
+	"github.com/donetkit/wechat/officialaccount/ocr"
 	"github.com/gin-gonic/gin"
 
 	"github.com/donetkit/wechat/credential"
@@ -110,4 +111,9 @@ func (officialAccount *OfficialAccount) GetBroadcast() *broadcast.Broadcast {
 //GetDataCube 数据统计
 func (officialAccount *OfficialAccount) GetDataCube() *datacube.DataCube {
 	return datacube.NewCube(officialAccount.ctx)
+}
+
+//GetOCR OCR接口
+func (officialAccount *OfficialAccount) GetOCR() *ocr.OCR {
+	return ocr.NewOCR(officialAccount.ctx)
 }

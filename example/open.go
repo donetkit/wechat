@@ -1,4 +1,4 @@
-package example
+package main
 
 import (
 	"fmt"
@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func main_open() {
+func main() {
 	fmt.Println("======================================================================")
 	fmt.Println("main")
 	fmt.Println("======================================================================")
@@ -27,6 +27,9 @@ func main_open() {
 		MaxHeaderBytes: maxHeaderBytes,
 	}
 	log.Printf("[info] start http server listening %s", endPoint)
-	server.ListenAndServe()
+	err := server.ListenAndServe()
+	if err != nil {
+		println(err.Error())
+	}
 
 }
