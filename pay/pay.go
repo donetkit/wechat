@@ -5,6 +5,7 @@ import (
 	"github.com/donetkit/wechat/pay/notify"
 	"github.com/donetkit/wechat/pay/order"
 	"github.com/donetkit/wechat/pay/refund"
+	"github.com/donetkit/wechat/pay/transfer"
 )
 
 //Pay 微信支付相关API
@@ -30,4 +31,9 @@ func (pay *Pay) GetNotify() *notify.Notify {
 // GetRefund  退款
 func (pay *Pay) GetRefund() *refund.Refund {
 	return refund.NewRefund(pay.cfg)
+}
+
+// GetTransfer 付款
+func (pay *Pay) GetTransfer() *transfer.Transfer {
+	return transfer.NewTransfer(pay.cfg)
 }
