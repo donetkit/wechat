@@ -1,6 +1,7 @@
 package wechat
 
 import (
+	"github.com/donetkit/wechat/work"
 	"os"
 
 	"github.com/donetkit/wechat/cache"
@@ -12,6 +13,7 @@ import (
 	openConfig "github.com/donetkit/wechat/openplatform/config"
 	"github.com/donetkit/wechat/pay"
 	payConfig "github.com/donetkit/wechat/pay/config"
+	workConfig "github.com/donetkit/wechat/work/config"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -66,4 +68,9 @@ func (wc *Wechat) GetPay(cfg *payConfig.Config) *pay.Pay {
 // GetOpenPlatform 获取微信开放平台的实例
 func (wc *Wechat) GetOpenPlatform(cfg *openConfig.Config) *openplatform.OpenPlatform {
 	return openplatform.NewOpenPlatform(cfg)
+}
+
+// GetWork 获取企业微信的实例
+func (wc *Wechat) GetWork(cfg *workConfig.Config) *work.Work {
+	return work.NewWork(cfg)
 }
