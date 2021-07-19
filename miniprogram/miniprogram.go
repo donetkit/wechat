@@ -5,6 +5,7 @@ import (
 	"github.com/donetkit/wechat/miniprogram/analysis"
 	"github.com/donetkit/wechat/miniprogram/auth"
 	"github.com/donetkit/wechat/miniprogram/config"
+	"github.com/donetkit/wechat/miniprogram/content"
 	"github.com/donetkit/wechat/miniprogram/context"
 	"github.com/donetkit/wechat/miniprogram/encryptor"
 	"github.com/donetkit/wechat/miniprogram/message"
@@ -77,4 +78,9 @@ func (miniProgram *MiniProgram) GetCustomerMessage() *message.Manager {
 // GetWeRun 微信运动接口
 func (miniProgram *MiniProgram) GetWeRun() *werun.WeRun {
 	return werun.NewWeRun(miniProgram.ctx)
+}
+
+// GetContentSecurity 内容安全接口
+func (miniProgram *MiniProgram) GetContentSecurity() *content.Content {
+	return content.NewContent(miniProgram.ctx)
 }
