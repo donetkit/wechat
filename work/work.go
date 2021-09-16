@@ -4,6 +4,7 @@ import (
 	"github.com/donetkit/wechat/credential"
 	"github.com/donetkit/wechat/work/config"
 	"github.com/donetkit/wechat/work/context"
+	"github.com/donetkit/wechat/work/msgaudit"
 	"github.com/donetkit/wechat/work/oauth"
 )
 
@@ -30,4 +31,9 @@ func (wk *Work) GetContext() *context.Context {
 //GetOauth get oauth
 func (wk *Work) GetOauth() *oauth.Oauth {
 	return oauth.NewOauth(wk.ctx)
+}
+
+// GetMsgAudit get msgAudit
+func (wk *Work) GetMsgAudit() (*msgaudit.Client, error) {
+	return msgaudit.NewClient(wk.ctx.Config)
 }
