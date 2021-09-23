@@ -172,9 +172,9 @@ func (o *Order) BridgeConfig(p *Params) (cfg Config, err error) {
 // BridgeAppConfig get app bridge config
 func (o *Order) BridgeAppConfig(p *Params) (cfg ConfigForApp, err error) {
 	var (
-		timestamp string = strconv.FormatInt(time.Now().Unix(), 10)
-		noncestr  string = util.RandomStr(32)
-		_package  string = "Sign=WXPay"
+		timestamp = strconv.FormatInt(time.Now().Unix(), 10)
+		noncestr  = util.RandomStr(32)
+		_package  = "Sign=WXPay"
 	)
 	order, err := o.PrePayOrder(p)
 	if err != nil {
@@ -210,10 +210,17 @@ func (o *Order) BridgeAppConfig(p *Params) (cfg ConfigForApp, err error) {
 // PrePayOrder return data for invoke wechat payment
 func (o *Order) PrePayOrder(p *Params) (payOrder PreOrder, err error) {
 	nonceStr := util.RandomStr(32)
+
 	// 通知地址
 	if len(p.NotifyURL) == 0 {
 		p.NotifyURL = o.NotifyURL // 默认使用order.NotifyURL
 	}
+
+	// 签名类型
+	if p.SignType == "" {
+		p.SignType = util.SignTypeMD5
+	}
+
 	param := map[string]string{
 		"appid":            o.AppID,
 		"body":             p.Body,
@@ -229,15 +236,6 @@ func (o *Order) PrePayOrder(p *Params) (payOrder PreOrder, err error) {
 		"attach":           p.Attach,
 		"goods_tag":        p.GoodsTag,
 		"notify_url":       p.NotifyURL,
-	}
-	// 签名类型
-	if param["sign_type"] == "" {
-		param["sign_type"] = util.SignTypeMD5
-	}
-
-	// 通知地址
-	if p.NotifyURL != "" {
-		param["notify_url"] = p.NotifyURL
 	}
 
 	if p.TimeExpire != "" {
