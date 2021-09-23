@@ -10,19 +10,19 @@ import (
 )
 
 const (
-	//AccessTokenURL 获取access_token的接口
+	// AccessTokenURL 获取access_token的接口
 	accessTokenURL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s"
-	//AccessTokenURL 企业微信获取access_token的接口
+	// AccessTokenURL 企业微信获取access_token的接口
 	workAccessTokenURL = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=%s&corpsecret=%s"
-	//CacheKeyOfficialAccountPrefix 微信公众号cache key前缀
+	// CacheKeyOfficialAccountPrefix 微信公众号cache key前缀
 	CacheKeyOfficialAccountPrefix = "gowechat_officialaccount_"
-	//CacheKeyMiniProgramPrefix 小程序cache key前缀
+	// CacheKeyMiniProgramPrefix 小程序cache key前缀
 	CacheKeyMiniProgramPrefix = "gowechat_miniprogram_"
-	//CacheKeyWorkPrefix 企业微信cache key前缀
+	// CacheKeyWorkPrefix 企业微信cache key前缀
 	CacheKeyWorkPrefix = "gowechat_work_"
 )
 
-//DefaultAccessToken 默认AccessToken 获取
+// DefaultAccessToken 默认AccessToken 获取
 type DefaultAccessToken struct {
 	appID           string
 	appSecret       string
@@ -31,7 +31,7 @@ type DefaultAccessToken struct {
 	accessTokenLock *sync.Mutex
 }
 
-//NewDefaultAccessToken new DefaultAccessToken
+// NewDefaultAccessToken new DefaultAccessToken
 func NewDefaultAccessToken(appID, appSecret, cacheKeyPrefix string, cache cache.Cache) AccessTokenHandle {
 	if cache == nil {
 		panic("cache is ineed")
@@ -45,7 +45,7 @@ func NewDefaultAccessToken(appID, appSecret, cacheKeyPrefix string, cache cache.
 	}
 }
 
-//ResAccessToken struct
+// ResAccessToken struct
 type ResAccessToken struct {
 	util.CommonError
 
