@@ -4,6 +4,7 @@ import (
 	"github.com/donetkit/wechat/credential"
 	"github.com/donetkit/wechat/work/config"
 	"github.com/donetkit/wechat/work/context"
+	"github.com/donetkit/wechat/work/kf"
 	"github.com/donetkit/wechat/work/msgaudit"
 	"github.com/donetkit/wechat/work/oauth"
 )
@@ -36,4 +37,9 @@ func (wk *Work) GetOauth() *oauth.Oauth {
 // GetMsgAudit get msgAudit
 func (wk *Work) GetMsgAudit() (*msgaudit.Client, error) {
 	return msgaudit.NewClient(wk.ctx.Config)
+}
+
+// GetKF get kf
+func (wk *Work) GetKF() (*kf.Client, error) {
+	return kf.NewClient(wk.ctx.Config)
 }
