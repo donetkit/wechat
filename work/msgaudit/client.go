@@ -1,3 +1,6 @@
+// +build linux
+
+//Package msgaudit only for linux
 package msgaudit
 
 // #cgo LDFLAGS: -L${SRCDIR}/lib -lWeWorkFinanceSdk_C
@@ -7,9 +10,10 @@ package msgaudit
 import "C"
 import (
 	"encoding/json"
-	"github.com/donetkit/wechat/util"
-	"github.com/donetkit/wechat/work/config"
 	"unsafe"
+
+	"github.com/donetkit/wechat/work/util"
+	"github.com/donetkit/wechat/work/work/config"
 )
 
 // Client 会话存档
