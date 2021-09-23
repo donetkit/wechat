@@ -10,6 +10,7 @@ import (
 	"github.com/donetkit/wechat/miniprogram/encryptor"
 	"github.com/donetkit/wechat/miniprogram/message"
 	"github.com/donetkit/wechat/miniprogram/qrcode"
+	"github.com/donetkit/wechat/miniprogram/shortlink"
 	"github.com/donetkit/wechat/miniprogram/subscribe"
 	"github.com/donetkit/wechat/miniprogram/tcb"
 	"github.com/donetkit/wechat/miniprogram/werun"
@@ -83,4 +84,9 @@ func (miniProgram *MiniProgram) GetWeRun() *werun.WeRun {
 // GetContentSecurity 内容安全接口
 func (miniProgram *MiniProgram) GetContentSecurity() *content.Content {
 	return content.NewContent(miniProgram.ctx)
+}
+
+// GetShortLink 小程序短链接口
+func (miniProgram *MiniProgram) GetShortLink() *shortlink.ShortLink {
+	return shortlink.NewShortLink(miniProgram.ctx)
 }
