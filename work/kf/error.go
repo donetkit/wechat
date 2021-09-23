@@ -31,6 +31,10 @@ const (
 	SDKAccessTokenExpired Error = "AccessToken 已过期"
 	// SDKApiFreqOutOfLimit 错误码：45009
 	SDKApiFreqOutOfLimit Error = "接口请求次数超频"
+	// SDKApiForbidden 错误码：48002
+	SDKApiForbidden Error = "API 禁止调用"
+	// SDKOpenKFIDNotExist 错误码：95004
+	SDKOpenKFIDNotExist Error = "open_kfid 不存在"
 	// SDKWeWorkAlready 错误码：95011
 	SDKWeWorkAlready Error = "已在企业微信使用微信客服"
 )
@@ -53,6 +57,10 @@ func NewSDKErr(code int64, msgList ...string) Error {
 		return SDKAccessTokenMissing
 	case 42001:
 		return SDKAccessTokenExpired
+	case 48002:
+		return SDKApiForbidden
+	case 95004:
+		return SDKOpenKFIDNotExist
 	case 40013:
 		return SDKInvalidCorpID
 	case 40014:
