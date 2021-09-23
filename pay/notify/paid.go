@@ -2,12 +2,12 @@ package notify
 
 import (
 	"fmt"
+	"github.com/donetkit/wechat/util"
 	"reflect"
 	"sort"
 	"strings"
 
 	"github.com/fatih/structs"
-	"github.com/silenceper/wechat/v2/util"
 	"github.com/spf13/cast"
 )
 
@@ -30,6 +30,7 @@ type PaidResult struct {
 	OpenID             *string `xml:"openid"`
 	IsSubscribe        *string `xml:"is_subscribe"`
 	TradeType          *string `xml:"trade_type"`
+	TradeState         *string `xml:"trade_state"`
 	BankType           *string `xml:"bank_type"`
 	TotalFee           *int    `xml:"total_fee"`
 	SettlementTotalFee *int    `xml:"settlement_total_fee"`
