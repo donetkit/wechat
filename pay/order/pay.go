@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/donetkit/wechat/work/pay/config"
-	"github.com/donetkit/wechat/work/util"
+	"github.com/donetkit/wechat/pay/config"
+	"github.com/donetkit/wechat/util"
 )
 
 // https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1
