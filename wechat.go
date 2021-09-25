@@ -1,6 +1,8 @@
 package wechat
 
 import (
+	"github.com/donetkit/wechat/qqminiprogram"
+	qqMiniConfig "github.com/donetkit/wechat/qqminiprogram/config"
 	"github.com/donetkit/wechat/work"
 	"os"
 
@@ -58,6 +60,14 @@ func (wc *Wechat) GetMiniProgram(cfg *miniConfig.Config) *miniprogram.MiniProgra
 		cfg.Cache = wc.cache
 	}
 	return miniprogram.NewMiniProgram(cfg)
+}
+
+// GetQQMiniProgram 获取小程序的实例
+func (wc *Wechat) GetQQMiniProgram(cfg *qqMiniConfig.Config) *qqminiprogram.QQMiniProgram {
+	if cfg.Cache == nil {
+		cfg.Cache = wc.cache
+	}
+	return qqminiprogram.NewQQMiniProgram(cfg)
 }
 
 // GetPay 获取微信支付的实例

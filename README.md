@@ -9,6 +9,7 @@
 ## 目录说明
 - officialaccount: 微信公众号API
 - miniprogram: 小程序API
+- qqminiprogram: QQ小程序API
 - minigame:小游戏API
 - pay:微信支付API
 - openplatform:开放平台API
