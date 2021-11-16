@@ -12,8 +12,8 @@ import (
 	"encoding/json"
 	"unsafe"
 
-	"github.com/donetkit/wechat/work/util"
-	"github.com/donetkit/wechat/work/work/config"
+	"github.com/donetkit/wechat/util"
+	"github.com/donetkit/wechat/work/config"
 )
 
 // Client 会话存档
