@@ -2,6 +2,7 @@ package kf
 
 import (
 	"encoding/xml"
+
 	"github.com/donetkit/wechat/util"
 )
 

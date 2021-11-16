@@ -1,7 +1,9 @@
 // Package config 企业微信config配置
 package config
 
-import "github.com/donetkit/wechat/cache"
+import (
+	"github.com/donetkit/wechat/cache"
+)
 
 // Config for 企业微信
 type Config struct {
