@@ -17,7 +17,7 @@
 - aispeech:智能对话
  
 ## Thanks
-- 感谢大佬 [silenceper](https://github.com/donetkit/wechat) 
+- 感谢大佬 [silenceper](https://github.com/silenceper/wechat)
 
 ## License
 
