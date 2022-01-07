@@ -9,6 +9,7 @@ import (
 	"github.com/donetkit/wechat/miniprogram/context"
 	"github.com/donetkit/wechat/miniprogram/encryptor"
 	"github.com/donetkit/wechat/miniprogram/message"
+	"github.com/donetkit/wechat/miniprogram/privacy"
 	"github.com/donetkit/wechat/miniprogram/qrcode"
 	"github.com/donetkit/wechat/miniprogram/shortlink"
 	"github.com/donetkit/wechat/miniprogram/subscribe"
@@ -55,6 +56,11 @@ func (miniProgram *MiniProgram) GetAuth() *auth.Auth {
 //GetAnalysis 数据分析
 func (miniProgram *MiniProgram) GetAnalysis() *analysis.Analysis {
 	return analysis.NewAnalysis(miniProgram.ctx)
+}
+
+// GetPrivacy 小程序隐私协议相关API
+func (miniProgram *MiniProgram) GetPrivacy() *privacy.Privacy {
+	return privacy.NewPrivacy(miniProgram.ctx)
 }
 
 //GetQRCode 小程序码相关API
