@@ -1,5 +1,7 @@
 package context
 
+import "github.com/donetkit/wechat/util"
+
 // ID 微信返回接口中各种类型字段
 type ID struct {
 	ID int `json:"id"`
@@ -45,6 +47,7 @@ type AuthorizerInfo struct {
 
 // ComponentAccessToken 第三方平台
 type ComponentAccessToken struct {
+	util.CommonError
 	AccessToken string `json:"component_access_token"`
 	ExpiresIn   int64  `json:"expires_in"`
 }

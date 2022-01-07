@@ -60,7 +60,9 @@ func (ctx *Context) SetComponentAccessToken(verifyTicket string) (*ComponentAcce
 	if err := json.Unmarshal(respBody, at); err != nil {
 		return nil, err
 	}
-
+	if at.ErrCode != 0 {
+		return nil, fmt.Errorf("SetComponentAccessToken Error , errcode=%d , errmsg=%s", at.ErrCode, at.ErrMsg)
+	}
 	accessTokenCacheKey := fmt.Sprintf(ComponentAccessTokenCacheKey, ctx.AppID)
 	expires := at.ExpiresIn - 1500
 	if err := ctx.Cache.Set(accessTokenCacheKey, at.AccessToken, time.Duration(expires)*time.Second); err != nil {
