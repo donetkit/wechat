@@ -2,6 +2,8 @@ package officialaccount
 
 import (
 	"github.com/donetkit/wechat/officialaccount/datacube"
+	"github.com/donetkit/wechat/officialaccount/draft"
+	"github.com/donetkit/wechat/officialaccount/freepublish"
 	"github.com/donetkit/wechat/officialaccount/ocr"
 	"github.com/gin-gonic/gin"
 
@@ -75,6 +77,16 @@ func (officialAccount *OfficialAccount) GetOauth() *oauth.Oauth {
 // GetMaterial 素材管理
 func (officialAccount *OfficialAccount) GetMaterial() *material.Material {
 	return material.NewMaterial(officialAccount.ctx)
+}
+
+// GetDraft 草稿箱
+func (officialAccount *OfficialAccount) GetDraft() *draft.Draft {
+	return draft.NewDraft(officialAccount.ctx)
+}
+
+// GetFreePublish 发布能力
+func (officialAccount *OfficialAccount) GetFreePublish() *freepublish.FreePublish {
+	return freepublish.NewFreePublish(officialAccount.ctx)
 }
 
 // GetJs js-sdk配置
