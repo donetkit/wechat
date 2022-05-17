@@ -4,6 +4,7 @@ import (
 	"github.com/donetkit/wechat/credential"
 	"github.com/donetkit/wechat/miniprogram/analysis"
 	"github.com/donetkit/wechat/miniprogram/auth"
+	"github.com/donetkit/wechat/miniprogram/business"
 	"github.com/donetkit/wechat/miniprogram/config"
 	"github.com/donetkit/wechat/miniprogram/content"
 	"github.com/donetkit/wechat/miniprogram/context"
@@ -11,6 +12,8 @@ import (
 	"github.com/donetkit/wechat/miniprogram/message"
 	"github.com/donetkit/wechat/miniprogram/privacy"
 	"github.com/donetkit/wechat/miniprogram/qrcode"
+	"github.com/donetkit/wechat/miniprogram/riskcontrol"
+	"github.com/donetkit/wechat/miniprogram/security"
 	"github.com/donetkit/wechat/miniprogram/shortlink"
 	"github.com/donetkit/wechat/miniprogram/subscribe"
 	"github.com/donetkit/wechat/miniprogram/tcb"
@@ -58,6 +61,11 @@ func (miniProgram *MiniProgram) GetAnalysis() *analysis.Analysis {
 	return analysis.NewAnalysis(miniProgram.ctx)
 }
 
+// GetBusiness 业务接口
+func (miniProgram *MiniProgram) GetBusiness() *business.Business {
+	return business.NewBusiness(miniProgram.ctx)
+}
+
 // GetPrivacy 小程序隐私协议相关API
 func (miniProgram *MiniProgram) GetPrivacy() *privacy.Privacy {
 	return privacy.NewPrivacy(miniProgram.ctx)
@@ -96,6 +104,16 @@ func (miniProgram *MiniProgram) GetContentSecurity() *content.Content {
 // GetURLLink 小程序URL Link接口
 func (miniProgram *MiniProgram) GetURLLink() *urllink.URLLink {
 	return urllink.NewURLLink(miniProgram.ctx)
+}
+
+// GetRiskControl 安全风控接口
+func (miniProgram *MiniProgram) GetRiskControl() *riskcontrol.RiskControl {
+	return riskcontrol.NewRiskControl(miniProgram.ctx)
+}
+
+// GetSecurity 内容安全接口
+func (miniProgram *MiniProgram) GetSecurity() *security.Security {
+	return security.NewSecurity(miniProgram.ctx)
 }
 
 // GetShortLink 小程序短链接口
