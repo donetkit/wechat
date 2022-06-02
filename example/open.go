@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"log"
+	"github.com/donetkit/contrib-log/glog"
 	"net/http"
 	"time"
 
@@ -10,9 +10,8 @@ import (
 )
 
 func main() {
-	fmt.Println("======================================================================")
-	fmt.Println("main")
-	fmt.Println("======================================================================")
+	log := glog.New()
+	log.Info("======================================================================")
 	gin.SetMode("debug")
 	//routersInit := routers.InitRouter()
 	readTimeout := 30 * time.Second

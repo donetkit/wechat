@@ -13,6 +13,9 @@ import (
 
 func main() {
 	log := glog.New()
+	log.Info("======================================================================")
+	log.Info("main")
+	log.Info("======================================================================")
 	wc := wechat.NewWechat()
 	cacheClient := redis.New(redis.WithLogger(log), redis.WithAddr("127.0.0.1"), redis.WithPort(6379), redis.WithDB(0))
 	cfg := &qqminiConfig.Config{
@@ -23,9 +26,6 @@ func main() {
 	program := wc.GetQQMiniProgram(cfg)
 
 	program.GetAuth()
-	log.Info("======================================================================")
-	log.Info("main")
-	log.Info("======================================================================")
 	gin.SetMode("debug")
 	//routersInit := routers.InitRouter()
 	readTimeout := 30 * time.Second

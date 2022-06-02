@@ -16,8 +16,6 @@ func writeContextType(c *gin.Context, value []string) {
 
 //Render render from bytes
 func (srv *Server) Render(bytes []byte) {
-	//debug
-	//fmt.Println("response msg = ", string(bytes))
 	srv.GContext.Writer.WriteString(string(bytes))
 }
 
