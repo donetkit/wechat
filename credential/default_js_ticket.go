@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/donetkit/wechat/cache"
+	"github.com/donetkit/contrib/utils/cache"
 	"github.com/donetkit/wechat/util"
 )
 
@@ -17,13 +17,13 @@ const getTicketURL = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_
 type DefaultJsTicket struct {
 	appID          string
 	cacheKeyPrefix string
-	cache          cache.Cache
+	cache          cache.ICache
 	//jsAPITicket 读写锁 同一个AppID一个
 	jsAPITicketLock *sync.Mutex
 }
 
 //NewDefaultJsTicket new
-func NewDefaultJsTicket(appID string, cacheKeyPrefix string, cache cache.Cache) JsTicketHandle {
+func NewDefaultJsTicket(appID string, cacheKeyPrefix string, cache cache.ICache) JsTicketHandle {
 	return &DefaultJsTicket{
 		appID:           appID,
 		cache:           cache,

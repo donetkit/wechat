@@ -6,7 +6,7 @@ import (
 	//"github.com/donetkit/wechat/work"
 	"os"
 
-	"github.com/donetkit/wechat/cache"
+	"github.com/donetkit/contrib/utils/cache"
 	"github.com/donetkit/wechat/miniprogram"
 	miniConfig "github.com/donetkit/wechat/miniprogram/config"
 	"github.com/donetkit/wechat/officialaccount"
@@ -33,7 +33,7 @@ func init() {
 
 // Wechat struct
 type Wechat struct {
-	cache cache.Cache
+	cache cache.ICache
 }
 
 // NewWechat init
@@ -42,7 +42,7 @@ func NewWechat() *Wechat {
 }
 
 //SetCache 设置cache
-func (wc *Wechat) SetCache(cahce cache.Cache) {
+func (wc *Wechat) SetCache(cahce cache.ICache) {
 	wc.cache = cahce
 }
 

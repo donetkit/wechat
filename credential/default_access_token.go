@@ -3,7 +3,7 @@ package credential
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/donetkit/wechat/cache"
+	"github.com/donetkit/contrib/utils/cache"
 	"github.com/donetkit/wechat/util"
 	"sync"
 	"time"
@@ -27,12 +27,12 @@ type DefaultAccessToken struct {
 	appID           string
 	appSecret       string
 	cacheKeyPrefix  string
-	cache           cache.Cache
+	cache           cache.ICache
 	accessTokenLock *sync.Mutex
 }
 
 // NewDefaultAccessToken new DefaultAccessToken
-func NewDefaultAccessToken(appID, appSecret, cacheKeyPrefix string, cache cache.Cache) AccessTokenHandle {
+func NewDefaultAccessToken(appID, appSecret, cacheKeyPrefix string, cache cache.ICache) AccessTokenHandle {
 	if cache == nil {
 		panic("cache is ineed")
 	}
@@ -91,12 +91,12 @@ type WorkAccessToken struct {
 	CorpID          string
 	CorpSecret      string
 	cacheKeyPrefix  string
-	cache           cache.Cache
+	cache           cache.ICache
 	accessTokenLock *sync.Mutex
 }
 
 //NewWorkAccessToken new WorkAccessToken
-func NewWorkAccessToken(corpID, corpSecret, cacheKeyPrefix string, cache cache.Cache) AccessTokenHandle {
+func NewWorkAccessToken(corpID, corpSecret, cacheKeyPrefix string, cache cache.ICache) AccessTokenHandle {
 	if cache == nil {
 		panic("cache the not exist")
 	}

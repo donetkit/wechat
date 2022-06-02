@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
+	"github.com/donetkit/contrib-log/glog"
+	"github.com/donetkit/contrib/db/redis"
 	"github.com/donetkit/wechat"
-	"github.com/donetkit/wechat/cache"
 	qqminiConfig "github.com/donetkit/wechat/qqminiprogram/config"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -11,21 +12,20 @@ import (
 )
 
 func main() {
-
+	log := glog.New()
 	wc := wechat.NewWechat()
-	memory := cache.NewRedis(nil)
+	cacheClient := redis.New(redis.WithLogger(log), redis.WithAddr("127.0.0.1"), redis.WithPort(6379), redis.WithDB(0))
 	cfg := &qqminiConfig.Config{
 		AppID:     "xxx",
 		AppSecret: "xxx",
-		Cache:     memory,
+		Cache:     cacheClient,
 	}
 	program := wc.GetQQMiniProgram(cfg)
 
 	program.GetAuth()
-
-	fmt.Println("======================================================================")
-	fmt.Println("main")
-	fmt.Println("======================================================================")
+	log.Info("======================================================================")
+	log.Info("main")
+	log.Info("======================================================================")
 	gin.SetMode("debug")
 	//routersInit := routers.InitRouter()
 	readTimeout := 30 * time.Second

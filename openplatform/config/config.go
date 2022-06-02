@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/donetkit/wechat/cache"
+	"github.com/donetkit/contrib/utils/cache"
 	"sync"
 )
 
@@ -11,6 +11,6 @@ type Config struct {
 	AppSecret      string `json:"app_secret"`       //appsecret 开放平台
 	Token          string `json:"token"`            //token 开放平台
 	EncodingAESKey string `json:"encoding_aes_key"` //EncodingAESKey 开放平台
-	Cache          cache.Cache
+	Cache          cache.ICache
 	Lock           *sync.Mutex
 }
