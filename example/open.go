@@ -8,10 +8,8 @@ import (
 
 func main() {
 	log := glog.New()
-	log.Info("======================================================================")
 	gin.SetMode("debug")
-	logs := glog.New()
-	appServe := webserve.New(webserve.WithLogger(logs))
+	appServe := webserve.New(webserve.WithLogger(log))
 	//routers.InitRouter(appServe)
 	appServe.Run()
 
