@@ -2,8 +2,8 @@ package log
 
 import "github.com/donetkit/contrib-log/glog"
 
-var Log glog.ILogger
+var Log glog.ILoggerEntry
 
 func InitLogger(logger glog.ILogger) {
-	Log = logger
+	Log = logger.WithField("Open-WeiXin", "Open-WeiXin")
 }

@@ -2,10 +2,10 @@ github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ3
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/donetkit/contrib v0.2.6 h1:O+YFFdHVGS2u2qX2nZFQR+BmKH+N1B0heNX2HElQcqA=
-github.com/donetkit/contrib v0.2.6/go.mod h1:IHdVKm326j7eW4SR8plwrw4hTvBmPwkP7pV0GQuHVNs=
-github.com/donetkit/contrib-log v0.2.0 h1:Ok4EbU+Hkiqz4oohnNpjINg5sVZoGA/cU9LKlOodNas=
-github.com/donetkit/contrib-log v0.2.0/go.mod h1:7zzkweDEB1lhMs4bhB2mj3gNr1ELpNVESrfECgJkVPk=
+github.com/donetkit/contrib v0.2.10 h1:UigceOqM6Jvyyi2Vx+/3dKJbCkPExQzSyDcXve4yF/Y=
+github.com/donetkit/contrib v0.2.10/go.mod h1:mQMFwPOVP497iyu99uZms7JeGmGconQqeatXGSzbBW0=
+github.com/donetkit/contrib-log v0.2.2 h1:isTUUHwWz+c3R3/xd2I4UtUaCTo4wA1TrXAoTZ84SEM=
+github.com/donetkit/contrib-log v0.2.2/go.mod h1:7zzkweDEB1lhMs4bhB2mj3gNr1ELpNVESrfECgJkVPk=
 github.com/fatih/structs v1.1.0 h1:Q7juDM0QtcnhCpeyLGQKyg4TOIghuNXrkL32pHAUMxo=
 github.com/fatih/structs v1.1.0/go.mod h1:9NiDSp5zOcgEDl+j00MP/WkGVPOlPRLejGD8Ga6PJ7M=
 github.com/frankban/quicktest v1.14.3 h1:FJKSZTDHjyhriyC81FLQ0LY93eSai0ZyR/ZIkd3ZUKE=

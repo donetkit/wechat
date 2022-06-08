@@ -3,8 +3,8 @@ module github.com/donetkit/wechat
 go 1.18
 
 require (
-	github.com/donetkit/contrib v0.2.6
-	github.com/donetkit/contrib-log v0.2.0
+	github.com/donetkit/contrib v0.2.10
+	github.com/donetkit/contrib-log v0.2.2
 	github.com/fatih/structs v1.1.0
 	github.com/gin-gonic/gin v1.8.0
 	github.com/spf13/cast v1.5.0
