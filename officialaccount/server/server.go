@@ -5,6 +5,7 @@ import (
 	"encoding/xml"
 	"errors"
 	"fmt"
+	"github.com/donetkit/wechat/log"
 	"github.com/tidwall/gjson"
 	"io/ioutil"
 	"reflect"
@@ -16,7 +17,6 @@ import (
 
 	"github.com/donetkit/wechat/officialaccount/context"
 	"github.com/donetkit/wechat/officialaccount/message"
-	log "github.com/sirupsen/logrus"
 
 	"github.com/donetkit/wechat/util"
 )
@@ -58,7 +58,7 @@ func (srv *Server) SkipValidate(skip bool) {
 //Serve 处理微信的请求消息
 func (srv *Server) Serve() error {
 	if !srv.Validate() {
-		log.Error("Validate Signature Failed.")
+		log.Log.Error("Validate Signature Failed.")
 		return fmt.Errorf("请求校验失败")
 	}
 
@@ -74,7 +74,7 @@ func (srv *Server) Serve() error {
 	}
 
 	//debug print request msg
-	log.Debugf("request msg =%s", string(srv.RequestRawXMLMsg))
+	log.Log.Debugf("request msg =%s", string(srv.RequestRawXMLMsg))
 
 	return srv.buildResponse(response)
 }
@@ -87,7 +87,7 @@ func (srv *Server) Validate() bool {
 	timestamp := srv.Query("timestamp")
 	nonce := srv.Query("nonce")
 	signature := srv.Query("signature")
-	log.Debugf("validate signature, timestamp=%s, nonce=%s", timestamp, nonce)
+	log.Log.Debugf("validate signature, timestamp=%s, nonce=%s", timestamp, nonce)
 	return signature == util.Signature(srv.Token, timestamp, nonce)
 }
 
@@ -270,7 +270,7 @@ func (srv *Server) buildResponse(reply *message.Reply) (err error) {
 //Send 将自定义的消息发送
 func (srv *Server) Send() (err error) {
 	replyMsg := srv.ResponseMsg
-	log.Debugf("response msg =%+v", replyMsg)
+	log.Log.Debugf("response msg =%+v", replyMsg)
 	if srv.isSafeMode {
 		//安全模式下对消息进行加密
 		var encryptedMsg []byte

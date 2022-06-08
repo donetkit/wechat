@@ -3,8 +3,6 @@ package wechat
 import (
 	"github.com/donetkit/wechat/qqminiprogram"
 	qqMiniConfig "github.com/donetkit/wechat/qqminiprogram/config"
-	//"github.com/donetkit/wechat/work"
-	"os"
 
 	"github.com/donetkit/contrib/utils/cache"
 	"github.com/donetkit/wechat/miniprogram"
@@ -16,20 +14,7 @@ import (
 	"github.com/donetkit/wechat/pay"
 	payConfig "github.com/donetkit/wechat/pay/config"
 	//workConfig "github.com/donetkit/wechat/work/config"
-	log "github.com/sirupsen/logrus"
 )
-
-func init() {
-	// Log as JSON instead of the default ASCII formatter.
-	log.SetFormatter(&log.TextFormatter{})
-
-	// Output to stdout instead of the default stderr
-	// Can be any io.Writer, see below for File example
-	log.SetOutput(os.Stdout)
-
-	// Only log the warning severity or above.
-	log.SetLevel(log.DebugLevel)
-}
 
 // Wechat struct
 type Wechat struct {
