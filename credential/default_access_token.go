@@ -1,6 +1,7 @@
 package credential
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/donetkit/contrib/utils/cache"
@@ -54,10 +55,10 @@ type ResAccessToken struct {
 }
 
 //GetAccessToken 获取access_token,先从cache中获取，没有则从服务端获取
-func (ak *DefaultAccessToken) GetAccessToken() (accessToken string, err error) {
+func (ak *DefaultAccessToken) GetAccessToken(ctx context.Context) (accessToken string, err error) {
 	// 先从cache中取
 	accessTokenCacheKey := fmt.Sprintf("%s_access_token_%s", ak.cacheKeyPrefix, ak.appID)
-	if val := ak.cache.Get(accessTokenCacheKey); val != nil {
+	if val := ak.cache.WithContext(ctx).Get(accessTokenCacheKey); val != nil {
 		return val.(string), nil
 	}
 
@@ -66,7 +67,7 @@ func (ak *DefaultAccessToken) GetAccessToken() (accessToken string, err error) {
 	defer ak.accessTokenLock.Unlock()
 
 	// 双检，防止重复从微信服务器获取
-	if val := ak.cache.Get(accessTokenCacheKey); val != nil {
+	if val := ak.cache.WithContext(ctx).Get(accessTokenCacheKey); val != nil {
 		return val.(string), nil
 	}
 
@@ -78,7 +79,7 @@ func (ak *DefaultAccessToken) GetAccessToken() (accessToken string, err error) {
 	}
 
 	expires := resAccessToken.ExpiresIn - 1500
-	err = ak.cache.Set(accessTokenCacheKey, resAccessToken.AccessToken, time.Duration(expires)*time.Second)
+	err = ak.cache.WithContext(ctx).Set(accessTokenCacheKey, resAccessToken.AccessToken, time.Duration(expires)*time.Second)
 	if err != nil {
 		return
 	}
@@ -110,12 +111,12 @@ func NewWorkAccessToken(corpID, corpSecret, cacheKeyPrefix string, cache cache.I
 }
 
 //GetAccessToken 企业微信获取access_token,先从cache中获取，没有则从服务端获取
-func (ak *WorkAccessToken) GetAccessToken() (accessToken string, err error) {
+func (ak *WorkAccessToken) GetAccessToken(ctx context.Context) (accessToken string, err error) {
 	//加上lock，是为了防止在并发获取token时，cache刚好失效，导致从微信服务器上获取到不同token
 	ak.accessTokenLock.Lock()
 	defer ak.accessTokenLock.Unlock()
 	accessTokenCacheKey := fmt.Sprintf("%s_access_token_%s", ak.cacheKeyPrefix, ak.CorpID)
-	val := ak.cache.Get(accessTokenCacheKey)
+	val := ak.cache.WithContext(ctx).Get(accessTokenCacheKey)
 	if val != nil {
 		accessToken = val.(string)
 		return
@@ -129,7 +130,7 @@ func (ak *WorkAccessToken) GetAccessToken() (accessToken string, err error) {
 	}
 
 	expires := resAccessToken.ExpiresIn - 1500
-	err = ak.cache.Set(accessTokenCacheKey, resAccessToken.AccessToken, time.Duration(expires)*time.Second)
+	err = ak.cache.WithContext(ctx).Set(accessTokenCacheKey, resAccessToken.AccessToken, time.Duration(expires)*time.Second)
 	if err != nil {
 		return
 	}

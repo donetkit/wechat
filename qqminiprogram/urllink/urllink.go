@@ -1,19 +1,20 @@
 package urllink
 
 import (
+	"context"
 	"fmt"
 
-	"github.com/donetkit/wechat/qqminiprogram/context"
+	context2 "github.com/donetkit/wechat/qqminiprogram/context"
 	"github.com/donetkit/wechat/util"
 )
 
 // URLLink 小程序 URL Link
 type URLLink struct {
-	*context.Context
+	*context2.Context
 }
 
 // NewURLLink 实例化
-func NewURLLink(ctx *context.Context) *URLLink {
+func NewURLLink(ctx *context2.Context) *URLLink {
 	return &URLLink{Context: ctx}
 }
 
@@ -50,9 +51,9 @@ type ULResult struct {
 }
 
 // Generate 生成url link
-func (u *URLLink) Generate(params *ULParams) (string, error) {
+func (u *URLLink) Generate(ctx context.Context, params *ULParams) (string, error) {
 	var accessToken string
-	accessToken, err := u.GetAccessToken()
+	accessToken, err := u.GetAccessToken(ctx)
 	if err != nil {
 		return "", err
 	}

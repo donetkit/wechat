@@ -1,10 +1,11 @@
 package message
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 
-	"github.com/donetkit/wechat/officialaccount/context"
+	context2 "github.com/donetkit/wechat/officialaccount/context"
 	"github.com/donetkit/wechat/util"
 )
 
@@ -14,11 +15,11 @@ const (
 
 //Manager 消息管理者，可以发送消息
 type Manager struct {
-	*context.Context
+	*context2.Context
 }
 
 //NewMessageManager 实例化消息管理者
-func NewMessageManager(context *context.Context) *Manager {
+func NewMessageManager(context *context2.Context) *Manager {
 	return &Manager{
 		context,
 	}
@@ -154,8 +155,8 @@ type MediaMiniprogrampage struct {
 }
 
 //Send 发送客服消息
-func (manager *Manager) Send(msg *CustomerMessage) error {
-	accessToken, err := manager.Context.GetAccessToken()
+func (manager *Manager) Send(ctx context.Context, msg *CustomerMessage) error {
+	accessToken, err := manager.Context.GetAccessToken(ctx)
 	if err != nil {
 		return err
 	}

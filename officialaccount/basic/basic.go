@@ -1,9 +1,10 @@
 package basic
 
 import (
+	"context"
 	"fmt"
 
-	"github.com/donetkit/wechat/officialaccount/context"
+	context2 "github.com/donetkit/wechat/officialaccount/context"
 	"github.com/donetkit/wechat/util"
 )
 
@@ -19,11 +20,11 @@ var (
 
 //Basic struct
 type Basic struct {
-	*context.Context
+	*context2.Context
 }
 
 //NewBasic 实例
-func NewBasic(context *context.Context) *Basic {
+func NewBasic(context *context2.Context) *Basic {
 	basic := new(Basic)
 	basic.Context = context
 	return basic
@@ -36,8 +37,8 @@ type IPListRes struct {
 }
 
 //GetCallbackIP 获取微信callback IP地址
-func (basic *Basic) GetCallbackIP() ([]string, error) {
-	ak, err := basic.GetAccessToken()
+func (basic *Basic) GetCallbackIP(ctx context.Context) ([]string, error) {
+	ak, err := basic.GetAccessToken(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -52,8 +53,8 @@ func (basic *Basic) GetCallbackIP() ([]string, error) {
 }
 
 //GetAPIDomainIP 获取微信API接口 IP地址
-func (basic *Basic) GetAPIDomainIP() ([]string, error) {
-	ak, err := basic.GetAccessToken()
+func (basic *Basic) GetAPIDomainIP(ctx context.Context) ([]string, error) {
+	ak, err := basic.GetAccessToken(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -68,8 +69,8 @@ func (basic *Basic) GetAPIDomainIP() ([]string, error) {
 }
 
 //ClearQuota 清理接口调用次数
-func (basic *Basic) ClearQuota() error {
-	ak, err := basic.GetAccessToken()
+func (basic *Basic) ClearQuota(ctx context.Context) error {
+	ak, err := basic.GetAccessToken(ctx)
 	if err != nil {
 		return err
 	}

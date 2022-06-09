@@ -1,6 +1,7 @@
 package tcb
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/donetkit/wechat/util"
@@ -193,8 +194,8 @@ type DatabaseCountRes struct {
 
 //DatabaseMigrateImport 数据库导入
 //reference:https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-http-api/database/databaseMigrateImport.html
-func (tcb *Tcb) DatabaseMigrateImport(req *DatabaseMigrateImportReq) (*DatabaseMigrateImportRes, error) {
-	accessToken, err := tcb.GetAccessToken()
+func (tcb *Tcb) DatabaseMigrateImport(ctx context.Context, req *DatabaseMigrateImportReq) (*DatabaseMigrateImportRes, error) {
+	accessToken, err := tcb.GetAccessToken(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -210,8 +211,8 @@ func (tcb *Tcb) DatabaseMigrateImport(req *DatabaseMigrateImportReq) (*DatabaseM
 
 //DatabaseMigrateExport 数据库导出
 //reference:https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-http-api/database/databaseMigrateExport.html
-func (tcb *Tcb) DatabaseMigrateExport(req *DatabaseMigrateExportReq) (*DatabaseMigrateExportRes, error) {
-	accessToken, err := tcb.GetAccessToken()
+func (tcb *Tcb) DatabaseMigrateExport(ctx context.Context, req *DatabaseMigrateExportReq) (*DatabaseMigrateExportRes, error) {
+	accessToken, err := tcb.GetAccessToken(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -227,8 +228,8 @@ func (tcb *Tcb) DatabaseMigrateExport(req *DatabaseMigrateExportReq) (*DatabaseM
 
 //DatabaseMigrateQueryInfo 数据库迁移状态查询
 //reference:https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-http-api/database/databaseMigrateQueryInfo.html
-func (tcb *Tcb) DatabaseMigrateQueryInfo(env string, jobID int64) (*DatabaseMigrateQueryInfoRes, error) {
-	accessToken, err := tcb.GetAccessToken()
+func (tcb *Tcb) DatabaseMigrateQueryInfo(ctx context.Context, env string, jobID int64) (*DatabaseMigrateQueryInfoRes, error) {
+	accessToken, err := tcb.GetAccessToken(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -247,8 +248,8 @@ func (tcb *Tcb) DatabaseMigrateQueryInfo(env string, jobID int64) (*DatabaseMigr
 
 //UpdateIndex 变更数据库索引
 //https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-http-api/database/updateIndex.html
-func (tcb *Tcb) UpdateIndex(req *UpdateIndexReq) error {
-	accessToken, err := tcb.GetAccessToken()
+func (tcb *Tcb) UpdateIndex(ctx context.Context, req *UpdateIndexReq) error {
+	accessToken, err := tcb.GetAccessToken(ctx)
 	if err != nil {
 		return err
 	}
@@ -262,8 +263,8 @@ func (tcb *Tcb) UpdateIndex(req *UpdateIndexReq) error {
 
 //DatabaseCollectionAdd 新增集合
 //reference:https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-http-api/database/databaseCollectionAdd.html
-func (tcb *Tcb) DatabaseCollectionAdd(env, collectionName string) error {
-	accessToken, err := tcb.GetAccessToken()
+func (tcb *Tcb) DatabaseCollectionAdd(ctx context.Context, env, collectionName string) error {
+	accessToken, err := tcb.GetAccessToken(ctx)
 	if err != nil {
 		return err
 	}
@@ -280,8 +281,8 @@ func (tcb *Tcb) DatabaseCollectionAdd(env, collectionName string) error {
 
 //DatabaseCollectionDelete 删除集合
 //reference:https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-http-api/database/databaseCollectionDelete.html
-func (tcb *Tcb) DatabaseCollectionDelete(env, collectionName string) error {
-	accessToken, err := tcb.GetAccessToken()
+func (tcb *Tcb) DatabaseCollectionDelete(ctx context.Context, env, collectionName string) error {
+	accessToken, err := tcb.GetAccessToken(ctx)
 	if err != nil {
 		return err
 	}
@@ -298,8 +299,8 @@ func (tcb *Tcb) DatabaseCollectionDelete(env, collectionName string) error {
 
 //DatabaseCollectionGet 获取特定云环境下集合信息
 //reference:https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-http-api/database/databaseCollectionGet.html
-func (tcb *Tcb) DatabaseCollectionGet(env string, limit, offset int64) (*DatabaseCollectionGetRes, error) {
-	accessToken, err := tcb.GetAccessToken()
+func (tcb *Tcb) DatabaseCollectionGet(ctx context.Context, env string, limit, offset int64) (*DatabaseCollectionGetRes, error) {
+	accessToken, err := tcb.GetAccessToken(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -319,8 +320,8 @@ func (tcb *Tcb) DatabaseCollectionGet(env string, limit, offset int64) (*Databas
 
 //DatabaseAdd 数据库插入记录
 //reference:https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-http-api/database/databaseAdd.html
-func (tcb *Tcb) DatabaseAdd(env, query string) (*DatabaseAddRes, error) {
-	accessToken, err := tcb.GetAccessToken()
+func (tcb *Tcb) DatabaseAdd(ctx context.Context, env, query string) (*DatabaseAddRes, error) {
+	accessToken, err := tcb.GetAccessToken(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -339,8 +340,8 @@ func (tcb *Tcb) DatabaseAdd(env, query string) (*DatabaseAddRes, error) {
 
 //DatabaseDelete 数据库插入记录
 //reference:https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-http-api/database/databaseDelete.html
-func (tcb *Tcb) DatabaseDelete(env, query string) (*DatabaseDeleteRes, error) {
-	accessToken, err := tcb.GetAccessToken()
+func (tcb *Tcb) DatabaseDelete(ctx context.Context, env, query string) (*DatabaseDeleteRes, error) {
+	accessToken, err := tcb.GetAccessToken(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -359,8 +360,8 @@ func (tcb *Tcb) DatabaseDelete(env, query string) (*DatabaseDeleteRes, error) {
 
 //DatabaseUpdate 数据库插入记录
 //reference:https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-http-api/database/databaseUpdate.html
-func (tcb *Tcb) DatabaseUpdate(env, query string) (*DatabaseUpdateRes, error) {
-	accessToken, err := tcb.GetAccessToken()
+func (tcb *Tcb) DatabaseUpdate(ctx context.Context, env, query string) (*DatabaseUpdateRes, error) {
+	accessToken, err := tcb.GetAccessToken(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -379,8 +380,8 @@ func (tcb *Tcb) DatabaseUpdate(env, query string) (*DatabaseUpdateRes, error) {
 
 //DatabaseQuery 数据库查询记录
 //reference:https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-http-api/database/databaseQuery.html
-func (tcb *Tcb) DatabaseQuery(env, query string) (*DatabaseQueryRes, error) {
-	accessToken, err := tcb.GetAccessToken()
+func (tcb *Tcb) DatabaseQuery(ctx context.Context, env, query string) (*DatabaseQueryRes, error) {
+	accessToken, err := tcb.GetAccessToken(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -399,8 +400,8 @@ func (tcb *Tcb) DatabaseQuery(env, query string) (*DatabaseQueryRes, error) {
 
 //DatabaseCount 统计集合记录数或统计查询语句对应的结果记录数
 //reference:https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-http-api/database/databaseCount.html
-func (tcb *Tcb) DatabaseCount(env, query string) (*DatabaseCountRes, error) {
-	accessToken, err := tcb.GetAccessToken()
+func (tcb *Tcb) DatabaseCount(ctx context.Context, env, query string) (*DatabaseCountRes, error) {
+	accessToken, err := tcb.GetAccessToken(ctx)
 	if err != nil {
 		return nil, err
 	}

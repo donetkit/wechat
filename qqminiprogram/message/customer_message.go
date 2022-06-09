@@ -1,9 +1,10 @@
 package message
 
 import (
+	"context"
 	"fmt"
 
-	"github.com/donetkit/wechat/qqminiprogram/context"
+	context2 "github.com/donetkit/wechat/qqminiprogram/context"
 	"github.com/donetkit/wechat/util"
 )
 
@@ -13,11 +14,11 @@ const (
 
 //Manager 消息管理者，可以发送消息
 type Manager struct {
-	*context.Context
+	*context2.Context
 }
 
 //NewCustomerMessageManager 实例化消息管理者
-func NewCustomerMessageManager(context *context.Context) *Manager {
+func NewCustomerMessageManager(context *context2.Context) *Manager {
 	return &Manager{
 		context,
 	}
@@ -109,8 +110,8 @@ func NewCustomerMiniprogrampageMessage(toUser, title, pagepath, thumbMediaID str
 }
 
 //Send 发送客服消息
-func (manager *Manager) Send(msg *CustomerMessage) error {
-	accessToken, err := manager.Context.GetAccessToken()
+func (manager *Manager) Send(ctx context.Context, msg *CustomerMessage) error {
+	accessToken, err := manager.Context.GetAccessToken(ctx)
 	if err != nil {
 		return err
 	}

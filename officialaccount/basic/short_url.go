@@ -1,6 +1,7 @@
 package basic
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/donetkit/wechat/util"
@@ -25,7 +26,7 @@ type (
 )
 
 // Long2ShortURL 将一条长链接转成短链接
-func (basic *Basic) Long2ShortURL(longURL string) (shortURL string, err error) {
+func (basic *Basic) Long2ShortURL(ctx context.Context, longURL string) (shortURL string, err error) {
 	var (
 		req = &reqLong2ShortURL{
 			Action:  long2shortAction,
@@ -35,7 +36,7 @@ func (basic *Basic) Long2ShortURL(longURL string) (shortURL string, err error) {
 		ac, uri       string
 		responseBytes []byte
 	)
-	ac, err = basic.GetAccessToken()
+	ac, err = basic.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}

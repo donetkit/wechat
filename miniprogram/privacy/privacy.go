@@ -1,20 +1,21 @@
 package privacy
 
 import (
+	"context"
 	"errors"
 	"fmt"
-	"github.com/donetkit/wechat/miniprogram/context"
+	context2 "github.com/donetkit/wechat/miniprogram/context"
 	"github.com/donetkit/wechat/util"
 )
 
 // Privacy 小程序授权隐私设置
 type Privacy struct {
-	*context.Context
+	*context2.Context
 }
 
 // NewPrivacy 实例化小程序隐私接口
 // 文档地址 https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/2.0/api/privacy_config/set_privacy_setting.html
-func NewPrivacy(context *context.Context) *Privacy {
+func NewPrivacy(context *context2.Context) *Privacy {
 	if context == nil {
 		panic("NewPrivacy got a nil context")
 	}
@@ -88,8 +89,8 @@ type Desc struct {
 }
 
 // GetPrivacySetting 获取小程序权限配置
-func (s *Privacy) GetPrivacySetting(privacyVer int) (GetPrivacySettingResponse, error) {
-	accessToken, err := s.GetAccessToken()
+func (s *Privacy) GetPrivacySetting(ctx context.Context, privacyVer int) (GetPrivacySettingResponse, error) {
+	accessToken, err := s.GetAccessToken(ctx)
 	if err != nil {
 		return GetPrivacySettingResponse{}, err
 	}
@@ -110,11 +111,11 @@ func (s *Privacy) GetPrivacySetting(privacyVer int) (GetPrivacySettingResponse, 
 }
 
 // SetPrivacySetting 更新小程序权限配置
-func (s *Privacy) SetPrivacySetting(privacyVer int, ownerSetting OwnerSetting, settingList []SettingItem) error {
+func (s *Privacy) SetPrivacySetting(ctx context.Context, privacyVer int, ownerSetting OwnerSetting, settingList []SettingItem) error {
 	if privacyVer == PrivacyV1 && len(settingList) > 0 {
 		return errors.New("当privacy_ver传2或者不传时，setting_list是必填；当privacy_ver传1时，该参数不可传")
 	}
-	accessToken, err := s.GetAccessToken()
+	accessToken, err := s.GetAccessToken(ctx)
 	if err != nil {
 		return err
 	}
@@ -143,8 +144,8 @@ type UploadPrivacyExtFileResponse struct {
 }
 
 // UploadPrivacyExtFile 上传权限定义模板
-func (s *Privacy) UploadPrivacyExtFile(fileData []byte) (UploadPrivacyExtFileResponse, error) {
-	accessToken, err := s.GetAccessToken()
+func (s *Privacy) UploadPrivacyExtFile(ctx context.Context, fileData []byte) (UploadPrivacyExtFileResponse, error) {
+	accessToken, err := s.GetAccessToken(ctx)
 	if err != nil {
 		return UploadPrivacyExtFileResponse{}, err
 	}

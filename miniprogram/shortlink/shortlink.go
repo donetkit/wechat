@@ -1,9 +1,10 @@
 package shortlink
 
 import (
+	"context"
 	"fmt"
 
-	"github.com/donetkit/wechat/miniprogram/context"
+	context2 "github.com/donetkit/wechat/miniprogram/context"
 	"github.com/donetkit/wechat/util"
 )
 
@@ -13,11 +14,11 @@ const (
 
 // ShortLink 短链接
 type ShortLink struct {
-	*context.Context
+	*context2.Context
 }
 
 // NewShortLink 实例
-func NewShortLink(ctx *context.Context) *ShortLink {
+func NewShortLink(ctx *context2.Context) *ShortLink {
 	return &ShortLink{ctx}
 }
 
@@ -44,9 +45,9 @@ type resShortLinker struct {
 }
 
 // Generate 生成 shortLink
-func (shortLink *ShortLink) generate(shortLinkParams ShortLinker) (string, error) {
+func (shortLink *ShortLink) generate(ctx context.Context, shortLinkParams ShortLinker) (string, error) {
 	var accessToken string
-	accessToken, err := shortLink.GetAccessToken()
+	accessToken, err := shortLink.GetAccessToken(ctx)
 	if err != nil {
 		return "", err
 	}
@@ -68,8 +69,8 @@ func (shortLink *ShortLink) generate(shortLinkParams ShortLinker) (string, error
 }
 
 // GenerateShortLinkPermanent 生成永久shortLink
-func (shortLink *ShortLink) GenerateShortLinkPermanent(PageURL, pageTitle string) (string, error) {
-	return shortLink.generate(ShortLinker{
+func (shortLink *ShortLink) GenerateShortLinkPermanent(ctx context.Context, PageURL, pageTitle string) (string, error) {
+	return shortLink.generate(ctx, ShortLinker{
 		PageURL:     PageURL,
 		PageTitle:   pageTitle,
 		IsPermanent: true,
@@ -77,8 +78,8 @@ func (shortLink *ShortLink) GenerateShortLinkPermanent(PageURL, pageTitle string
 }
 
 // GenerateShortLinkTemp 生成临时shortLink
-func (shortLink *ShortLink) GenerateShortLinkTemp(PageURL, pageTitle string) (string, error) {
-	return shortLink.generate(ShortLinker{
+func (shortLink *ShortLink) GenerateShortLinkTemp(ctx context.Context, PageURL, pageTitle string) (string, error) {
+	return shortLink.generate(ctx, ShortLinker{
 		PageURL:     PageURL,
 		PageTitle:   pageTitle,
 		IsPermanent: false,

@@ -2,6 +2,7 @@
 package device
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 
@@ -84,9 +85,9 @@ type resDeviceAuthorize struct {
 }
 
 // DeviceAuthorize 设备授权
-func (d *Device) DeviceAuthorize(devices []ReqDevice, opType int, product string) (res []ResBaseInfo, err error) {
+func (d *Device) DeviceAuthorize(ctx context.Context, devices []ReqDevice, opType int, product string) (res []ResBaseInfo, err error) {
 	var accessToken string
-	accessToken, err = d.GetAccessToken()
+	accessToken, err = d.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}

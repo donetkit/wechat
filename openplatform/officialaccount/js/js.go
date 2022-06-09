@@ -1,22 +1,23 @@
 package js
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/donetkit/wechat/credential"
-	"github.com/donetkit/wechat/officialaccount/context"
+	context2 "github.com/donetkit/wechat/officialaccount/context"
 	officialJs "github.com/donetkit/wechat/officialaccount/js"
 	"github.com/donetkit/wechat/util"
 )
 
 // Js wx jssdk
 type Js struct {
-	*context.Context
+	*context2.Context
 	credential.JsTicketHandle
 }
 
 //NewJs init
-func NewJs(context *context.Context, appID string) *Js {
+func NewJs(context *context2.Context, appID string) *Js {
 	js := new(Js)
 	js.Context = context
 	jsTicketHandle := credential.NewDefaultJsTicket(appID, credential.CacheKeyOfficialAccountPrefix, context.Cache)
@@ -31,15 +32,15 @@ func (js *Js) SetJsTicketHandle(ticketHandle credential.JsTicketHandle) {
 
 //GetConfig 第三方平台 - 获取jssdk需要的配置参数
 //uri 为当前网页地址
-func (js *Js) GetConfig(uri, appid string) (config *officialJs.Config, err error) {
+func (js *Js) GetConfig(ctx context.Context, uri, appid string) (config *officialJs.Config, err error) {
 	config = new(officialJs.Config)
 	var accessToken string
-	accessToken, err = js.GetAccessToken()
+	accessToken, err = js.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
 	var ticketStr string
-	ticketStr, err = js.GetTicket(accessToken)
+	ticketStr, err = js.GetTicket(ctx, accessToken)
 	if err != nil {
 		return
 	}

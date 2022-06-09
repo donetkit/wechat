@@ -1,9 +1,10 @@
 package broadcast
 
 import (
+	"context"
 	"fmt"
 
-	"github.com/donetkit/wechat/officialaccount/context"
+	context2 "github.com/donetkit/wechat/officialaccount/context"
 	"github.com/donetkit/wechat/util"
 )
 
@@ -37,12 +38,12 @@ const (
 
 //Broadcast 群发消息
 type Broadcast struct {
-	*context.Context
+	*context2.Context
 	preview bool
 }
 
 //NewBroadcast new
-func NewBroadcast(ctx *context.Context) *Broadcast {
+func NewBroadcast(ctx *context2.Context) *Broadcast {
 	return &Broadcast{ctx, false}
 }
 
@@ -99,8 +100,8 @@ type Image struct {
 //user 为nil，表示全员发送
 //&User{TagID:2} 根据tag发送
 //&User{OpenID:[]string("xxx","xxx")} 根据openid发送
-func (broadcast *Broadcast) SendText(user *User, content string) (*Result, error) {
-	ak, err := broadcast.GetAccessToken()
+func (broadcast *Broadcast) SendText(ctx context.Context, user *User, content string) (*Result, error) {
+	ak, err := broadcast.GetAccessToken(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -123,8 +124,8 @@ func (broadcast *Broadcast) SendText(user *User, content string) (*Result, error
 }
 
 //SendNews 发送图文
-func (broadcast *Broadcast) SendNews(user *User, mediaID string, ignoreReprint bool) (*Result, error) {
-	ak, err := broadcast.GetAccessToken()
+func (broadcast *Broadcast) SendNews(ctx context.Context, user *User, mediaID string, ignoreReprint bool) (*Result, error) {
+	ak, err := broadcast.GetAccessToken(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -150,8 +151,8 @@ func (broadcast *Broadcast) SendNews(user *User, mediaID string, ignoreReprint b
 }
 
 //SendVoice 发送语音
-func (broadcast *Broadcast) SendVoice(user *User, mediaID string) (*Result, error) {
-	ak, err := broadcast.GetAccessToken()
+func (broadcast *Broadcast) SendVoice(ctx context.Context, user *User, mediaID string) (*Result, error) {
+	ak, err := broadcast.GetAccessToken(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -174,8 +175,8 @@ func (broadcast *Broadcast) SendVoice(user *User, mediaID string) (*Result, erro
 }
 
 //SendImage 发送图片
-func (broadcast *Broadcast) SendImage(user *User, images *Image) (*Result, error) {
-	ak, err := broadcast.GetAccessToken()
+func (broadcast *Broadcast) SendImage(ctx context.Context, user *User, images *Image) (*Result, error) {
+	ak, err := broadcast.GetAccessToken(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -196,8 +197,8 @@ func (broadcast *Broadcast) SendImage(user *User, images *Image) (*Result, error
 }
 
 //SendVideo 发送视频
-func (broadcast *Broadcast) SendVideo(user *User, mediaID string, title, description string) (*Result, error) {
-	ak, err := broadcast.GetAccessToken()
+func (broadcast *Broadcast) SendVideo(ctx context.Context, user *User, mediaID string, title, description string) (*Result, error) {
+	ak, err := broadcast.GetAccessToken(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -222,8 +223,8 @@ func (broadcast *Broadcast) SendVideo(user *User, mediaID string, title, descrip
 }
 
 //SendWxCard 发送卡券
-func (broadcast *Broadcast) SendWxCard(user *User, cardID string) (*Result, error) {
-	ak, err := broadcast.GetAccessToken()
+func (broadcast *Broadcast) SendWxCard(ctx context.Context, user *User, cardID string) (*Result, error) {
+	ak, err := broadcast.GetAccessToken(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -246,8 +247,8 @@ func (broadcast *Broadcast) SendWxCard(user *User, cardID string) (*Result, erro
 }
 
 //Delete 删除群发消息
-func (broadcast *Broadcast) Delete(msgID int64, articleIDx int64) error {
-	ak, err := broadcast.GetAccessToken()
+func (broadcast *Broadcast) Delete(ctx context.Context, msgID int64, articleIDx int64) error {
+	ak, err := broadcast.GetAccessToken(ctx)
 	if err != nil {
 		return err
 	}
@@ -270,8 +271,8 @@ func (broadcast *Broadcast) Preview() *Broadcast {
 }
 
 // GetMassStatus 获取群发状态
-func (broadcast *Broadcast) GetMassStatus(msgID string) (*Result, error) {
-	ak, err := broadcast.GetAccessToken()
+func (broadcast *Broadcast) GetMassStatus(ctx context.Context, msgID string) (*Result, error) {
+	ak, err := broadcast.GetAccessToken(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -289,8 +290,8 @@ func (broadcast *Broadcast) GetMassStatus(msgID string) (*Result, error) {
 }
 
 // GetSpeed 获取群发速度
-func (broadcast *Broadcast) GetSpeed() (*SpeedResult, error) {
-	ak, err := broadcast.GetAccessToken()
+func (broadcast *Broadcast) GetSpeed(ctx context.Context) (*SpeedResult, error) {
+	ak, err := broadcast.GetAccessToken(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -306,8 +307,8 @@ func (broadcast *Broadcast) GetSpeed() (*SpeedResult, error) {
 }
 
 // SetSpeed 设置群发速度
-func (broadcast *Broadcast) SetSpeed(speed int) (*SpeedResult, error) {
-	ak, err := broadcast.GetAccessToken()
+func (broadcast *Broadcast) SetSpeed(ctx context.Context, speed int) (*SpeedResult, error) {
+	ak, err := broadcast.GetAccessToken(ctx)
 	if err != nil {
 		return nil, err
 	}

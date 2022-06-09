@@ -1,8 +1,9 @@
 package security
 
 import (
+	"context"
 	"fmt"
-	"github.com/donetkit/wechat/miniprogram/context"
+	context2 "github.com/donetkit/wechat/miniprogram/context"
 	"github.com/donetkit/wechat/util"
 	"strconv"
 )
@@ -15,11 +16,11 @@ const (
 
 // Security 内容安全
 type Security struct {
-	*context.Context
+	*context2.Context
 }
 
 // NewSecurity init
-func NewSecurity(ctx *context.Context) *Security {
+func NewSecurity(ctx *context2.Context) *Security {
 	return &Security{ctx}
 }
 
@@ -32,8 +33,8 @@ type MediaCheckAsyncV1Request struct {
 // MediaCheckAsyncV1 异步校验图片/音频是否含有违法违规内容
 // Deprecated
 // 在2021年9月1日停止更新，请尽快更新至 2.0 接口。建议使用 MediaCheckAsync
-func (security *Security) MediaCheckAsyncV1(in *MediaCheckAsyncV1Request) (traceID string, err error) {
-	accessToken, err := security.GetAccessToken()
+func (security *Security) MediaCheckAsyncV1(ctx context.Context, in *MediaCheckAsyncV1Request) (traceID string, err error) {
+	accessToken, err := security.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -67,8 +68,8 @@ type MediaCheckAsyncRequest struct {
 }
 
 // MediaCheckAsync 异步校验图片/音频是否含有违法违规内容
-func (security *Security) MediaCheckAsync(in *MediaCheckAsyncRequest) (traceID string, err error) {
-	accessToken, err := security.GetAccessToken()
+func (security *Security) MediaCheckAsync(ctx context.Context, in *MediaCheckAsyncRequest) (traceID string, err error) {
+	accessToken, err := security.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -104,8 +105,8 @@ func (security *Security) MediaCheckAsync(in *MediaCheckAsyncRequest) (traceID s
 // https://developers.weixin.qq.com/miniprogram/dev/framework/security.imgSecCheck.html
 // Deprecated
 // 在2021年9月1日停止更新。建议使用 MediaCheckAsync
-func (security *Security) ImageCheckV1(filename string) (err error) {
-	accessToken, err := security.GetAccessToken()
+func (security *Security) ImageCheckV1(ctx context.Context, filename string) (err error) {
+	accessToken, err := security.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -207,8 +208,8 @@ type MsgCheckResponse struct {
 // MsgCheckV1 检查一段文本是否含有违法违规内容
 // Deprecated
 // 在2021年9月1日停止更新，请尽快更新至 2.0 接口。建议使用 MsgCheck
-func (security *Security) MsgCheckV1(content string) (res MsgCheckResponse, err error) {
-	accessToken, err := security.GetAccessToken()
+func (security *Security) MsgCheckV1(ctx context.Context, content string) (res MsgCheckResponse, err error) {
+	accessToken, err := security.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -230,8 +231,8 @@ func (security *Security) MsgCheckV1(content string) (res MsgCheckResponse, err 
 }
 
 // MsgCheck 检查一段文本是否含有违法违规内容
-func (security *Security) MsgCheck(in *MsgCheckRequest) (res MsgCheckResponse, err error) {
-	accessToken, err := security.GetAccessToken()
+func (security *Security) MsgCheck(ctx context.Context, in *MsgCheckRequest) (res MsgCheckResponse, err error) {
+	accessToken, err := security.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}

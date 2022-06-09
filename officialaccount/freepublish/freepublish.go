@@ -1,8 +1,9 @@
 package freepublish
 
 import (
+	"context"
 	"fmt"
-	"github.com/donetkit/wechat/officialaccount/context"
+	context2 "github.com/donetkit/wechat/officialaccount/context"
 	"github.com/donetkit/wechat/util"
 )
 
@@ -36,11 +37,11 @@ const (
 
 // FreePublish 发布能力
 type FreePublish struct {
-	*context.Context
+	*context2.Context
 }
 
 // NewFreePublish init
-func NewFreePublish(ctx *context.Context) *FreePublish {
+func NewFreePublish(ctx *context2.Context) *FreePublish {
 	return &FreePublish{
 		Context: ctx,
 	}
@@ -48,9 +49,9 @@ func NewFreePublish(ctx *context.Context) *FreePublish {
 
 // Publish 发布接口。需要先将图文素材以草稿的形式保存（见“草稿箱/新建草稿”，
 // 如需从已保存的草稿中选择，见“草稿箱/获取草稿列表”），选择要发布的草稿 media_id 进行发布
-func (freePublish *FreePublish) Publish(mediaID string) (publishID int64, err error) {
+func (freePublish *FreePublish) Publish(ctx context.Context, mediaID string) (publishID int64, err error) {
 	var accessToken string
-	accessToken, err = freePublish.GetAccessToken()
+	accessToken, err = freePublish.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -103,8 +104,8 @@ type PublishArticleItem struct {
 }
 
 // SelectStatus 发布状态轮询接口
-func (freePublish *FreePublish) SelectStatus(publishID int64) (list PublishStatusList, err error) {
-	accessToken, err := freePublish.GetAccessToken()
+func (freePublish *FreePublish) SelectStatus(ctx context.Context, publishID int64) (list PublishStatusList, err error) {
+	accessToken, err := freePublish.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -128,8 +129,8 @@ func (freePublish *FreePublish) SelectStatus(publishID int64) (list PublishStatu
 // Delete 删除发布。
 // index 要删除的文章在图文消息中的位置，第一篇编号为1，该字段不填或填0会删除全部文章
 // !!!此操作不可逆，请谨慎操作!!!删除后微信公众号后台仍然会有记录!!!
-func (freePublish *FreePublish) Delete(articleID string, index uint) (err error) {
-	accessToken, err := freePublish.GetAccessToken()
+func (freePublish *FreePublish) Delete(ctx context.Context, articleID string, index uint) (err error) {
+	accessToken, err := freePublish.GetAccessToken(ctx)
 	if err != nil {
 		return err
 	}
@@ -167,8 +168,8 @@ type Article struct {
 }
 
 // First 通过 article_id 获取已发布文章
-func (freePublish *FreePublish) First(articleID string) (list []Article, err error) {
-	accessToken, err := freePublish.GetAccessToken()
+func (freePublish *FreePublish) First(ctx context.Context, articleID string) (list []Article, err error) {
+	accessToken, err := freePublish.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -219,9 +220,9 @@ type ArticleListContent struct {
 }
 
 // Paginate 获取成功发布列表
-func (freePublish *FreePublish) Paginate(offset, count int64, noReturnContent bool) (list ArticleList, err error) {
+func (freePublish *FreePublish) Paginate(ctx context.Context, offset, count int64, noReturnContent bool) (list ArticleList, err error) {
 	var accessToken string
-	accessToken, err = freePublish.GetAccessToken()
+	accessToken, err = freePublish.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}

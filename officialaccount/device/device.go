@@ -1,10 +1,11 @@
 package device
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 
-	"github.com/donetkit/wechat/officialaccount/context"
+	context2 "github.com/donetkit/wechat/officialaccount/context"
 	"github.com/donetkit/wechat/util"
 )
 
@@ -21,11 +22,11 @@ const (
 
 //Device struct
 type Device struct {
-	*context.Context
+	*context2.Context
 }
 
 //NewDevice 实例
-func NewDevice(context *context.Context) *Device {
+func NewDevice(context *context2.Context) *Device {
 	device := new(Device)
 	device.Context = context
 	return device
@@ -39,9 +40,9 @@ type ResDeviceState struct {
 }
 
 // State 设备状态查询
-func (d *Device) State(device string) (res ResDeviceState, err error) {
+func (d *Device) State(ctx context.Context, device string) (res ResDeviceState, err error) {
 	var accessToken string
-	if accessToken, err = d.GetAccessToken(); err != nil {
+	if accessToken, err = d.GetAccessToken(ctx); err != nil {
 		return
 	}
 	uri := fmt.Sprintf("%s?access_token=%s&device_id=%s", uriState, accessToken, device)

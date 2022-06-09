@@ -1,8 +1,9 @@
 package draft
 
 import (
+	"context"
 	"fmt"
-	"github.com/donetkit/wechat/officialaccount/context"
+	context2 "github.com/donetkit/wechat/officialaccount/context"
 	"github.com/donetkit/wechat/util"
 )
 
@@ -17,11 +18,11 @@ const (
 
 // Draft 草稿箱
 type Draft struct {
-	*context.Context
+	*context2.Context
 }
 
 // NewDraft init
-func NewDraft(ctx *context.Context) *Draft {
+func NewDraft(ctx *context2.Context) *Draft {
 	return &Draft{
 		Context: ctx,
 	}
@@ -41,8 +42,8 @@ type Article struct {
 }
 
 // AddDraft 新建草稿
-func (draft *Draft) AddDraft(articles []*Article) (mediaID string, err error) {
-	accessToken, err := draft.GetAccessToken()
+func (draft *Draft) AddDraft(ctx context.Context, articles []*Article) (mediaID string, err error) {
+	accessToken, err := draft.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -71,8 +72,8 @@ func (draft *Draft) AddDraft(articles []*Article) (mediaID string, err error) {
 }
 
 // GetDraft 获取草稿
-func (draft *Draft) GetDraft(mediaID string) (articles []*Article, err error) {
-	accessToken, err := draft.GetAccessToken()
+func (draft *Draft) GetDraft(ctx context.Context, mediaID string) (articles []*Article, err error) {
+	accessToken, err := draft.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -102,8 +103,8 @@ func (draft *Draft) GetDraft(mediaID string) (articles []*Article, err error) {
 }
 
 // DeleteDraft 删除草稿
-func (draft *Draft) DeleteDraft(mediaID string) (err error) {
-	accessToken, err := draft.GetAccessToken()
+func (draft *Draft) DeleteDraft(ctx context.Context, mediaID string) (err error) {
+	accessToken, err := draft.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -126,8 +127,8 @@ func (draft *Draft) DeleteDraft(mediaID string) (err error) {
 
 // UpdateDraft 修改草稿
 // index 要更新的文章在图文消息中的位置（多图文消息时，此字段才有意义），第一篇为0
-func (draft *Draft) UpdateDraft(article *Article, mediaID string, index uint) (err error) {
-	accessToken, err := draft.GetAccessToken()
+func (draft *Draft) UpdateDraft(ctx context.Context, article *Article, mediaID string, index uint) (err error) {
+	accessToken, err := draft.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -153,8 +154,8 @@ func (draft *Draft) UpdateDraft(article *Article, mediaID string, index uint) (e
 }
 
 // CountDraft 获取草稿总数
-func (draft *Draft) CountDraft() (total uint, err error) {
-	accessToken, err := draft.GetAccessToken()
+func (draft *Draft) CountDraft(ctx context.Context) (total uint, err error) {
+	accessToken, err := draft.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -200,8 +201,8 @@ type ArticleListContent struct {
 }
 
 // PaginateDraft 获取草稿列表
-func (draft *Draft) PaginateDraft(offset, count int64, noReturnContent bool) (list ArticleList, err error) {
-	accessToken, err := draft.GetAccessToken()
+func (draft *Draft) PaginateDraft(ctx context.Context, offset, count int64, noReturnContent bool) (list ArticleList, err error) {
+	accessToken, err := draft.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}

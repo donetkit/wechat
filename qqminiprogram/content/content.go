@@ -1,8 +1,9 @@
 package content
 
 import (
+	"context"
 	"fmt"
-	"github.com/donetkit/wechat/qqminiprogram/context"
+	context2 "github.com/donetkit/wechat/qqminiprogram/context"
 	"github.com/donetkit/wechat/util"
 )
 
@@ -13,18 +14,18 @@ const (
 
 // Content 内容安全
 type Content struct {
-	*context.Context
+	*context2.Context
 }
 
 // NewContent 内容安全接口
-func NewContent(ctx *context.Context) *Content {
+func NewContent(ctx *context2.Context) *Content {
 	return &Content{ctx}
 }
 
 // CheckText 检测文字
 // @text 需要检测的文字
-func (content *Content) CheckText(text string) error {
-	accessToken, err := content.GetAccessToken()
+func (content *Content) CheckText(ctx context.Context, text string) error {
+	accessToken, err := content.GetAccessToken(ctx)
 	if err != nil {
 		return err
 	}
@@ -43,8 +44,8 @@ func (content *Content) CheckText(text string) error {
 // CheckImage 检测图片
 // 所传参数为要检测的图片文件的绝对路径，图片格式支持PNG、JPEG、JPG、GIF, 像素不超过 750 x 1334，同时文件大小以不超过 300K 为宜，否则可能报错
 // @media 图片文件的绝对路径
-func (content *Content) CheckImage(media string) error {
-	accessToken, err := content.GetAccessToken()
+func (content *Content) CheckImage(ctx context.Context, media string) error {
+	accessToken, err := content.GetAccessToken(ctx)
 	if err != nil {
 		return err
 	}

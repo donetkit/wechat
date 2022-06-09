@@ -1,6 +1,7 @@
 package component
 
 import (
+	"context"
 	"fmt"
 
 	openContext "github.com/donetkit/wechat/openplatform/context"
@@ -33,8 +34,8 @@ type RegisterMiniProgramParam struct {
 
 //RegisterMiniProgram 快速创建小程
 //reference: https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/Fast_Registration_Interface_document.html
-func (component *Component) RegisterMiniProgram(param *RegisterMiniProgramParam) error {
-	componentAK, err := component.GetComponentAccessToken()
+func (component *Component) RegisterMiniProgram(ctx context.Context, param *RegisterMiniProgramParam) error {
+	componentAK, err := component.GetComponentAccessToken(ctx)
 	if err != nil {
 		return nil
 	}
@@ -55,8 +56,8 @@ type GetRegistrationStatusParam struct {
 }
 
 //GetRegistrationStatus 查询创建任务状态.
-func (component *Component) GetRegistrationStatus(param *GetRegistrationStatusParam) error {
-	componentAK, err := component.GetComponentAccessToken()
+func (component *Component) GetRegistrationStatus(ctx context.Context, param *GetRegistrationStatusParam) error {
+	componentAK, err := component.GetComponentAccessToken(ctx)
 	if err != nil {
 		return nil
 	}

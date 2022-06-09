@@ -1,6 +1,7 @@
 package datacube
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/donetkit/wechat/util"
@@ -34,8 +35,8 @@ type ResUserAccumulate struct {
 }
 
 //GetUserSummary 获取用户增减数据
-func (cube *DataCube) GetUserSummary(s string, e string) (resUserSummary ResUserSummary, err error) {
-	accessToken, err := cube.GetAccessToken()
+func (cube *DataCube) GetUserSummary(ctx context.Context, s string, e string) (resUserSummary ResUserSummary, err error) {
+	accessToken, err := cube.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -56,8 +57,8 @@ func (cube *DataCube) GetUserSummary(s string, e string) (resUserSummary ResUser
 }
 
 //GetUserAccumulate 获取累计用户数据
-func (cube *DataCube) GetUserAccumulate(s string, e string) (resUserAccumulate ResUserAccumulate, err error) {
-	accessToken, err := cube.GetAccessToken()
+func (cube *DataCube) GetUserAccumulate(ctx context.Context, s string, e string) (resUserAccumulate ResUserAccumulate, err error) {
+	accessToken, err := cube.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}

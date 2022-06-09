@@ -1,6 +1,7 @@
 package datacube
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/donetkit/wechat/util"
@@ -39,8 +40,8 @@ type ResInterfaceSummaryHour struct {
 }
 
 //GetInterfaceSummary 获取接口分析数据
-func (cube *DataCube) GetInterfaceSummary(s string, e string) (resInterfaceSummary ResInterfaceSummary, err error) {
-	accessToken, err := cube.GetAccessToken()
+func (cube *DataCube) GetInterfaceSummary(ctx context.Context, s string, e string) (resInterfaceSummary ResInterfaceSummary, err error) {
+	accessToken, err := cube.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -61,8 +62,8 @@ func (cube *DataCube) GetInterfaceSummary(s string, e string) (resInterfaceSumma
 }
 
 //GetInterfaceSummaryHour 获取接口分析分时数据
-func (cube *DataCube) GetInterfaceSummaryHour(s string, e string) (resInterfaceSummaryHour ResInterfaceSummaryHour, err error) {
-	accessToken, err := cube.GetAccessToken()
+func (cube *DataCube) GetInterfaceSummaryHour(ctx context.Context, s string, e string) (resInterfaceSummaryHour ResInterfaceSummaryHour, err error) {
+	accessToken, err := cube.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}

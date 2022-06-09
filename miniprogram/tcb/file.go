@@ -1,6 +1,7 @@
 package tcb
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/donetkit/wechat/util"
@@ -72,8 +73,8 @@ type BatchDeleteFileRes struct {
 
 //UploadFile 上传文件
 //reference:https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-http-api/storage/uploadFile.html
-func (tcb *Tcb) UploadFile(env, path string) (*UploadFileRes, error) {
-	accessToken, err := tcb.GetAccessToken()
+func (tcb *Tcb) UploadFile(ctx context.Context, env, path string) (*UploadFileRes, error) {
+	accessToken, err := tcb.GetAccessToken(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -93,8 +94,8 @@ func (tcb *Tcb) UploadFile(env, path string) (*UploadFileRes, error) {
 
 //BatchDownloadFile 获取文件下载链接
 //reference:https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-http-api/storage/batchDownloadFile.html
-func (tcb *Tcb) BatchDownloadFile(env string, fileList []*DownloadFile) (*BatchDownloadFileRes, error) {
-	accessToken, err := tcb.GetAccessToken()
+func (tcb *Tcb) BatchDownloadFile(ctx context.Context, env string, fileList []*DownloadFile) (*BatchDownloadFileRes, error) {
+	accessToken, err := tcb.GetAccessToken(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -114,8 +115,8 @@ func (tcb *Tcb) BatchDownloadFile(env string, fileList []*DownloadFile) (*BatchD
 
 //BatchDeleteFile 批量删除文件
 //reference:https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-http-api/storage/batchDeleteFile.html
-func (tcb *Tcb) BatchDeleteFile(env string, fileIDList []string) (*BatchDeleteFileRes, error) {
-	accessToken, err := tcb.GetAccessToken()
+func (tcb *Tcb) BatchDeleteFile(ctx context.Context, env string, fileIDList []string) (*BatchDeleteFileRes, error) {
+	accessToken, err := tcb.GetAccessToken(ctx)
 	if err != nil {
 		return nil, err
 	}

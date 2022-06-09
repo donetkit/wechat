@@ -1,18 +1,19 @@
 package urlscheme
 
 import (
+	"context"
 	"fmt"
-	"github.com/donetkit/wechat/miniprogram/context"
+	context2 "github.com/donetkit/wechat/miniprogram/context"
 	"github.com/donetkit/wechat/util"
 )
 
 // URLScheme 小程序 URL Scheme
 type URLScheme struct {
-	*context.Context
+	*context2.Context
 }
 
 // NewURLScheme 实例化
-func NewURLScheme(ctx *context.Context) *URLScheme {
+func NewURLScheme(ctx *context2.Context) *URLScheme {
 	return &URLScheme{Context: ctx}
 }
 
@@ -65,8 +66,8 @@ type USResult struct {
 }
 
 // Generate 生成url link
-func (u *URLScheme) Generate(params *USParams) (string, error) {
-	accessToken, err := u.GetAccessToken()
+func (u *URLScheme) Generate(ctx context.Context, params *USParams) (string, error) {
+	accessToken, err := u.GetAccessToken(ctx)
 	if err != nil {
 		return "", err
 	}

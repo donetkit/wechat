@@ -1,11 +1,12 @@
 package qrcode
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"strings"
 
-	"github.com/donetkit/wechat/miniprogram/context"
+	context2 "github.com/donetkit/wechat/miniprogram/context"
 	"github.com/donetkit/wechat/util"
 )
 
@@ -17,11 +18,11 @@ const (
 
 // QRCode struct
 type QRCode struct {
-	*context.Context
+	*context2.Context
 }
 
 // NewQRCode 实例
-func NewQRCode(context *context.Context) *QRCode {
+func NewQRCode(context *context2.Context) *QRCode {
 	qrCode := new(QRCode)
 	qrCode.Context = context
 	return qrCode
@@ -57,9 +58,9 @@ type QRCoder struct {
 }
 
 // fetchCode 请求并返回二维码二进制数据
-func (qrCode *QRCode) fetchCode(urlStr string, body interface{}) (response []byte, err error) {
+func (qrCode *QRCode) fetchCode(ctx context.Context, urlStr string, body interface{}) (response []byte, err error) {
 	var accessToken string
-	accessToken, err = qrCode.GetAccessToken()
+	accessToken, err = qrCode.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -89,18 +90,18 @@ func (qrCode *QRCode) fetchCode(urlStr string, body interface{}) (response []byt
 
 // CreateWXAQRCode 获取小程序二维码，适用于需要的码数量较少的业务场景
 // 文档地址： https://developers.weixin.qq.com/miniprogram/dev/api/createWXAQRCode.html
-func (qrCode *QRCode) CreateWXAQRCode(coderParams QRCoder) (response []byte, err error) {
-	return qrCode.fetchCode(createWXAQRCodeURL, coderParams)
+func (qrCode *QRCode) CreateWXAQRCode(ctx context.Context, coderParams QRCoder) (response []byte, err error) {
+	return qrCode.fetchCode(ctx, createWXAQRCodeURL, coderParams)
 }
 
 // GetWXACode 获取小程序码，适用于需要的码数量较少的业务场景
 // 文档地址： https://developers.weixin.qq.com/miniprogram/dev/api/getWXACode.html
-func (qrCode *QRCode) GetWXACode(coderParams QRCoder) (response []byte, err error) {
-	return qrCode.fetchCode(getWXACodeURL, coderParams)
+func (qrCode *QRCode) GetWXACode(ctx context.Context, coderParams QRCoder) (response []byte, err error) {
+	return qrCode.fetchCode(ctx, getWXACodeURL, coderParams)
 }
 
 // GetWXACodeUnlimit 获取小程序码，适用于需要的码数量极多的业务场景
 // 文档地址： https://developers.weixin.qq.com/miniprogram/dev/api/getWXACodeUnlimit.html
-func (qrCode *QRCode) GetWXACodeUnlimit(coderParams QRCoder) (response []byte, err error) {
-	return qrCode.fetchCode(getWXACodeUnlimitURL, coderParams)
+func (qrCode *QRCode) GetWXACodeUnlimit(ctx context.Context, coderParams QRCoder) (response []byte, err error) {
+	return qrCode.fetchCode(ctx, getWXACodeUnlimitURL, coderParams)
 }

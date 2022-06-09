@@ -1,6 +1,7 @@
 package credential
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"sync"
@@ -41,10 +42,10 @@ type ResTicket struct {
 }
 
 //GetTicket 获取jsapi_ticket
-func (js *DefaultJsTicket) GetTicket(accessToken string) (ticketStr string, err error) {
+func (js *DefaultJsTicket) GetTicket(ctx context.Context, accessToken string) (ticketStr string, err error) {
 	//先从cache中取
 	jsAPITicketCacheKey := fmt.Sprintf("%s_jsapi_ticket_%s", js.cacheKeyPrefix, js.appID)
-	if val := js.cache.Get(jsAPITicketCacheKey); val != nil {
+	if val := js.cache.WithContext(ctx).Get(jsAPITicketCacheKey); val != nil {
 		return val.(string), nil
 	}
 
@@ -52,7 +53,7 @@ func (js *DefaultJsTicket) GetTicket(accessToken string) (ticketStr string, err 
 	defer js.jsAPITicketLock.Unlock()
 
 	// 双检，防止重复从微信服务器获取
-	if val := js.cache.Get(jsAPITicketCacheKey); val != nil {
+	if val := js.cache.WithContext(ctx).Get(jsAPITicketCacheKey); val != nil {
 		return val.(string), nil
 	}
 
@@ -62,7 +63,7 @@ func (js *DefaultJsTicket) GetTicket(accessToken string) (ticketStr string, err 
 		return
 	}
 	expires := ticket.ExpiresIn - 1500
-	err = js.cache.Set(jsAPITicketCacheKey, ticket.Ticket, time.Duration(expires)*time.Second)
+	err = js.cache.WithContext(ctx).Set(jsAPITicketCacheKey, ticket.Ticket, time.Duration(expires)*time.Second)
 	ticketStr = ticket.Ticket
 	return
 }

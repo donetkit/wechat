@@ -1,8 +1,9 @@
 package ocr
 
 import (
+	"context"
 	"fmt"
-	"github.com/donetkit/wechat/officialaccount/context"
+	context2 "github.com/donetkit/wechat/officialaccount/context"
 	"github.com/donetkit/wechat/util"
 	"net/url"
 )
@@ -19,7 +20,7 @@ const (
 
 //OCR struct
 type OCR struct {
-	*context.Context
+	*context2.Context
 }
 
 //coordinate 坐标
@@ -146,15 +147,15 @@ type ResPlateNumber struct {
 }
 
 //NewOCR 实例
-func NewOCR(c *context.Context) *OCR {
+func NewOCR(c *context2.Context) *OCR {
 	ocr := new(OCR)
 	ocr.Context = c
 	return ocr
 }
 
 //IDCard 身份证OCR识别接口
-func (ocr *OCR) IDCard(path string) (ResIDCard ResIDCard, err error) {
-	accessToken, err := ocr.GetAccessToken()
+func (ocr *OCR) IDCard(ctx context.Context, path string) (ResIDCard ResIDCard, err error) {
+	accessToken, err := ocr.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -172,8 +173,8 @@ func (ocr *OCR) IDCard(path string) (ResIDCard ResIDCard, err error) {
 }
 
 //BankCard 银行卡OCR识别接口
-func (ocr *OCR) BankCard(path string) (ResBankCard ResBankCard, err error) {
-	accessToken, err := ocr.GetAccessToken()
+func (ocr *OCR) BankCard(ctx context.Context, path string) (ResBankCard ResBankCard, err error) {
+	accessToken, err := ocr.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -191,8 +192,8 @@ func (ocr *OCR) BankCard(path string) (ResBankCard ResBankCard, err error) {
 }
 
 //Driving 行驶证OCR识别接口
-func (ocr *OCR) Driving(path string) (ResDriving ResDriving, err error) {
-	accessToken, err := ocr.GetAccessToken()
+func (ocr *OCR) Driving(ctx context.Context, path string) (ResDriving ResDriving, err error) {
+	accessToken, err := ocr.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -210,8 +211,8 @@ func (ocr *OCR) Driving(path string) (ResDriving ResDriving, err error) {
 }
 
 //DrivingLicense 驾驶证OCR识别接口
-func (ocr *OCR) DrivingLicense(path string) (ResDrivingLicense ResDrivingLicense, err error) {
-	accessToken, err := ocr.GetAccessToken()
+func (ocr *OCR) DrivingLicense(ctx context.Context, path string) (ResDrivingLicense ResDrivingLicense, err error) {
+	accessToken, err := ocr.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -229,8 +230,8 @@ func (ocr *OCR) DrivingLicense(path string) (ResDrivingLicense ResDrivingLicense
 }
 
 //BizLicense 营业执照OCR识别接口
-func (ocr *OCR) BizLicense(path string) (ResBizLicense ResBizLicense, err error) {
-	accessToken, err := ocr.GetAccessToken()
+func (ocr *OCR) BizLicense(ctx context.Context, path string) (ResBizLicense ResBizLicense, err error) {
+	accessToken, err := ocr.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -248,8 +249,8 @@ func (ocr *OCR) BizLicense(path string) (ResBizLicense ResBizLicense, err error)
 }
 
 //Common 通用印刷体OCR识别接口
-func (ocr *OCR) Common(path string) (ResCommon ResCommon, err error) {
-	accessToken, err := ocr.GetAccessToken()
+func (ocr *OCR) Common(ctx context.Context, path string) (ResCommon ResCommon, err error) {
+	accessToken, err := ocr.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -267,8 +268,8 @@ func (ocr *OCR) Common(path string) (ResCommon ResCommon, err error) {
 }
 
 //PlateNumber 车牌OCR识别接口
-func (ocr *OCR) PlateNumber(path string) (ResPlateNumber ResPlateNumber, err error) {
-	accessToken, err := ocr.GetAccessToken()
+func (ocr *OCR) PlateNumber(ctx context.Context, path string) (ResPlateNumber ResPlateNumber, err error) {
+	accessToken, err := ocr.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}

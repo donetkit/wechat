@@ -1,6 +1,7 @@
 package officialaccount
 
 import (
+	"context"
 	"github.com/donetkit/wechat/credential"
 	"github.com/donetkit/wechat/officialaccount"
 	offConfig "github.com/donetkit/wechat/officialaccount/config"
@@ -55,6 +56,6 @@ func NewDefaultAuthrAccessToken(opCtx *opContext.Context, appID string) credenti
 }
 
 //GetAccessToken 获取ak
-func (ak *DefaultAuthrAccessToken) GetAccessToken() (string, error) {
-	return ak.opCtx.GetAuthAccessToken(ak.appID)
+func (ak *DefaultAuthrAccessToken) GetAccessToken(ctx context.Context) (string, error) {
+	return ak.opCtx.GetAuthAccessToken(ctx, ak.appID)
 }

@@ -1,6 +1,7 @@
 package datacube
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/donetkit/wechat/util"
@@ -139,8 +140,8 @@ type ResUserShareHour struct {
 }
 
 //GetArticleSummary 获取图文群发每日数据
-func (cube *DataCube) GetArticleSummary(s string, e string) (resArticleSummary ResArticleSummary, err error) {
-	accessToken, err := cube.GetAccessToken()
+func (cube *DataCube) GetArticleSummary(ctx context.Context, s string, e string) (resArticleSummary ResArticleSummary, err error) {
+	accessToken, err := cube.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -161,8 +162,8 @@ func (cube *DataCube) GetArticleSummary(s string, e string) (resArticleSummary R
 }
 
 //GetArticleTotal 获取图文群发总数据
-func (cube *DataCube) GetArticleTotal(s string, e string) (resArticleTotal ResArticleTotal, err error) {
-	accessToken, err := cube.GetAccessToken()
+func (cube *DataCube) GetArticleTotal(ctx context.Context, s string, e string) (resArticleTotal ResArticleTotal, err error) {
+	accessToken, err := cube.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -183,8 +184,8 @@ func (cube *DataCube) GetArticleTotal(s string, e string) (resArticleTotal ResAr
 }
 
 //GetUserRead 获取图文统计数据
-func (cube *DataCube) GetUserRead(s string, e string) (resUserRead ResUserRead, err error) {
-	accessToken, err := cube.GetAccessToken()
+func (cube *DataCube) GetUserRead(ctx context.Context, s string, e string) (resUserRead ResUserRead, err error) {
+	accessToken, err := cube.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -205,8 +206,8 @@ func (cube *DataCube) GetUserRead(s string, e string) (resUserRead ResUserRead, 
 }
 
 //GetUserReadHour 获取图文统计分时数据
-func (cube *DataCube) GetUserReadHour(s string, e string) (resUserReadHour ResUserReadHour, err error) {
-	accessToken, err := cube.GetAccessToken()
+func (cube *DataCube) GetUserReadHour(ctx context.Context, s string, e string) (resUserReadHour ResUserReadHour, err error) {
+	accessToken, err := cube.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -227,8 +228,8 @@ func (cube *DataCube) GetUserReadHour(s string, e string) (resUserReadHour ResUs
 }
 
 //GetUserShare 获取图文分享转发数据
-func (cube *DataCube) GetUserShare(s string, e string) (resUserShare ResUserShare, err error) {
-	accessToken, err := cube.GetAccessToken()
+func (cube *DataCube) GetUserShare(ctx context.Context, s string, e string) (resUserShare ResUserShare, err error) {
+	accessToken, err := cube.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -249,8 +250,8 @@ func (cube *DataCube) GetUserShare(s string, e string) (resUserShare ResUserShar
 }
 
 //GetUserShareHour 获取图文分享转发分时数据
-func (cube *DataCube) GetUserShareHour(s string, e string) (resUserShareHour ResUserShareHour, err error) {
-	accessToken, err := cube.GetAccessToken()
+func (cube *DataCube) GetUserShareHour(ctx context.Context, s string, e string) (resUserShareHour ResUserShareHour, err error) {
+	accessToken, err := cube.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}

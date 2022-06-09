@@ -1,16 +1,17 @@
 package js
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/donetkit/wechat/credential"
-	"github.com/donetkit/wechat/officialaccount/context"
+	context2 "github.com/donetkit/wechat/officialaccount/context"
 	"github.com/donetkit/wechat/util"
 )
 
 // Js struct
 type Js struct {
-	*context.Context
+	*context2.Context
 	credential.JsTicketHandle
 }
 
@@ -23,7 +24,7 @@ type Config struct {
 }
 
 //NewJs init
-func NewJs(context *context.Context) *Js {
+func NewJs(context *context2.Context) *Js {
 	js := new(Js)
 	js.Context = context
 	jsTicketHandle := credential.NewDefaultJsTicket(context.AppID, credential.CacheKeyOfficialAccountPrefix, context.Cache)
@@ -38,15 +39,15 @@ func (js *Js) SetJsTicketHandle(ticketHandle credential.JsTicketHandle) {
 
 //GetConfig 获取jssdk需要的配置参数
 //uri 为当前网页地址
-func (js *Js) GetConfig(uri string) (config *Config, err error) {
+func (js *Js) GetConfig(ctx context.Context, uri string) (config *Config, err error) {
 	config = new(Config)
 	var accessToken string
-	accessToken, err = js.GetAccessToken()
+	accessToken, err = js.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
 	var ticketStr string
-	ticketStr, err = js.GetTicket(accessToken)
+	ticketStr, err = js.GetTicket(ctx, accessToken)
 	if err != nil {
 		return
 	}

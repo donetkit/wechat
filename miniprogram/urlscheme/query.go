@@ -1,6 +1,7 @@
 package urlscheme
 
 import (
+	"context"
 	"fmt"
 	"github.com/donetkit/wechat/util"
 )
@@ -44,9 +45,9 @@ type resQueryScheme struct {
 }
 
 // QueryScheme 查询小程序 scheme 码
-func (u *URLScheme) QueryScheme(querySchemeParams QueryScheme) (schemeInfo SchemeInfo, visitOpenid string, err error) {
+func (u *URLScheme) QueryScheme(ctx context.Context, querySchemeParams QueryScheme) (schemeInfo SchemeInfo, visitOpenid string, err error) {
 	var accessToken string
-	accessToken, err = u.GetAccessToken()
+	accessToken, err = u.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}

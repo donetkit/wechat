@@ -1,6 +1,7 @@
 package datacube
 
 import (
+	"context"
 	"fmt"
 	"net/url"
 	"strconv"
@@ -163,8 +164,8 @@ type ParamsPublisher struct {
 }
 
 // fetchData 拉取统计数据
-func (cube *DataCube) fetchData(params ParamsPublisher) (response []byte, err error) {
-	accessToken, err := cube.GetAccessToken()
+func (cube *DataCube) fetchData(ctx context.Context, params ParamsPublisher) (response []byte, err error) {
+	accessToken, err := cube.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -190,7 +191,7 @@ func (cube *DataCube) fetchData(params ParamsPublisher) (response []byte, err er
 }
 
 //GetPublisherAdPosGeneral 获取公众号分广告位数据
-func (cube *DataCube) GetPublisherAdPosGeneral(startDate, endDate string, page, pageSize int, adSlot AdSlot) (resPublisherAdPos ResPublisherAdPos, err error) {
+func (cube *DataCube) GetPublisherAdPosGeneral(ctx context.Context, startDate, endDate string, page, pageSize int, adSlot AdSlot) (resPublisherAdPos ResPublisherAdPos, err error) {
 	params := ParamsPublisher{
 		Action:    actionPublisherAdPosGeneral,
 		StartDate: startDate,
@@ -200,7 +201,7 @@ func (cube *DataCube) GetPublisherAdPosGeneral(startDate, endDate string, page, 
 		AdSlot:    adSlot,
 	}
 
-	response, err := cube.fetchData(params)
+	response, err := cube.fetchData(ctx, params)
 	if err != nil {
 		return
 	}
@@ -218,7 +219,7 @@ func (cube *DataCube) GetPublisherAdPosGeneral(startDate, endDate string, page, 
 }
 
 //GetPublisherCpsGeneral 获取公众号返佣商品数据
-func (cube *DataCube) GetPublisherCpsGeneral(startDate, endDate string, page, pageSize int) (resPublisherCps ResPublisherCps, err error) {
+func (cube *DataCube) GetPublisherCpsGeneral(ctx context.Context, startDate, endDate string, page, pageSize int) (resPublisherCps ResPublisherCps, err error) {
 	params := ParamsPublisher{
 		Action:    actionPublisherCpsGeneral,
 		StartDate: startDate,
@@ -227,7 +228,7 @@ func (cube *DataCube) GetPublisherCpsGeneral(startDate, endDate string, page, pa
 		PageSize:  pageSize,
 	}
 
-	response, err := cube.fetchData(params)
+	response, err := cube.fetchData(ctx, params)
 	if err != nil {
 		return
 	}
@@ -245,7 +246,7 @@ func (cube *DataCube) GetPublisherCpsGeneral(startDate, endDate string, page, pa
 }
 
 //GetPublisherSettlement 获取公众号结算收入数据及结算主体信息
-func (cube *DataCube) GetPublisherSettlement(startDate, endDate string, page, pageSize int) (resPublisherSettlement ResPublisherSettlement, err error) {
+func (cube *DataCube) GetPublisherSettlement(ctx context.Context, startDate, endDate string, page, pageSize int) (resPublisherSettlement ResPublisherSettlement, err error) {
 	params := ParamsPublisher{
 		Action:    actionPublisherSettlement,
 		StartDate: startDate,
@@ -254,7 +255,7 @@ func (cube *DataCube) GetPublisherSettlement(startDate, endDate string, page, pa
 		PageSize:  pageSize,
 	}
 
-	response, err := cube.fetchData(params)
+	response, err := cube.fetchData(ctx, params)
 	if err != nil {
 		return
 	}

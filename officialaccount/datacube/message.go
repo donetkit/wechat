@@ -1,6 +1,7 @@
 package datacube
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/donetkit/wechat/util"
@@ -99,8 +100,8 @@ type ResUpstreamMsgDistMonth struct {
 }
 
 //GetUpstreamMsg 获取消息发送概况数据
-func (cube *DataCube) GetUpstreamMsg(s string, e string) (resUpstreamMsg ResUpstreamMsg, err error) {
-	accessToken, err := cube.GetAccessToken()
+func (cube *DataCube) GetUpstreamMsg(ctx context.Context, s string, e string) (resUpstreamMsg ResUpstreamMsg, err error) {
+	accessToken, err := cube.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -121,8 +122,8 @@ func (cube *DataCube) GetUpstreamMsg(s string, e string) (resUpstreamMsg ResUpst
 }
 
 //GetUpstreamMsgHour 获取消息分送分时数据
-func (cube *DataCube) GetUpstreamMsgHour(s string, e string) (resUpstreamMsgHour ResUpstreamMsgHour, err error) {
-	accessToken, err := cube.GetAccessToken()
+func (cube *DataCube) GetUpstreamMsgHour(ctx context.Context, s string, e string) (resUpstreamMsgHour ResUpstreamMsgHour, err error) {
+	accessToken, err := cube.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -143,8 +144,8 @@ func (cube *DataCube) GetUpstreamMsgHour(s string, e string) (resUpstreamMsgHour
 }
 
 //GetUpstreamMsgWeek 获取消息发送周数据
-func (cube *DataCube) GetUpstreamMsgWeek(s string, e string) (resUpstreamMsgWeek ResUpstreamMsgWeek, err error) {
-	accessToken, err := cube.GetAccessToken()
+func (cube *DataCube) GetUpstreamMsgWeek(ctx context.Context, s string, e string) (resUpstreamMsgWeek ResUpstreamMsgWeek, err error) {
+	accessToken, err := cube.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -165,8 +166,8 @@ func (cube *DataCube) GetUpstreamMsgWeek(s string, e string) (resUpstreamMsgWeek
 }
 
 //GetUpstreamMsgMonth 获取消息发送月数据
-func (cube *DataCube) GetUpstreamMsgMonth(s string, e string) (resUpstreamMsgMonth ResUpstreamMsgMonth, err error) {
-	accessToken, err := cube.GetAccessToken()
+func (cube *DataCube) GetUpstreamMsgMonth(ctx context.Context, s string, e string) (resUpstreamMsgMonth ResUpstreamMsgMonth, err error) {
+	accessToken, err := cube.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -187,8 +188,8 @@ func (cube *DataCube) GetUpstreamMsgMonth(s string, e string) (resUpstreamMsgMon
 }
 
 //GetUpstreamMsgDist 获取消息发送分布数据
-func (cube *DataCube) GetUpstreamMsgDist(s string, e string) (resUpstreamMsgDist ResUpstreamMsgDist, err error) {
-	accessToken, err := cube.GetAccessToken()
+func (cube *DataCube) GetUpstreamMsgDist(ctx context.Context, s string, e string) (resUpstreamMsgDist ResUpstreamMsgDist, err error) {
+	accessToken, err := cube.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -209,8 +210,8 @@ func (cube *DataCube) GetUpstreamMsgDist(s string, e string) (resUpstreamMsgDist
 }
 
 //GetUpstreamMsgDistWeek 获取消息发送分布周数据
-func (cube *DataCube) GetUpstreamMsgDistWeek(s string, e string) (resUpstreamMsgDistWeek ResUpstreamMsgDistWeek, err error) {
-	accessToken, err := cube.GetAccessToken()
+func (cube *DataCube) GetUpstreamMsgDistWeek(ctx context.Context, s string, e string) (resUpstreamMsgDistWeek ResUpstreamMsgDistWeek, err error) {
+	accessToken, err := cube.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -231,8 +232,8 @@ func (cube *DataCube) GetUpstreamMsgDistWeek(s string, e string) (resUpstreamMsg
 }
 
 //GetUpstreamMsgDistMonth 获取消息发送分布月数据
-func (cube *DataCube) GetUpstreamMsgDistMonth(s string, e string) (resUpstreamMsgDistMonth ResUpstreamMsgDistMonth, err error) {
-	accessToken, err := cube.GetAccessToken()
+func (cube *DataCube) GetUpstreamMsgDistMonth(ctx context.Context, s string, e string) (resUpstreamMsgDistMonth ResUpstreamMsgDistMonth, err error) {
+	accessToken, err := cube.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}

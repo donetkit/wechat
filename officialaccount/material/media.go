@@ -1,6 +1,7 @@
 package material
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 
@@ -38,9 +39,9 @@ type Media struct {
 }
 
 //MediaUpload 临时素材上传
-func (material *Material) MediaUpload(mediaType MediaType, filename string) (media Media, err error) {
+func (material *Material) MediaUpload(ctx context.Context, mediaType MediaType, filename string) (media Media, err error) {
 	var accessToken string
-	accessToken, err = material.GetAccessToken()
+	accessToken, err = material.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -64,9 +65,9 @@ func (material *Material) MediaUpload(mediaType MediaType, filename string) (med
 
 //GetMediaURL 返回临时素材的下载地址供用户自己处理
 //NOTICE: URL 不可公开，因为含access_token 需要立即另存文件
-func (material *Material) GetMediaURL(mediaID string) (mediaURL string, err error) {
+func (material *Material) GetMediaURL(ctx context.Context, mediaID string) (mediaURL string, err error) {
 	var accessToken string
-	accessToken, err = material.GetAccessToken()
+	accessToken, err = material.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -82,9 +83,9 @@ type resMediaImage struct {
 }
 
 //ImageUpload 图片上传
-func (material *Material) ImageUpload(filename string) (url string, err error) {
+func (material *Material) ImageUpload(ctx context.Context, filename string) (url string, err error) {
 	var accessToken string
-	accessToken, err = material.GetAccessToken()
+	accessToken, err = material.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}

@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"time"
@@ -38,8 +39,8 @@ type ResCode2Session struct {
 }
 
 //Code2Session 登录凭证校验。
-func (auth *Auth) Code2Session(jsCode string) (result ResCode2Session, err error) {
-	componentAK, err := auth.GetComponentAccessToken()
+func (auth *Auth) Code2Session(ctx context.Context, jsCode string) (result ResCode2Session, err error) {
+	componentAK, err := auth.GetComponentAccessToken(ctx)
 	urlStr := fmt.Sprintf(code2SessionURL, auth.appID, jsCode, auth.Context.AppID, componentAK)
 	var response []byte
 	response, err = util.HTTPGet(urlStr)
@@ -65,14 +66,14 @@ func (auth *Auth) Code2Session(jsCode string) (result ResCode2Session, err error
 		return
 	}
 	miniProgramSessionKeyCacheKey := fmt.Sprintf(MiniProgramSessionKeyCacheKey, auth.appID, result.OpenID)
-	auth.Cache.Set(miniProgramSessionKeyCacheKey, string(res), 15*24*3600*time.Second)
+	auth.Cache.WithContext(ctx).Set(miniProgramSessionKeyCacheKey, string(res), 15*24*3600*time.Second)
 	return
 }
 
 //GetSessionKey 登录SessionKey。
-func (auth *Auth) GetSessionKey(openID string) (result string, err error) {
+func (auth *Auth) GetSessionKey(ctx context.Context, openID string) (result string, err error) {
 	miniProgramSessionKeyCacheKey := fmt.Sprintf(MiniProgramSessionKeyCacheKey, auth.appID, openID)
-	val := auth.Cache.Get(miniProgramSessionKeyCacheKey)
+	val := auth.Cache.WithContext(ctx).Get(miniProgramSessionKeyCacheKey)
 	if val == nil {
 		return "", fmt.Errorf("SessionKey Cache %s", "")
 	}

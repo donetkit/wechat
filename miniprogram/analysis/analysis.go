@@ -1,10 +1,11 @@
 package analysis
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 
-	"github.com/donetkit/wechat/miniprogram/context"
+	context2 "github.com/donetkit/wechat/miniprogram/context"
 
 	"github.com/donetkit/wechat/util"
 )
@@ -34,18 +35,18 @@ const (
 
 // Analysis analyis 数据分析
 type Analysis struct {
-	*context.Context
+	*context2.Context
 }
 
 // NewAnalysis new
-func NewAnalysis(ctx *context.Context) *Analysis {
+func NewAnalysis(ctx *context2.Context) *Analysis {
 	return &Analysis{ctx}
 }
 
 // fetchData 拉取统计数据
-func (analysis *Analysis) fetchData(urlStr string, body interface{}) (response []byte, err error) {
+func (analysis *Analysis) fetchData(ctx context.Context, urlStr string, body interface{}) (response []byte, err error) {
 	var accessToken string
-	accessToken, err = analysis.GetAccessToken()
+	accessToken, err = analysis.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -69,12 +70,12 @@ type ResAnalysisRetain struct {
 }
 
 // getAnalysisRetain 获取用户访问小程序留存数据(日、月、周)
-func (analysis *Analysis) getAnalysisRetain(urlStr string, beginDate, endDate string) (result ResAnalysisRetain, err error) {
+func (analysis *Analysis) getAnalysisRetain(ctx context.Context, urlStr string, beginDate, endDate string) (result ResAnalysisRetain, err error) {
 	body := map[string]string{
 		"begin_date": beginDate,
 		"end_date":   endDate,
 	}
-	response, err := analysis.fetchData(urlStr, body)
+	response, err := analysis.fetchData(ctx, urlStr, body)
 	if err != nil {
 		return
 	}
@@ -90,18 +91,18 @@ func (analysis *Analysis) getAnalysisRetain(urlStr string, beginDate, endDate st
 }
 
 // GetAnalysisDailyRetain 获取用户访问小程序日留存
-func (analysis *Analysis) GetAnalysisDailyRetain(beginDate, endDate string) (result ResAnalysisRetain, err error) {
-	return analysis.getAnalysisRetain(getAnalysisDailyRetainURL, beginDate, endDate)
+func (analysis *Analysis) GetAnalysisDailyRetain(ctx context.Context, beginDate, endDate string) (result ResAnalysisRetain, err error) {
+	return analysis.getAnalysisRetain(ctx, getAnalysisDailyRetainURL, beginDate, endDate)
 }
 
 // GetAnalysisMonthlyRetain 获取用户访问小程序月留存
-func (analysis *Analysis) GetAnalysisMonthlyRetain(beginDate, endDate string) (result ResAnalysisRetain, err error) {
-	return analysis.getAnalysisRetain(getAnalysisMonthlyRetainURL, beginDate, endDate)
+func (analysis *Analysis) GetAnalysisMonthlyRetain(ctx context.Context, beginDate, endDate string) (result ResAnalysisRetain, err error) {
+	return analysis.getAnalysisRetain(ctx, getAnalysisMonthlyRetainURL, beginDate, endDate)
 }
 
 // GetAnalysisWeeklyRetain 获取用户访问小程序周留存
-func (analysis *Analysis) GetAnalysisWeeklyRetain(beginDate, endDate string) (result ResAnalysisRetain, err error) {
-	return analysis.getAnalysisRetain(getAnalysisWeeklyRetainURL, beginDate, endDate)
+func (analysis *Analysis) GetAnalysisWeeklyRetain(ctx context.Context, beginDate, endDate string) (result ResAnalysisRetain, err error) {
+	return analysis.getAnalysisRetain(ctx, getAnalysisWeeklyRetainURL, beginDate, endDate)
 }
 
 // ResAnalysisDailySummary 小程序访问数据概况
@@ -116,12 +117,12 @@ type ResAnalysisDailySummary struct {
 }
 
 // GetAnalysisDailySummary 获取用户访问小程序数据概况
-func (analysis *Analysis) GetAnalysisDailySummary(beginDate, endDate string) (result ResAnalysisDailySummary, err error) {
+func (analysis *Analysis) GetAnalysisDailySummary(ctx context.Context, beginDate, endDate string) (result ResAnalysisDailySummary, err error) {
 	body := map[string]string{
 		"begin_date": beginDate,
 		"end_date":   endDate,
 	}
-	response, err := analysis.fetchData(getAnalysisDailySummaryURL, body)
+	response, err := analysis.fetchData(ctx, getAnalysisDailySummaryURL, body)
 	if err != nil {
 		return
 	}
@@ -153,12 +154,12 @@ type ResAnalysisVisitTrend struct {
 }
 
 // getAnalysisRetain 获取小程序访问数据趋势(日、月、周)
-func (analysis *Analysis) getAnalysisVisitTrend(urlStr string, beginDate, endDate string) (result ResAnalysisVisitTrend, err error) {
+func (analysis *Analysis) getAnalysisVisitTrend(ctx context.Context, urlStr string, beginDate, endDate string) (result ResAnalysisVisitTrend, err error) {
 	body := map[string]string{
 		"begin_date": beginDate,
 		"end_date":   endDate,
 	}
-	response, err := analysis.fetchData(urlStr, body)
+	response, err := analysis.fetchData(ctx, urlStr, body)
 	if err != nil {
 		return
 	}
@@ -174,18 +175,18 @@ func (analysis *Analysis) getAnalysisVisitTrend(urlStr string, beginDate, endDat
 }
 
 // GetAnalysisDailyVisitTrend 获取用户访问小程序数据日趋势
-func (analysis *Analysis) GetAnalysisDailyVisitTrend(beginDate, endDate string) (result ResAnalysisVisitTrend, err error) {
-	return analysis.getAnalysisVisitTrend(getAnalysisDailyVisitTrendURL, beginDate, endDate)
+func (analysis *Analysis) GetAnalysisDailyVisitTrend(ctx context.Context, beginDate, endDate string) (result ResAnalysisVisitTrend, err error) {
+	return analysis.getAnalysisVisitTrend(ctx, getAnalysisDailyVisitTrendURL, beginDate, endDate)
 }
 
 // GetAnalysisMonthlyVisitTrend 获取用户访问小程序数据月趋势
-func (analysis *Analysis) GetAnalysisMonthlyVisitTrend(beginDate, endDate string) (result ResAnalysisVisitTrend, err error) {
-	return analysis.getAnalysisVisitTrend(getAnalysisMonthlyVisitTrendURL, beginDate, endDate)
+func (analysis *Analysis) GetAnalysisMonthlyVisitTrend(ctx context.Context, beginDate, endDate string) (result ResAnalysisVisitTrend, err error) {
+	return analysis.getAnalysisVisitTrend(ctx, getAnalysisMonthlyVisitTrendURL, beginDate, endDate)
 }
 
 // GetAnalysisWeeklyVisitTrend 获取用户访问小程序数据周趋势
-func (analysis *Analysis) GetAnalysisWeeklyVisitTrend(beginDate, endDate string) (result ResAnalysisVisitTrend, err error) {
-	return analysis.getAnalysisVisitTrend(getAnalysisWeeklyVisitTrendURL, beginDate, endDate)
+func (analysis *Analysis) GetAnalysisWeeklyVisitTrend(ctx context.Context, beginDate, endDate string) (result ResAnalysisVisitTrend, err error) {
+	return analysis.getAnalysisVisitTrend(ctx, getAnalysisWeeklyVisitTrendURL, beginDate, endDate)
 }
 
 // UserPortraitItem 用户画像项目
@@ -215,12 +216,12 @@ type ResAnalysisUserPortrait struct {
 }
 
 // GetAnalysisUserPortrait 获取小程序新增或活跃用户的画像分布数据
-func (analysis *Analysis) GetAnalysisUserPortrait(beginDate, endDate string) (result ResAnalysisUserPortrait, err error) {
+func (analysis *Analysis) GetAnalysisUserPortrait(ctx context.Context, beginDate, endDate string) (result ResAnalysisUserPortrait, err error) {
 	body := map[string]string{
 		"begin_date": beginDate,
 		"end_date":   endDate,
 	}
-	response, err := analysis.fetchData(getAnalysisUserPortraitURL, body)
+	response, err := analysis.fetchData(ctx, getAnalysisUserPortraitURL, body)
 	if err != nil {
 		return
 	}
@@ -256,12 +257,12 @@ type ResAnalysisVisitDistribution struct {
 }
 
 // GetAnalysisVisitDistribution 获取用户小程序访问分布数据
-func (analysis *Analysis) GetAnalysisVisitDistribution(beginDate, endDate string) (result ResAnalysisVisitDistribution, err error) {
+func (analysis *Analysis) GetAnalysisVisitDistribution(ctx context.Context, beginDate, endDate string) (result ResAnalysisVisitDistribution, err error) {
 	body := map[string]string{
 		"begin_date": beginDate,
 		"end_date":   endDate,
 	}
-	response, err := analysis.fetchData(getAnalysisVisitDistributionURL, body)
+	response, err := analysis.fetchData(ctx, getAnalysisVisitDistributionURL, body)
 	if err != nil {
 		return
 	}
@@ -296,12 +297,12 @@ type ResAnalysisVisitPage struct {
 }
 
 // GetAnalysisVisitPage 获取小程序页面访问数据
-func (analysis *Analysis) GetAnalysisVisitPage(beginDate, endDate string) (result ResAnalysisVisitPage, err error) {
+func (analysis *Analysis) GetAnalysisVisitPage(ctx context.Context, beginDate, endDate string) (result ResAnalysisVisitPage, err error) {
 	body := map[string]string{
 		"begin_date": beginDate,
 		"end_date":   endDate,
 	}
-	response, err := analysis.fetchData(getAnalysisVisitPageURL, body)
+	response, err := analysis.fetchData(ctx, getAnalysisVisitPageURL, body)
 	if err != nil {
 		return
 	}

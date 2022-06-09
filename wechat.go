@@ -27,8 +27,8 @@ func NewWechat() *Wechat {
 }
 
 //SetCache 设置cache
-func (wc *Wechat) SetCache(cahce cache.ICache) {
-	wc.cache = cahce
+func (wc *Wechat) SetCache(cache cache.ICache) {
+	wc.cache = cache
 }
 
 //GetOfficialAccount 获取微信公众号实例

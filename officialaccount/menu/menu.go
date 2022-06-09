@@ -1,10 +1,11 @@
 package menu
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 
-	"github.com/donetkit/wechat/officialaccount/context"
+	context2 "github.com/donetkit/wechat/officialaccount/context"
 	"github.com/donetkit/wechat/util"
 )
 
@@ -20,7 +21,7 @@ const (
 
 //Menu struct
 type Menu struct {
-	*context.Context
+	*context2.Context
 }
 
 //reqMenu 设置菜单请求数据
@@ -112,15 +113,15 @@ type MatchRule struct {
 }
 
 //NewMenu 实例
-func NewMenu(context *context.Context) *Menu {
+func NewMenu(context *context2.Context) *Menu {
 	menu := new(Menu)
 	menu.Context = context
 	return menu
 }
 
 //SetMenu 设置按钮
-func (menu *Menu) SetMenu(buttons []*Button) error {
-	accessToken, err := menu.GetAccessToken()
+func (menu *Menu) SetMenu(ctx context.Context, buttons []*Button) error {
+	accessToken, err := menu.GetAccessToken(ctx)
 	if err != nil {
 		return err
 	}
@@ -139,8 +140,8 @@ func (menu *Menu) SetMenu(buttons []*Button) error {
 }
 
 //SetMenuByJSON 设置按钮
-func (menu *Menu) SetMenuByJSON(jsonInfo string) error {
-	accessToken, err := menu.GetAccessToken()
+func (menu *Menu) SetMenuByJSON(ctx context.Context, jsonInfo string) error {
+	accessToken, err := menu.GetAccessToken(ctx)
 	if err != nil {
 		return err
 	}
@@ -156,9 +157,9 @@ func (menu *Menu) SetMenuByJSON(jsonInfo string) error {
 }
 
 //GetMenu 获取菜单配置
-func (menu *Menu) GetMenu() (resMenu ResMenu, err error) {
+func (menu *Menu) GetMenu(ctx context.Context) (resMenu ResMenu, err error) {
 	var accessToken string
-	accessToken, err = menu.GetAccessToken()
+	accessToken, err = menu.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -180,8 +181,8 @@ func (menu *Menu) GetMenu() (resMenu ResMenu, err error) {
 }
 
 //DeleteMenu 删除菜单
-func (menu *Menu) DeleteMenu() error {
-	accessToken, err := menu.GetAccessToken()
+func (menu *Menu) DeleteMenu(ctx context.Context) error {
+	accessToken, err := menu.GetAccessToken(ctx)
 	if err != nil {
 		return err
 	}
@@ -195,8 +196,8 @@ func (menu *Menu) DeleteMenu() error {
 }
 
 //AddConditional 添加个性化菜单
-func (menu *Menu) AddConditional(buttons []*Button, matchRule *MatchRule) error {
-	accessToken, err := menu.GetAccessToken()
+func (menu *Menu) AddConditional(ctx context.Context, buttons []*Button, matchRule *MatchRule) error {
+	accessToken, err := menu.GetAccessToken(ctx)
 	if err != nil {
 		return err
 	}
@@ -216,8 +217,8 @@ func (menu *Menu) AddConditional(buttons []*Button, matchRule *MatchRule) error 
 }
 
 //AddConditionalByJSON 添加个性化菜单
-func (menu *Menu) AddConditionalByJSON(jsonInfo string) error {
-	accessToken, err := menu.GetAccessToken()
+func (menu *Menu) AddConditionalByJSON(ctx context.Context, jsonInfo string) error {
+	accessToken, err := menu.GetAccessToken(ctx)
 	if err != nil {
 		return err
 	}
@@ -232,8 +233,8 @@ func (menu *Menu) AddConditionalByJSON(jsonInfo string) error {
 }
 
 //DeleteConditional 删除个性化菜单
-func (menu *Menu) DeleteConditional(menuID int64) error {
-	accessToken, err := menu.GetAccessToken()
+func (menu *Menu) DeleteConditional(ctx context.Context, menuID int64) error {
+	accessToken, err := menu.GetAccessToken(ctx)
 	if err != nil {
 		return err
 	}
@@ -252,9 +253,9 @@ func (menu *Menu) DeleteConditional(menuID int64) error {
 }
 
 //MenuTryMatch 菜单匹配
-func (menu *Menu) MenuTryMatch(userID string) (buttons []Button, err error) {
+func (menu *Menu) MenuTryMatch(ctx context.Context, userID string) (buttons []Button, err error) {
 	var accessToken string
-	accessToken, err = menu.GetAccessToken()
+	accessToken, err = menu.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -279,9 +280,9 @@ func (menu *Menu) MenuTryMatch(userID string) (buttons []Button, err error) {
 }
 
 //GetCurrentSelfMenuInfo 获取自定义菜单配置接口
-func (menu *Menu) GetCurrentSelfMenuInfo() (resSelfMenuInfo ResSelfMenuInfo, err error) {
+func (menu *Menu) GetCurrentSelfMenuInfo(ctx context.Context) (resSelfMenuInfo ResSelfMenuInfo, err error) {
 	var accessToken string
-	accessToken, err = menu.GetAccessToken()
+	accessToken, err = menu.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}

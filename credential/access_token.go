@@ -1,6 +1,8 @@
 package credential
 
+import "context"
+
 //AccessTokenHandle AccessToken 接口
 type AccessTokenHandle interface {
-	GetAccessToken() (accessToken string, err error)
+	GetAccessToken(ctx context.Context) (accessToken string, err error)
 }

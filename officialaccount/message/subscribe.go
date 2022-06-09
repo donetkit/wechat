@@ -1,8 +1,9 @@
 package message
 
 import (
+	"context"
 	"fmt"
-	"github.com/donetkit/wechat/officialaccount/context"
+	context2 "github.com/donetkit/wechat/officialaccount/context"
 	"github.com/donetkit/wechat/util"
 )
 
@@ -15,11 +16,11 @@ const (
 
 //Subscribe 订阅消息
 type Subscribe struct {
-	*context.Context
+	*context2.Context
 }
 
 //NewSubscribe 实例化
-func NewSubscribe(context *context.Context) *Subscribe {
+func NewSubscribe(context *context2.Context) *Subscribe {
 	tpl := new(Subscribe)
 	tpl.Context = context
 	return tpl
@@ -43,9 +44,9 @@ type SubscribeeDataItem struct {
 }
 
 //Send 发送订阅消息
-func (tpl *Subscribe) Send(msg *SubscribeeMessage) (err error) {
+func (tpl *Subscribe) Send(ctx context.Context, msg *SubscribeeMessage) (err error) {
 	var accessToken string
-	accessToken, err = tpl.GetAccessToken()
+	accessToken, err = tpl.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -72,9 +73,9 @@ type resPrivateSubscribeList struct {
 }
 
 //List 获取私有订阅消息模板列表
-func (tpl *Subscribe) List() (templateList []*PrivateSubscribeItem, err error) {
+func (tpl *Subscribe) List(ctx context.Context) (templateList []*PrivateSubscribeItem, err error) {
 	var accessToken string
-	accessToken, err = tpl.GetAccessToken()
+	accessToken, err = tpl.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -100,9 +101,9 @@ type resSubscribeAdd struct {
 }
 
 // Add 添加订阅消息模板
-func (tpl *Subscribe) Add(ShortID string, kidList []int, sceneDesc string) (templateID string, err error) {
+func (tpl *Subscribe) Add(ctx context.Context, ShortID string, kidList []int, sceneDesc string) (templateID string, err error) {
 	var accessToken string
-	accessToken, err = tpl.GetAccessToken()
+	accessToken, err = tpl.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -127,9 +128,9 @@ func (tpl *Subscribe) Add(ShortID string, kidList []int, sceneDesc string) (temp
 }
 
 // Delete 删除私有模板
-func (tpl *Subscribe) Delete(templateID string) (err error) {
+func (tpl *Subscribe) Delete(ctx context.Context, templateID string) (err error) {
 	var accessToken string
-	accessToken, err = tpl.GetAccessToken()
+	accessToken, err = tpl.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}

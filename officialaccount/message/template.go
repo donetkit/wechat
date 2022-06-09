@@ -1,10 +1,11 @@
 package message
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 
-	"github.com/donetkit/wechat/officialaccount/context"
+	context2 "github.com/donetkit/wechat/officialaccount/context"
 	"github.com/donetkit/wechat/util"
 )
 
@@ -17,11 +18,11 @@ const (
 
 //Template 模板消息
 type Template struct {
-	*context.Context
+	*context2.Context
 }
 
 //NewTemplate 实例化
-func NewTemplate(context *context.Context) *Template {
+func NewTemplate(context *context2.Context) *Template {
 	tpl := new(Template)
 	tpl.Context = context
 	return tpl
@@ -54,9 +55,9 @@ type resTemplateSend struct {
 }
 
 //Send 发送模板消息
-func (tpl *Template) Send(msg *TemplateMessage) (msgID int64, err error) {
+func (tpl *Template) Send(ctx context.Context, msg *TemplateMessage) (msgID int64, err error) {
 	var accessToken string
-	accessToken, err = tpl.GetAccessToken()
+	accessToken, err = tpl.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -96,9 +97,9 @@ type resTemplateList struct {
 }
 
 //List 获取模板列表
-func (tpl *Template) List() (templateList []*TemplateItem, err error) {
+func (tpl *Template) List(ctx context.Context) (templateList []*TemplateItem, err error) {
 	var accessToken string
-	accessToken, err = tpl.GetAccessToken()
+	accessToken, err = tpl.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -124,9 +125,9 @@ type resTemplateAdd struct {
 }
 
 // Add 添加模板.
-func (tpl *Template) Add(shortID string) (templateID string, err error) {
+func (tpl *Template) Add(ctx context.Context, shortID string) (templateID string, err error) {
 	var accessToken string
-	accessToken, err = tpl.GetAccessToken()
+	accessToken, err = tpl.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -150,9 +151,9 @@ func (tpl *Template) Add(shortID string) (templateID string, err error) {
 }
 
 // Delete 删除私有模板.
-func (tpl *Template) Delete(templateID string) (err error) {
+func (tpl *Template) Delete(ctx context.Context, templateID string) (err error) {
 	var accessToken string
-	accessToken, err = tpl.GetAccessToken()
+	accessToken, err = tpl.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}

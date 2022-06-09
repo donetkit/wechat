@@ -1,11 +1,12 @@
 package user
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"net/url"
 
-	"github.com/donetkit/wechat/officialaccount/context"
+	context2 "github.com/donetkit/wechat/officialaccount/context"
 	"github.com/donetkit/wechat/util"
 )
 
@@ -17,11 +18,11 @@ const (
 
 //User 用户管理
 type User struct {
-	*context.Context
+	*context2.Context
 }
 
 //NewUser 实例化
-func NewUser(context *context.Context) *User {
+func NewUser(context *context2.Context) *User {
 	user := new(User)
 	user.Context = context
 	return user
@@ -63,9 +64,9 @@ type OpenidList struct {
 }
 
 //GetUserInfo 获取用户基本信息
-func (user *User) GetUserInfo(openID string) (userInfo *Info, err error) {
+func (user *User) GetUserInfo(ctx context.Context, openID string) (userInfo *Info, err error) {
 	var accessToken string
-	accessToken, err = user.GetAccessToken()
+	accessToken, err = user.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -89,9 +90,9 @@ func (user *User) GetUserInfo(openID string) (userInfo *Info, err error) {
 }
 
 // UpdateRemark 设置用户备注名
-func (user *User) UpdateRemark(openID, remark string) (err error) {
+func (user *User) UpdateRemark(ctx context.Context, openID, remark string) (err error) {
 	var accessToken string
-	accessToken, err = user.GetAccessToken()
+	accessToken, err = user.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -107,8 +108,8 @@ func (user *User) UpdateRemark(openID, remark string) (err error) {
 }
 
 // ListUserOpenIDs 返回用户列表
-func (user *User) ListUserOpenIDs(nextOpenid ...string) (*OpenidList, error) {
-	accessToken, err := user.GetAccessToken()
+func (user *User) ListUserOpenIDs(ctx context.Context, nextOpenid ...string) (*OpenidList, error) {
+	accessToken, err := user.GetAccessToken(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -137,12 +138,12 @@ func (user *User) ListUserOpenIDs(nextOpenid ...string) (*OpenidList, error) {
 }
 
 // ListAllUserOpenIDs 返回所有用户OpenID列表
-func (user *User) ListAllUserOpenIDs() ([]string, error) {
+func (user *User) ListAllUserOpenIDs(ctx context.Context) ([]string, error) {
 	nextOpenid := ""
 	openids := make([]string, 0)
 	count := 0
 	for {
-		ul, err := user.ListUserOpenIDs(nextOpenid)
+		ul, err := user.ListUserOpenIDs(ctx, nextOpenid)
 		if err != nil {
 			return nil, err
 		}

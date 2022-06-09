@@ -1,9 +1,10 @@
 package subscribe
 
 import (
+	"context"
 	"fmt"
 
-	"github.com/donetkit/wechat/miniprogram/context"
+	context2 "github.com/donetkit/wechat/miniprogram/context"
 	"github.com/donetkit/wechat/util"
 )
 
@@ -31,11 +32,11 @@ const (
 
 // Subscribe 订阅消息
 type Subscribe struct {
-	*context.Context
+	*context2.Context
 }
 
 // NewSubscribe 实例化
-func NewSubscribe(ctx *context.Context) *Subscribe {
+func NewSubscribe(ctx *context2.Context) *Subscribe {
 	return &Subscribe{Context: ctx}
 }
 
@@ -71,9 +72,9 @@ type TemplateList struct {
 }
 
 // Send 发送订阅消息
-func (s *Subscribe) Send(msg *Message) (err error) {
+func (s *Subscribe) Send(ctx context.Context, msg *Message) (err error) {
 	var accessToken string
-	accessToken, err = s.GetAccessToken()
+	accessToken, err = s.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -87,8 +88,8 @@ func (s *Subscribe) Send(msg *Message) (err error) {
 
 //ListTemplates 获取当前帐号下的个人模板列表
 // https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/subscribe-message/subscribeMessage.getTemplateList.html
-func (s *Subscribe) ListTemplates() (*TemplateList, error) {
-	accessToken, err := s.GetAccessToken()
+func (s *Subscribe) ListTemplates(ctx context.Context) (*TemplateList, error) {
+	accessToken, err := s.GetAccessToken(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -128,9 +129,9 @@ type UniformMessage struct {
 }
 
 // UniformSend 发送统一服务消息
-func (s *Subscribe) UniformSend(msg *UniformMessage) (err error) {
+func (s *Subscribe) UniformSend(ctx context.Context, msg *UniformMessage) (err error) {
 	var accessToken string
-	accessToken, err = s.GetAccessToken()
+	accessToken, err = s.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -149,9 +150,9 @@ type resSubscribeAdd struct {
 }
 
 // Add 添加订阅消息模板
-func (s *Subscribe) Add(ShortID string, kidList []int, sceneDesc string) (templateID string, err error) {
+func (s *Subscribe) Add(ctx context.Context, ShortID string, kidList []int, sceneDesc string) (templateID string, err error) {
 	var accessToken string
-	accessToken, err = s.GetAccessToken()
+	accessToken, err = s.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -176,9 +177,9 @@ func (s *Subscribe) Add(ShortID string, kidList []int, sceneDesc string) (templa
 }
 
 // Delete 删除私有模板
-func (s *Subscribe) Delete(templateID string) (err error) {
+func (s *Subscribe) Delete(ctx context.Context, templateID string) (err error) {
 	var accessToken string
-	accessToken, err = s.GetAccessToken()
+	accessToken, err = s.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}

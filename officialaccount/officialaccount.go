@@ -1,6 +1,7 @@
 package officialaccount
 
 import (
+	"context"
 	"github.com/donetkit/wechat/officialaccount/datacube"
 	"github.com/donetkit/wechat/officialaccount/draft"
 	"github.com/donetkit/wechat/officialaccount/freepublish"
@@ -11,7 +12,7 @@ import (
 	"github.com/donetkit/wechat/officialaccount/basic"
 	"github.com/donetkit/wechat/officialaccount/broadcast"
 	"github.com/donetkit/wechat/officialaccount/config"
-	"github.com/donetkit/wechat/officialaccount/context"
+	context2 "github.com/donetkit/wechat/officialaccount/context"
 	"github.com/donetkit/wechat/officialaccount/device"
 	"github.com/donetkit/wechat/officialaccount/js"
 	"github.com/donetkit/wechat/officialaccount/material"
@@ -24,13 +25,13 @@ import (
 
 //OfficialAccount 微信公众号相关API
 type OfficialAccount struct {
-	ctx *context.Context
+	ctx *context2.Context
 }
 
 //NewOfficialAccount 实例化公众号API
 func NewOfficialAccount(cfg *config.Config) *OfficialAccount {
 	defaultAkHandle := credential.NewDefaultAccessToken(cfg.AppID, cfg.AppSecret, credential.CacheKeyOfficialAccountPrefix, cfg.Cache)
-	ctx := &context.Context{
+	ctx := &context2.Context{
 		Config:            cfg,
 		AccessTokenHandle: defaultAkHandle,
 	}
@@ -43,7 +44,7 @@ func (officialAccount *OfficialAccount) SetAccessTokenHandle(accessTokenHandle c
 }
 
 // GetContext get Context
-func (officialAccount *OfficialAccount) GetContext() *context.Context {
+func (officialAccount *OfficialAccount) GetContext() *context2.Context {
 	return officialAccount.ctx
 }
 
@@ -65,8 +66,8 @@ func (officialAccount *OfficialAccount) GetServer(c *gin.Context) *server.Server
 }
 
 //GetAccessToken 获取access_token
-func (officialAccount *OfficialAccount) GetAccessToken() (string, error) {
-	return officialAccount.ctx.GetAccessToken()
+func (officialAccount *OfficialAccount) GetAccessToken(ctx context.Context) (string, error) {
+	return officialAccount.ctx.GetAccessToken(ctx)
 }
 
 // GetOauth oauth2网页授权

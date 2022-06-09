@@ -3,6 +3,7 @@
 package user
 
 import (
+	"context"
 	"errors"
 	"fmt"
 
@@ -30,7 +31,7 @@ type ChangeOpenIDResultList struct {
 // fromAppID 为老账号AppID
 // openIDs 为老账号的openID，openIDs限100个以内
 // AccessToken 为新账号的AccessToken
-func (user *User) ListChangeOpenIDs(fromAppID string, openIDs ...string) (list *ChangeOpenIDResultList, err error) {
+func (user *User) ListChangeOpenIDs(ctx context.Context, fromAppID string, openIDs ...string) (list *ChangeOpenIDResultList, err error) {
 	list = &ChangeOpenIDResultList{}
 	//list.List = make([]ChangeOpenIDResult, 0)
 	if len(openIDs) > 100 {
@@ -43,7 +44,7 @@ func (user *User) ListChangeOpenIDs(fromAppID string, openIDs ...string) (list *
 		return
 	}
 
-	accessToken, err := user.GetAccessToken()
+	accessToken, err := user.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
@@ -73,11 +74,11 @@ func (user *User) ListChangeOpenIDs(fromAppID string, openIDs ...string) (list *
 // fromAppID 为老账号AppID
 // openIDs 为老账号的openID
 // AccessToken 为新账号的AccessToken
-func (user *User) ListAllChangeOpenIDs(fromAppID string, openIDs ...string) (list []ChangeOpenIDResult, err error) {
+func (user *User) ListAllChangeOpenIDs(ctx context.Context, fromAppID string, openIDs ...string) (list []ChangeOpenIDResult, err error) {
 	list = make([]ChangeOpenIDResult, 0)
 	chunks := util.SliceChunk(openIDs, 100)
 	for _, chunk := range chunks {
-		result, err := user.ListChangeOpenIDs(fromAppID, chunk...)
+		result, err := user.ListChangeOpenIDs(ctx, fromAppID, chunk...)
 		if err != nil {
 			return list, err
 		}

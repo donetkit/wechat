@@ -1,6 +1,7 @@
 package device
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 
@@ -18,9 +19,9 @@ type resBind struct {
 }
 
 // Bind 设备绑定
-func (d *Device) Bind(req ReqBind) (err error) {
+func (d *Device) Bind(ctx context.Context, req ReqBind) (err error) {
 	var accessToken string
-	if accessToken, err = d.GetAccessToken(); err != nil {
+	if accessToken, err = d.GetAccessToken(ctx); err != nil {
 		return
 	}
 	uri := fmt.Sprintf("%s?access_token=%s", uriBind, accessToken)
@@ -40,9 +41,9 @@ func (d *Device) Bind(req ReqBind) (err error) {
 }
 
 // Unbind 设备解绑
-func (d *Device) Unbind(req ReqBind) (err error) {
+func (d *Device) Unbind(ctx context.Context, req ReqBind) (err error) {
 	var accessToken string
-	if accessToken, err = d.GetAccessToken(); err != nil {
+	if accessToken, err = d.GetAccessToken(ctx); err != nil {
 		return
 	}
 	uri := fmt.Sprintf("%s?access_token=%s", uriUnbind, accessToken)
@@ -62,9 +63,9 @@ func (d *Device) Unbind(req ReqBind) (err error) {
 }
 
 // CompelBind 强制绑定用户和设备
-func (d *Device) CompelBind(req ReqBind) (err error) {
+func (d *Device) CompelBind(ctx context.Context, req ReqBind) (err error) {
 	var accessToken string
-	if accessToken, err = d.GetAccessToken(); err != nil {
+	if accessToken, err = d.GetAccessToken(ctx); err != nil {
 		return
 	}
 	uri := fmt.Sprintf("%s?access_token=%s", uriCompelBind, accessToken)
@@ -84,9 +85,9 @@ func (d *Device) CompelBind(req ReqBind) (err error) {
 }
 
 // CompelUnbind 强制解绑用户和设备
-func (d *Device) CompelUnbind(req ReqBind) (err error) {
+func (d *Device) CompelUnbind(ctx context.Context, req ReqBind) (err error) {
 	var accessToken string
-	if accessToken, err = d.GetAccessToken(); err != nil {
+	if accessToken, err = d.GetAccessToken(ctx); err != nil {
 		return
 	}
 	uri := fmt.Sprintf("%s?access_token=%s", uriCompelUnbind, accessToken)

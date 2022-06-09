@@ -1,8 +1,9 @@
 package content
 
 import (
+	"context"
 	"fmt"
-	"github.com/donetkit/wechat/miniprogram/context"
+	context2 "github.com/donetkit/wechat/miniprogram/context"
 	"github.com/donetkit/wechat/util"
 )
 
@@ -13,11 +14,11 @@ const (
 
 // Content 内容安全
 type Content struct {
-	*context.Context
+	*context2.Context
 }
 
 // NewContent 内容安全接口
-func NewContent(ctx *context.Context) *Content {
+func NewContent(ctx *context2.Context) *Content {
 	return &Content{ctx}
 }
 
@@ -25,8 +26,8 @@ func NewContent(ctx *context.Context) *Content {
 // @text 需要检测的文字
 // Deprecated
 // 采用 security.MsgCheckV1 替代，返回值更加丰富
-func (content *Content) CheckText(text string) error {
-	accessToken, err := content.GetAccessToken()
+func (content *Content) CheckText(ctx context.Context, text string) error {
+	accessToken, err := content.GetAccessToken(ctx)
 	if err != nil {
 		return err
 	}
@@ -47,8 +48,8 @@ func (content *Content) CheckText(text string) error {
 // @media 图片文件的绝对路径
 // Deprecated
 // 采用 security.ImageCheckV1 替代，返回值更加丰富
-func (content *Content) CheckImage(media string) error {
-	accessToken, err := content.GetAccessToken()
+func (content *Content) CheckImage(ctx context.Context, media string) error {
+	accessToken, err := content.GetAccessToken(ctx)
 	if err != nil {
 		return err
 	}

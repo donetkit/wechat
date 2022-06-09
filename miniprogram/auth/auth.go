@@ -1,10 +1,10 @@
 package auth
 
 import (
-	context2 "context"
+	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/donetkit/wechat/miniprogram/context"
+	context2 "github.com/donetkit/wechat/miniprogram/context"
 	"github.com/donetkit/wechat/util"
 )
 
@@ -18,11 +18,11 @@ const (
 
 // Auth 登录/用户信息
 type Auth struct {
-	*context.Context
+	*context2.Context
 }
 
 // NewAuth new auth
-func NewAuth(ctx *context.Context) *Auth {
+func NewAuth(ctx *context2.Context) *Auth {
 	return &Auth{ctx}
 }
 
@@ -44,12 +44,12 @@ type RspCheckEncryptedData struct {
 }
 
 // Code2Session 登录凭证校验。
-func (auth *Auth) Code2Session(jsCode string) (result ResCode2Session, err error) {
-	return auth.Code2SessionContext(context2.Background(), jsCode)
+func (auth *Auth) Code2Session(ctx context.Context, jsCode string) (result ResCode2Session, err error) {
+	return auth.Code2SessionContext(ctx, jsCode)
 }
 
 // Code2SessionContext 登录凭证校验。
-func (auth *Auth) Code2SessionContext(ctx context2.Context, jsCode string) (result ResCode2Session, err error) {
+func (auth *Auth) Code2SessionContext(ctx context.Context, jsCode string) (result ResCode2Session, err error) {
 	var response []byte
 	if response, err = util.HTTPGetContext(ctx, fmt.Sprintf(code2SessionURL, auth.AppID, auth.AppSecret, jsCode)); err != nil {
 		return
@@ -70,17 +70,17 @@ func (auth *Auth) GetPaidUnionID() {
 }
 
 // CheckEncryptedData .检查加密信息是否由微信生成（当前只支持手机号加密数据），只能检测最近3天生成的加密数据
-func (auth *Auth) CheckEncryptedData(encryptedMsgHash string) (result RspCheckEncryptedData, err error) {
-	return auth.CheckEncryptedDataContext(context2.Background(), encryptedMsgHash)
+func (auth *Auth) CheckEncryptedData(ctx context.Context, encryptedMsgHash string) (result RspCheckEncryptedData, err error) {
+	return auth.CheckEncryptedDataContext(ctx, encryptedMsgHash)
 }
 
 // CheckEncryptedDataContext .检查加密信息是否由微信生成（当前只支持手机号加密数据），只能检测最近3天生成的加密数据
-func (auth *Auth) CheckEncryptedDataContext(ctx context2.Context, encryptedMsgHash string) (result RspCheckEncryptedData, err error) {
+func (auth *Auth) CheckEncryptedDataContext(ctx context.Context, encryptedMsgHash string) (result RspCheckEncryptedData, err error) {
 	var response []byte
 	var (
 		at string
 	)
-	if at, err = auth.GetAccessToken(); err != nil {
+	if at, err = auth.GetAccessToken(ctx); err != nil {
 		return
 	}
 	if response, err = util.HTTPPostContext(ctx, fmt.Sprintf(checkEncryptedDataURL, at), "encrypted_msg_hash="+encryptedMsgHash); err != nil {
@@ -111,13 +111,13 @@ type PhoneInfo struct {
 }
 
 // GetPhoneNumber 小程序通过code获取用户手机号
-func (auth *Auth) GetPhoneNumber(code string) (*GetPhoneNumberResponse, error) {
+func (auth *Auth) GetPhoneNumber(ctx context.Context, code string) (*GetPhoneNumberResponse, error) {
 	var response []byte
 	var (
 		at  string
 		err error
 	)
-	if at, err = auth.GetAccessToken(); err != nil {
+	if at, err = auth.GetAccessToken(ctx); err != nil {
 		return nil, err
 	}
 	body := map[string]interface{}{

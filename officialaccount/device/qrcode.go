@@ -1,6 +1,7 @@
 package device
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 
@@ -18,9 +19,9 @@ type ResCreateQRCode struct {
 }
 
 // CreateQRCode 获取设备二维码
-func (d *Device) CreateQRCode(devices []string) (res ResCreateQRCode, err error) {
+func (d *Device) CreateQRCode(ctx context.Context, devices []string) (res ResCreateQRCode, err error) {
 	var accessToken string
-	if accessToken, err = d.GetAccessToken(); err != nil {
+	if accessToken, err = d.GetAccessToken(ctx); err != nil {
 		return
 	}
 	uri := fmt.Sprintf("%s?access_token=%s", uriQRCode, accessToken)
@@ -51,9 +52,9 @@ type ResVerifyQRCode struct {
 }
 
 // VerifyQRCode 验证设备二维码
-func (d *Device) VerifyQRCode(ticket string) (res ResVerifyQRCode, err error) {
+func (d *Device) VerifyQRCode(ctx context.Context, ticket string) (res ResVerifyQRCode, err error) {
 	var accessToken string
-	if accessToken, err = d.GetAccessToken(); err != nil {
+	if accessToken, err = d.GetAccessToken(ctx); err != nil {
 		return
 	}
 	uri := fmt.Sprintf("%s?access_token=%s", uriVerifyQRCode, accessToken)
