@@ -111,12 +111,12 @@ func PostJSONWithRespContentType(uri string, obj interface{}) ([]byte, string, e
 }
 
 // PostFile 上传文件
-func PostFile(fieldname, filename, uri string) ([]byte, error) {
+func PostFile(fieldName, fileName, uri string) ([]byte, error) {
 	fields := []MultipartFormField{
 		{
 			IsFile:    true,
-			Fieldname: fieldname,
-			Filename:  filename,
+			Fieldname: fieldName,
+			Filename:  fileName,
 		},
 	}
 	return PostMultipartForm(fields, uri)
