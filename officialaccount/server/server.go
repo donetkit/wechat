@@ -76,6 +76,12 @@ func (srv *Server) Serve() error {
 	//debug print request msg
 	log.Log.Debugf("request msg =%s", string(srv.RequestRawXMLMsg))
 
+	// 非安全模式下，请求处理方法返回为nil则直接回复success给微信服务器
+	if response == nil && !srv.isSafeMode {
+		srv.String("success")
+		return nil
+	}
+
 	return srv.buildResponse(response)
 }
 
