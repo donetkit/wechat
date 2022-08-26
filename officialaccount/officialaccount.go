@@ -2,6 +2,7 @@ package officialaccount
 
 import (
 	"context"
+	"github.com/donetkit/wechat/officialaccount/customerservice"
 	"github.com/donetkit/wechat/officialaccount/datacube"
 	"github.com/donetkit/wechat/officialaccount/draft"
 	"github.com/donetkit/wechat/officialaccount/freepublish"
@@ -41,6 +42,7 @@ type OfficialAccount struct {
 	datacube     *datacube.DataCube
 	ocr          *ocr.OCR
 	subscribeMsg *message.Subscribe
+	manager      *customerservice.Manager
 }
 
 //NewOfficialAccount 实例化公众号API
@@ -194,4 +196,12 @@ func (officialAccount *OfficialAccount) GetSubscribe() *message.Subscribe {
 		officialAccount.subscribeMsg = message.NewSubscribe(officialAccount.ctx)
 	}
 	return officialAccount.subscribeMsg
+}
+
+// GetCustomerServiceManager 客服管理
+func (officialAccount *OfficialAccount) GetCustomerServiceManager() *customerservice.Manager {
+	if officialAccount.manager == nil {
+		officialAccount.manager = customerservice.NewCustomerServiceManager(officialAccount.ctx)
+	}
+	return officialAccount.manager
 }
