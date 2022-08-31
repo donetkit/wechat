@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"github.com/donetkit/wechat/log"
 	"github.com/tidwall/gjson"
-	"io/ioutil"
+	"io"
 	"reflect"
 	"runtime/debug"
 	"strconv"
@@ -162,7 +162,8 @@ func (srv *Server) getMessage() (interface{}, error) {
 			return nil, fmt.Errorf("消息解密失败, err=%v", err)
 		}
 	} else {
-		rawXMLMsgBytes, err = ioutil.ReadAll(srv.GContext.Request.Body)
+
+		rawXMLMsgBytes, err = io.ReadAll(srv.GContext.Request.Body)
 		if err != nil {
 			return nil, fmt.Errorf("从body中解析xml失败, err=%v", err)
 		}
