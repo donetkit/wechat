@@ -19,13 +19,13 @@ const (
 	MiniProgramSessionKeyCacheKey = "WeiXin:Container:Open:MiniProgramSessionKey:%s:%s"
 )
 
-//Auth 登录/用户信息
+// Auth 登录/用户信息
 type Auth struct {
 	*openContext.Context
 	appID string // 小程序appId
 }
 
-//NewAuth new auth
+// NewAuth new auth
 func NewAuth(opContext *openContext.Context, appID string) *Auth {
 	return &Auth{Context: opContext, appID: appID}
 }
@@ -38,7 +38,7 @@ type ResCode2Session struct {
 	UnionID    string `json:"unionid"`     // 用户在开放平台的唯一标识符，在满足UnionID下发条件的情况下会返回
 }
 
-//Code2Session 登录凭证校验。
+// Code2Session 登录凭证校验。
 func (auth *Auth) Code2Session(ctx context.Context, jsCode string) (result ResCode2Session, err error) {
 	componentAK, err := auth.GetComponentAccessToken(ctx)
 	urlStr := fmt.Sprintf(code2SessionURL, auth.appID, jsCode, auth.Context.AppID, componentAK)
@@ -70,7 +70,7 @@ func (auth *Auth) Code2Session(ctx context.Context, jsCode string) (result ResCo
 	return
 }
 
-//GetSessionKey 登录SessionKey。
+// GetSessionKey 登录SessionKey。
 func (auth *Auth) GetSessionKey(ctx context.Context, openID string) (result string, err error) {
 	miniProgramSessionKeyCacheKey := fmt.Sprintf(MiniProgramSessionKeyCacheKey, auth.appID, openID)
 	val := auth.Cache.WithContext(ctx).Get(miniProgramSessionKeyCacheKey)
@@ -89,7 +89,7 @@ func (auth *Auth) GetDecryptData(sessionKey, encryptedData, iv string) (*encrypt
 	return encryptor.NewEncryptor(auth.Context, auth.appID).Decrypt(sessionKey, encryptedData, iv)
 }
 
-//GetPaidUnionID 用户支付完成后，获取该用户的 UnionId，无需用户授权
+// GetPaidUnionID 用户支付完成后，获取该用户的 UnionId，无需用户授权
 func (auth *Auth) GetPaidUnionID() {
 	//TODO
 }

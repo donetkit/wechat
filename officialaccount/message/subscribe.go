@@ -17,19 +17,19 @@ const (
 	subscribeTemplateGetPubTplTitles      = "https://api.weixin.qq.com/wxaapi/newtmpl/getpubtemplatetitles"
 )
 
-//Subscribe 订阅消息
+// Subscribe 订阅消息
 type Subscribe struct {
 	*context2.Context
 }
 
-//NewSubscribe 实例化
+// NewSubscribe 实例化
 func NewSubscribe(context *context2.Context) *Subscribe {
 	tpl := new(Subscribe)
 	tpl.Context = context
 	return tpl
 }
 
-//SubscribeeMessage 发送的订阅消息内容
+// SubscribeeMessage 发送的订阅消息内容
 type SubscribeeMessage struct {
 	ToUser      string                         `json:"touser"`         // 必须, 接受者OpenID
 	TemplateID  string                         `json:"template_id"`    // 必须, 模版ID
@@ -41,12 +41,12 @@ type SubscribeeMessage struct {
 	} `json:"miniprogram"` //可选,跳转至小程序地址
 }
 
-//SubscribeeDataItem 模版内某个 .DATA 的值
+// SubscribeeDataItem 模版内某个 .DATA 的值
 type SubscribeeDataItem struct {
 	Value string `json:"value"`
 }
 
-//Send 发送订阅消息
+// Send 发送订阅消息
 func (tpl *Subscribe) Send(ctx context.Context, msg *SubscribeeMessage) (err error) {
 	var accessToken string
 	accessToken, err = tpl.GetAccessToken(ctx)
@@ -75,7 +75,7 @@ type resPrivateSubscribeList struct {
 	SubscriptionList []*PrivateSubscribeItem `json:"data"`
 }
 
-//List 获取私有订阅消息模板列表
+// List 获取私有订阅消息模板列表
 func (tpl *Subscribe) List(ctx context.Context) (templateList []*PrivateSubscribeItem, err error) {
 	var accessToken string
 	accessToken, err = tpl.GetAccessToken(ctx)

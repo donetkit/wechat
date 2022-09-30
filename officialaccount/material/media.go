@@ -8,7 +8,7 @@ import (
 	"github.com/donetkit/wechat/util"
 )
 
-//MediaType 媒体文件类型
+// MediaType 媒体文件类型
 type MediaType string
 
 const (
@@ -28,7 +28,7 @@ const (
 	mediaGetURL         = "https://api.weixin.qq.com/cgi-bin/media/get"
 )
 
-//Media 临时素材上传返回信息
+// Media 临时素材上传返回信息
 type Media struct {
 	util.CommonError
 
@@ -38,7 +38,7 @@ type Media struct {
 	CreatedAt    int64     `json:"created_at"`
 }
 
-//MediaUpload 临时素材上传
+// MediaUpload 临时素材上传
 func (material *Material) MediaUpload(ctx context.Context, mediaType MediaType, filename string) (media Media, err error) {
 	var accessToken string
 	accessToken, err = material.GetAccessToken(ctx)
@@ -63,8 +63,8 @@ func (material *Material) MediaUpload(ctx context.Context, mediaType MediaType, 
 	return
 }
 
-//GetMediaURL 返回临时素材的下载地址供用户自己处理
-//NOTICE: URL 不可公开，因为含access_token 需要立即另存文件
+// GetMediaURL 返回临时素材的下载地址供用户自己处理
+// NOTICE: URL 不可公开，因为含access_token 需要立即另存文件
 func (material *Material) GetMediaURL(ctx context.Context, mediaID string) (mediaURL string, err error) {
 	var accessToken string
 	accessToken, err = material.GetAccessToken(ctx)
@@ -75,14 +75,14 @@ func (material *Material) GetMediaURL(ctx context.Context, mediaID string) (medi
 	return
 }
 
-//resMediaImage 图片上传返回结果
+// resMediaImage 图片上传返回结果
 type resMediaImage struct {
 	util.CommonError
 
 	URL string `json:"url"`
 }
 
-//ImageUpload 图片上传
+// ImageUpload 图片上传
 func (material *Material) ImageUpload(ctx context.Context, filename string) (url string, err error) {
 	var accessToken string
 	accessToken, err = material.GetAccessToken(ctx)

@@ -12,7 +12,7 @@ const (
 	getInterfaceSummaryHour = "https://api.weixin.qq.com/datacube/getinterfacesummaryhour"
 )
 
-//ResInterfaceSummary 接口分析数据响应
+// ResInterfaceSummary 接口分析数据响应
 type ResInterfaceSummary struct {
 	util.CommonError
 
@@ -25,7 +25,7 @@ type ResInterfaceSummary struct {
 	} `json:"list"`
 }
 
-//ResInterfaceSummaryHour 接口分析分时数据响应
+// ResInterfaceSummaryHour 接口分析分时数据响应
 type ResInterfaceSummaryHour struct {
 	util.CommonError
 
@@ -39,7 +39,7 @@ type ResInterfaceSummaryHour struct {
 	} `json:"list"`
 }
 
-//GetInterfaceSummary 获取接口分析数据
+// GetInterfaceSummary 获取接口分析数据
 func (cube *DataCube) GetInterfaceSummary(ctx context.Context, s string, e string) (resInterfaceSummary ResInterfaceSummary, err error) {
 	accessToken, err := cube.GetAccessToken(ctx)
 	if err != nil {
@@ -61,7 +61,7 @@ func (cube *DataCube) GetInterfaceSummary(ctx context.Context, s string, e strin
 	return
 }
 
-//GetInterfaceSummaryHour 获取接口分析分时数据
+// GetInterfaceSummaryHour 获取接口分析分时数据
 func (cube *DataCube) GetInterfaceSummaryHour(ctx context.Context, s string, e string) (resInterfaceSummaryHour ResInterfaceSummaryHour, err error) {
 	accessToken, err := cube.GetAccessToken(ctx)
 	if err != nil {

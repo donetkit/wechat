@@ -1,4 +1,4 @@
-//Package device 设备相关接口
+// Package device 设备相关接口
 package device
 
 import (
@@ -30,7 +30,7 @@ type reqDeviceAuthorize struct {
 	ProductID string `json:"product_id,omitempty"`
 }
 
-//ReqDevice 设备授权实体
+// ReqDevice 设备授权实体
 type ReqDevice struct {
 	// 设备的 device id
 	ID string `json:"id"`
@@ -70,7 +70,7 @@ type ReqDevice struct {
 	BleSimpleProtocol string `json:"ble_simple_protocol,omitempty"`
 }
 
-//ResBaseInfo 授权回调实体
+// ResBaseInfo 授权回调实体
 type ResBaseInfo struct {
 	BaseInfo struct {
 		DeviceType string `json:"device_type"`

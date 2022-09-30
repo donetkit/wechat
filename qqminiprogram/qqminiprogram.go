@@ -17,12 +17,12 @@ import (
 	"github.com/donetkit/wechat/qqminiprogram/werun"
 )
 
-//QQMiniProgram 微信小程序相关API
+// QQMiniProgram 微信小程序相关API
 type QQMiniProgram struct {
 	ctx *context.Context
 }
 
-//NewQQMiniProgram 实例化小程序API
+// NewQQMiniProgram 实例化小程序API
 func NewQQMiniProgram(cfg *config.Config) *QQMiniProgram {
 	defaultAkHandle := credential.NewDefaultAccessToken(cfg.AppID, cfg.AppSecret, credential.CacheKeyMiniProgramPrefix, cfg.Cache)
 	ctx := &context.Context{
@@ -32,7 +32,7 @@ func NewQQMiniProgram(cfg *config.Config) *QQMiniProgram {
 	return &QQMiniProgram{ctx}
 }
 
-//SetAccessTokenHandle 自定义access_token获取方式
+// SetAccessTokenHandle 自定义access_token获取方式
 func (miniProgram *QQMiniProgram) SetAccessTokenHandle(accessTokenHandle credential.AccessTokenHandle) {
 	miniProgram.ctx.AccessTokenHandle = accessTokenHandle
 }
@@ -47,27 +47,27 @@ func (miniProgram *QQMiniProgram) GetEncryptor() *encryptor.Encryptor {
 	return encryptor.NewEncryptor(miniProgram.ctx)
 }
 
-//GetAuth 登录/用户信息相关接口
+// GetAuth 登录/用户信息相关接口
 func (miniProgram *QQMiniProgram) GetAuth() *auth.Auth {
 	return auth.NewAuth(miniProgram.ctx)
 }
 
-//GetAnalysis 数据分析
+// GetAnalysis 数据分析
 func (miniProgram *QQMiniProgram) GetAnalysis() *analysis.Analysis {
 	return analysis.NewAnalysis(miniProgram.ctx)
 }
 
-//GetQRCode 小程序码相关API
+// GetQRCode 小程序码相关API
 func (miniProgram *QQMiniProgram) GetQRCode() *qrcode.QRCode {
 	return qrcode.NewQRCode(miniProgram.ctx)
 }
 
-//GetTcb 小程序云开发API
+// GetTcb 小程序云开发API
 func (miniProgram *QQMiniProgram) GetTcb() *tcb.Tcb {
 	return tcb.NewTcb(miniProgram.ctx)
 }
 
-//GetSubscribe 小程序订阅消息
+// GetSubscribe 小程序订阅消息
 func (miniProgram *QQMiniProgram) GetSubscribe() *subscribe.Subscribe {
 	return subscribe.NewSubscribe(miniProgram.ctx)
 }

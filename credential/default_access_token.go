@@ -54,7 +54,7 @@ type ResAccessToken struct {
 	ExpiresIn   int64  `json:"expires_in"`
 }
 
-//GetAccessToken 获取access_token,先从cache中获取，没有则从服务端获取
+// GetAccessToken 获取access_token,先从cache中获取，没有则从服务端获取
 func (ak *DefaultAccessToken) GetAccessToken(ctx context.Context) (accessToken string, err error) {
 	// 先从cache中取
 	accessTokenCacheKey := fmt.Sprintf("%s_access_token_%s", ak.cacheKeyPrefix, ak.appID)
@@ -87,7 +87,7 @@ func (ak *DefaultAccessToken) GetAccessToken(ctx context.Context) (accessToken s
 	return
 }
 
-//WorkAccessToken 企业微信AccessToken 获取
+// WorkAccessToken 企业微信AccessToken 获取
 type WorkAccessToken struct {
 	CorpID          string
 	CorpSecret      string
@@ -96,7 +96,7 @@ type WorkAccessToken struct {
 	accessTokenLock *sync.Mutex
 }
 
-//NewWorkAccessToken new WorkAccessToken
+// NewWorkAccessToken new WorkAccessToken
 func NewWorkAccessToken(corpID, corpSecret, cacheKeyPrefix string, cache cache.ICache) AccessTokenHandle {
 	if cache == nil {
 		panic("cache the not exist")
@@ -110,7 +110,7 @@ func NewWorkAccessToken(corpID, corpSecret, cacheKeyPrefix string, cache cache.I
 	}
 }
 
-//GetAccessToken 企业微信获取access_token,先从cache中获取，没有则从服务端获取
+// GetAccessToken 企业微信获取access_token,先从cache中获取，没有则从服务端获取
 func (ak *WorkAccessToken) GetAccessToken(ctx context.Context) (accessToken string, err error) {
 	//加上lock，是为了防止在并发获取token时，cache刚好失效，导致从微信服务器上获取到不同token
 	ak.accessTokenLock.Lock()
@@ -138,7 +138,7 @@ func (ak *WorkAccessToken) GetAccessToken(ctx context.Context) (accessToken stri
 	return
 }
 
-//GetTokenFromServer 强制从微信服务器获取token
+// GetTokenFromServer 强制从微信服务器获取token
 func GetTokenFromServer(url string) (resAccessToken ResAccessToken, err error) {
 	var body []byte
 	body, err = util.HTTPGet(url)

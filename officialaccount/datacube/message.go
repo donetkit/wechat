@@ -17,7 +17,7 @@ const (
 	getUpstreamMsgDistMonth = "https://api.weixin.qq.com/datacube/getupstreammsgdistmonth"
 )
 
-//ResUpstreamMsg 获取消息发送概况数据响应
+// ResUpstreamMsg 获取消息发送概况数据响应
 type ResUpstreamMsg struct {
 	util.CommonError
 
@@ -29,7 +29,7 @@ type ResUpstreamMsg struct {
 	} `json:"list"`
 }
 
-//ResUpstreamMsgHour 获取消息分送分时数据响应
+// ResUpstreamMsgHour 获取消息分送分时数据响应
 type ResUpstreamMsgHour struct {
 	util.CommonError
 
@@ -42,7 +42,7 @@ type ResUpstreamMsgHour struct {
 	} `json:"list"`
 }
 
-//ResUpstreamMsgWeek 获取消息发送周数据响应
+// ResUpstreamMsgWeek 获取消息发送周数据响应
 type ResUpstreamMsgWeek struct {
 	util.CommonError
 
@@ -54,7 +54,7 @@ type ResUpstreamMsgWeek struct {
 	} `json:"list"`
 }
 
-//ResUpstreamMsgMonth 获取消息发送月数据响应
+// ResUpstreamMsgMonth 获取消息发送月数据响应
 type ResUpstreamMsgMonth struct {
 	util.CommonError
 
@@ -66,7 +66,7 @@ type ResUpstreamMsgMonth struct {
 	} `json:"list"`
 }
 
-//ResUpstreamMsgDist 获取消息发送分布数据响应
+// ResUpstreamMsgDist 获取消息发送分布数据响应
 type ResUpstreamMsgDist struct {
 	util.CommonError
 
@@ -77,7 +77,7 @@ type ResUpstreamMsgDist struct {
 	} `json:"list"`
 }
 
-//ResUpstreamMsgDistWeek 获取消息发送分布周数据响应
+// ResUpstreamMsgDistWeek 获取消息发送分布周数据响应
 type ResUpstreamMsgDistWeek struct {
 	util.CommonError
 
@@ -88,7 +88,7 @@ type ResUpstreamMsgDistWeek struct {
 	} `json:"list"`
 }
 
-//ResUpstreamMsgDistMonth 获取消息发送分布月数据响应
+// ResUpstreamMsgDistMonth 获取消息发送分布月数据响应
 type ResUpstreamMsgDistMonth struct {
 	util.CommonError
 
@@ -99,7 +99,7 @@ type ResUpstreamMsgDistMonth struct {
 	} `json:"list"`
 }
 
-//GetUpstreamMsg 获取消息发送概况数据
+// GetUpstreamMsg 获取消息发送概况数据
 func (cube *DataCube) GetUpstreamMsg(ctx context.Context, s string, e string) (resUpstreamMsg ResUpstreamMsg, err error) {
 	accessToken, err := cube.GetAccessToken(ctx)
 	if err != nil {
@@ -121,7 +121,7 @@ func (cube *DataCube) GetUpstreamMsg(ctx context.Context, s string, e string) (r
 	return
 }
 
-//GetUpstreamMsgHour 获取消息分送分时数据
+// GetUpstreamMsgHour 获取消息分送分时数据
 func (cube *DataCube) GetUpstreamMsgHour(ctx context.Context, s string, e string) (resUpstreamMsgHour ResUpstreamMsgHour, err error) {
 	accessToken, err := cube.GetAccessToken(ctx)
 	if err != nil {
@@ -143,7 +143,7 @@ func (cube *DataCube) GetUpstreamMsgHour(ctx context.Context, s string, e string
 	return
 }
 
-//GetUpstreamMsgWeek 获取消息发送周数据
+// GetUpstreamMsgWeek 获取消息发送周数据
 func (cube *DataCube) GetUpstreamMsgWeek(ctx context.Context, s string, e string) (resUpstreamMsgWeek ResUpstreamMsgWeek, err error) {
 	accessToken, err := cube.GetAccessToken(ctx)
 	if err != nil {
@@ -165,7 +165,7 @@ func (cube *DataCube) GetUpstreamMsgWeek(ctx context.Context, s string, e string
 	return
 }
 
-//GetUpstreamMsgMonth 获取消息发送月数据
+// GetUpstreamMsgMonth 获取消息发送月数据
 func (cube *DataCube) GetUpstreamMsgMonth(ctx context.Context, s string, e string) (resUpstreamMsgMonth ResUpstreamMsgMonth, err error) {
 	accessToken, err := cube.GetAccessToken(ctx)
 	if err != nil {
@@ -187,7 +187,7 @@ func (cube *DataCube) GetUpstreamMsgMonth(ctx context.Context, s string, e strin
 	return
 }
 
-//GetUpstreamMsgDist 获取消息发送分布数据
+// GetUpstreamMsgDist 获取消息发送分布数据
 func (cube *DataCube) GetUpstreamMsgDist(ctx context.Context, s string, e string) (resUpstreamMsgDist ResUpstreamMsgDist, err error) {
 	accessToken, err := cube.GetAccessToken(ctx)
 	if err != nil {
@@ -209,7 +209,7 @@ func (cube *DataCube) GetUpstreamMsgDist(ctx context.Context, s string, e string
 	return
 }
 
-//GetUpstreamMsgDistWeek 获取消息发送分布周数据
+// GetUpstreamMsgDistWeek 获取消息发送分布周数据
 func (cube *DataCube) GetUpstreamMsgDistWeek(ctx context.Context, s string, e string) (resUpstreamMsgDistWeek ResUpstreamMsgDistWeek, err error) {
 	accessToken, err := cube.GetAccessToken(ctx)
 	if err != nil {
@@ -231,7 +231,7 @@ func (cube *DataCube) GetUpstreamMsgDistWeek(ctx context.Context, s string, e st
 	return
 }
 
-//GetUpstreamMsgDistMonth 获取消息发送分布月数据
+// GetUpstreamMsgDistMonth 获取消息发送分布月数据
 func (cube *DataCube) GetUpstreamMsgDistMonth(ctx context.Context, s string, e string) (resUpstreamMsgDistMonth ResUpstreamMsgDistMonth, err error) {
 	accessToken, err := cube.GetAccessToken(ctx)
 	if err != nil {

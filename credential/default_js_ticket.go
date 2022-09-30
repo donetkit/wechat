@@ -11,10 +11,10 @@ import (
 	"github.com/donetkit/wechat/util"
 )
 
-//获取ticket的url
+// 获取ticket的url
 const getTicketURL = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=%s&type=jsapi"
 
-//DefaultJsTicket 默认获取js ticket方法
+// DefaultJsTicket 默认获取js ticket方法
 type DefaultJsTicket struct {
 	appID          string
 	cacheKeyPrefix string
@@ -23,7 +23,7 @@ type DefaultJsTicket struct {
 	jsAPITicketLock *sync.Mutex
 }
 
-//NewDefaultJsTicket new
+// NewDefaultJsTicket new
 func NewDefaultJsTicket(appID string, cacheKeyPrefix string, cache cache.ICache) JsTicketHandle {
 	return &DefaultJsTicket{
 		appID:           appID,
@@ -41,7 +41,7 @@ type ResTicket struct {
 	ExpiresIn int64  `json:"expires_in"`
 }
 
-//GetTicket 获取jsapi_ticket
+// GetTicket 获取jsapi_ticket
 func (js *DefaultJsTicket) GetTicket(ctx context.Context, accessToken string) (ticketStr string, err error) {
 	//先从cache中取
 	jsAPITicketCacheKey := fmt.Sprintf("%s_jsapi_ticket_%s", js.cacheKeyPrefix, js.appID)
@@ -68,7 +68,7 @@ func (js *DefaultJsTicket) GetTicket(ctx context.Context, accessToken string) (t
 	return
 }
 
-//GetTicketFromServer 从服务器中获取ticket
+// GetTicketFromServer 从服务器中获取ticket
 func GetTicketFromServer(accessToken string) (ticket ResTicket, err error) {
 	var response []byte
 	url := fmt.Sprintf(getTicketURL, accessToken)

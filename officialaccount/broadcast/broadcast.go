@@ -18,7 +18,7 @@ const (
 	setSpeedSendURL   = "https://api.weixin.qq.com/cgi-bin/message/mass/speed/set"
 )
 
-//MsgType 发送消息类型
+// MsgType 发送消息类型
 type MsgType string
 
 const (
@@ -36,24 +36,24 @@ const (
 	MsgTypeWxCard MsgType = "wxcard"
 )
 
-//Broadcast 群发消息
+// Broadcast 群发消息
 type Broadcast struct {
 	*context2.Context
 	preview bool
 }
 
-//NewBroadcast new
+// NewBroadcast new
 func NewBroadcast(ctx *context2.Context) *Broadcast {
 	return &Broadcast{ctx, false}
 }
 
-//User 发送的用户
+// User 发送的用户
 type User struct {
 	TagID  int64
 	OpenID []string
 }
 
-//Result 群发返回结果
+// Result 群发返回结果
 type Result struct {
 	util.CommonError
 	MsgID     int64  `json:"msg_id"`
@@ -61,14 +61,14 @@ type Result struct {
 	MsgStatus string `json:"msg_status"`
 }
 
-//SpeedResult 群发速度返回结果
+// SpeedResult 群发速度返回结果
 type SpeedResult struct {
 	util.CommonError
 	Speed     int64 `json:"speed"`
 	RealSpeed int64 `json:"realspeed"`
 }
 
-//sendRequest 发送请求的数据
+// sendRequest 发送请求的数据
 type sendRequest struct {
 	//根据tag获全部发送
 	Filter map[string]interface{} `json:"filter,omitempty"`
@@ -88,7 +88,7 @@ type sendRequest struct {
 	SendIgnoreReprint int32                  `json:"send_ignore_reprint,omitempty"`
 }
 
-//Image 发送图片
+// Image 发送图片
 type Image struct {
 	MediaIDs           []string `json:"media_ids"`
 	Recommend          string   `json:"recommend"`
@@ -96,10 +96,10 @@ type Image struct {
 	OnlyFansCanComment int32    `json:"only_fans_can_comment"`
 }
 
-//SendText 群发文本
-//user 为nil，表示全员发送
-//&User{TagID:2} 根据tag发送
-//&User{OpenID:[]string("xxx","xxx")} 根据openid发送
+// SendText 群发文本
+// user 为nil，表示全员发送
+// &User{TagID:2} 根据tag发送
+// &User{OpenID:[]string("xxx","xxx")} 根据openid发送
 func (broadcast *Broadcast) SendText(ctx context.Context, user *User, content string) (*Result, error) {
 	ak, err := broadcast.GetAccessToken(ctx)
 	if err != nil {
@@ -123,7 +123,7 @@ func (broadcast *Broadcast) SendText(ctx context.Context, user *User, content st
 	return res, err
 }
 
-//SendNews 发送图文
+// SendNews 发送图文
 func (broadcast *Broadcast) SendNews(ctx context.Context, user *User, mediaID string, ignoreReprint bool) (*Result, error) {
 	ak, err := broadcast.GetAccessToken(ctx)
 	if err != nil {
@@ -150,7 +150,7 @@ func (broadcast *Broadcast) SendNews(ctx context.Context, user *User, mediaID st
 	return res, err
 }
 
-//SendVoice 发送语音
+// SendVoice 发送语音
 func (broadcast *Broadcast) SendVoice(ctx context.Context, user *User, mediaID string) (*Result, error) {
 	ak, err := broadcast.GetAccessToken(ctx)
 	if err != nil {
@@ -174,7 +174,7 @@ func (broadcast *Broadcast) SendVoice(ctx context.Context, user *User, mediaID s
 	return res, err
 }
 
-//SendImage 发送图片
+// SendImage 发送图片
 func (broadcast *Broadcast) SendImage(ctx context.Context, user *User, images *Image) (*Result, error) {
 	ak, err := broadcast.GetAccessToken(ctx)
 	if err != nil {
@@ -196,7 +196,7 @@ func (broadcast *Broadcast) SendImage(ctx context.Context, user *User, images *I
 	return res, err
 }
 
-//SendVideo 发送视频
+// SendVideo 发送视频
 func (broadcast *Broadcast) SendVideo(ctx context.Context, user *User, mediaID string, title, description string) (*Result, error) {
 	ak, err := broadcast.GetAccessToken(ctx)
 	if err != nil {
@@ -222,7 +222,7 @@ func (broadcast *Broadcast) SendVideo(ctx context.Context, user *User, mediaID s
 	return res, err
 }
 
-//SendWxCard 发送卡券
+// SendWxCard 发送卡券
 func (broadcast *Broadcast) SendWxCard(ctx context.Context, user *User, cardID string) (*Result, error) {
 	ak, err := broadcast.GetAccessToken(ctx)
 	if err != nil {
@@ -246,7 +246,7 @@ func (broadcast *Broadcast) SendWxCard(ctx context.Context, user *User, cardID s
 	return res, err
 }
 
-//Delete 删除群发消息
+// Delete 删除群发消息
 func (broadcast *Broadcast) Delete(ctx context.Context, msgID int64, articleIDx int64) error {
 	ak, err := broadcast.GetAccessToken(ctx)
 	if err != nil {

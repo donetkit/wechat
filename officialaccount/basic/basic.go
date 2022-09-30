@@ -18,25 +18,25 @@ var (
 	clearQuotaURL = "https://api.weixin.qq.com/cgi-bin/clear_quota"
 )
 
-//Basic struct
+// Basic struct
 type Basic struct {
 	*context2.Context
 }
 
-//NewBasic 实例
+// NewBasic 实例
 func NewBasic(context *context2.Context) *Basic {
 	basic := new(Basic)
 	basic.Context = context
 	return basic
 }
 
-//IPListRes 获取微信服务器IP地址 返回结果
+// IPListRes 获取微信服务器IP地址 返回结果
 type IPListRes struct {
 	util.CommonError
 	IPList []string `json:"ip_list"`
 }
 
-//GetCallbackIP 获取微信callback IP地址
+// GetCallbackIP 获取微信callback IP地址
 func (basic *Basic) GetCallbackIP(ctx context.Context) ([]string, error) {
 	ak, err := basic.GetAccessToken(ctx)
 	if err != nil {
@@ -52,7 +52,7 @@ func (basic *Basic) GetCallbackIP(ctx context.Context) ([]string, error) {
 	return ipListRes.IPList, err
 }
 
-//GetAPIDomainIP 获取微信API接口 IP地址
+// GetAPIDomainIP 获取微信API接口 IP地址
 func (basic *Basic) GetAPIDomainIP(ctx context.Context) ([]string, error) {
 	ak, err := basic.GetAccessToken(ctx)
 	if err != nil {
@@ -68,7 +68,7 @@ func (basic *Basic) GetAPIDomainIP(ctx context.Context) ([]string, error) {
 	return ipListRes.IPList, err
 }
 
-//ClearQuota 清理接口调用次数
+// ClearQuota 清理接口调用次数
 func (basic *Basic) ClearQuota(ctx context.Context) error {
 	ak, err := basic.GetAccessToken(ctx)
 	if err != nil {

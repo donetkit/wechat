@@ -18,18 +18,18 @@ const (
 	ocrPlateNumberURL    = "https://api.weixin.qq.com/cv/ocr/platenum"
 )
 
-//OCR struct
+// OCR struct
 type OCR struct {
 	*context2.Context
 }
 
-//coordinate 坐标
+// coordinate 坐标
 type coordinate struct {
 	X int64 `json:"x,omitempty"`
 	Y int64 `json:"y,omitempty"`
 }
 
-//position 位置
+// position 位置
 type position struct {
 	LeftTop     coordinate `json:"left_top"`
 	RightTop    coordinate `json:"right_top"`
@@ -37,13 +37,13 @@ type position struct {
 	LeftBottom  coordinate `json:"left_bottom"`
 }
 
-//imageSize 图片尺寸
+// imageSize 图片尺寸
 type imageSize struct {
 	Width  int64 `json:"w,omitempty"`
 	Height int64 `json:"h,omitempty"`
 }
 
-//ResDriving 行驶证返回结果
+// ResDriving 行驶证返回结果
 type ResDriving struct {
 	util.CommonError
 
@@ -68,7 +68,7 @@ type ResDriving struct {
 	ImageSize         imageSize           `json:"img_size,omitempty"`
 }
 
-//ResIDCard 身份证返回结果
+// ResIDCard 身份证返回结果
 type ResIDCard struct {
 	util.CommonError
 
@@ -81,14 +81,14 @@ type ResIDCard struct {
 	ValidDate   string `json:"valid_date,omitempty"`
 }
 
-//ResBankCard 银行卡返回结果
+// ResBankCard 银行卡返回结果
 type ResBankCard struct {
 	util.CommonError
 
 	Number string `json:"number,omitempty"`
 }
 
-//ResDrivingLicense 驾驶证返回结果
+// ResDrivingLicense 驾驶证返回结果
 type ResDrivingLicense struct {
 	util.CommonError
 
@@ -105,7 +105,7 @@ type ResDrivingLicense struct {
 	OfficialSeal string `json:"official_seal,omitempty"`
 }
 
-//ResBizLicense 营业执照返回结果
+// ResBizLicense 营业执照返回结果
 type ResBizLicense struct {
 	util.CommonError
 
@@ -125,7 +125,7 @@ type ResBizLicense struct {
 	ImageSize           imageSize           `json:"img_size,omitempty"`
 }
 
-//ResCommon 公共印刷品返回结果
+// ResCommon 公共印刷品返回结果
 type ResCommon struct {
 	util.CommonError
 
@@ -133,27 +133,27 @@ type ResCommon struct {
 	ImageSize imageSize    `json:"img_size,omitempty"`
 }
 
-//commonItem 公共元素
+// commonItem 公共元素
 type commonItem struct {
 	Position position `json:"pos"`
 	Text     string   `json:"text"`
 }
 
-//ResPlateNumber 车牌号返回结果
+// ResPlateNumber 车牌号返回结果
 type ResPlateNumber struct {
 	util.CommonError
 
 	Number string `json:"number"`
 }
 
-//NewOCR 实例
+// NewOCR 实例
 func NewOCR(c *context2.Context) *OCR {
 	ocr := new(OCR)
 	ocr.Context = c
 	return ocr
 }
 
-//IDCard 身份证OCR识别接口
+// IDCard 身份证OCR识别接口
 func (ocr *OCR) IDCard(ctx context.Context, path string) (ResIDCard ResIDCard, err error) {
 	accessToken, err := ocr.GetAccessToken(ctx)
 	if err != nil {
@@ -172,7 +172,7 @@ func (ocr *OCR) IDCard(ctx context.Context, path string) (ResIDCard ResIDCard, e
 	return
 }
 
-//BankCard 银行卡OCR识别接口
+// BankCard 银行卡OCR识别接口
 func (ocr *OCR) BankCard(ctx context.Context, path string) (ResBankCard ResBankCard, err error) {
 	accessToken, err := ocr.GetAccessToken(ctx)
 	if err != nil {
@@ -191,7 +191,7 @@ func (ocr *OCR) BankCard(ctx context.Context, path string) (ResBankCard ResBankC
 	return
 }
 
-//Driving 行驶证OCR识别接口
+// Driving 行驶证OCR识别接口
 func (ocr *OCR) Driving(ctx context.Context, path string) (ResDriving ResDriving, err error) {
 	accessToken, err := ocr.GetAccessToken(ctx)
 	if err != nil {
@@ -210,7 +210,7 @@ func (ocr *OCR) Driving(ctx context.Context, path string) (ResDriving ResDriving
 	return
 }
 
-//DrivingLicense 驾驶证OCR识别接口
+// DrivingLicense 驾驶证OCR识别接口
 func (ocr *OCR) DrivingLicense(ctx context.Context, path string) (ResDrivingLicense ResDrivingLicense, err error) {
 	accessToken, err := ocr.GetAccessToken(ctx)
 	if err != nil {
@@ -229,7 +229,7 @@ func (ocr *OCR) DrivingLicense(ctx context.Context, path string) (ResDrivingLice
 	return
 }
 
-//BizLicense 营业执照OCR识别接口
+// BizLicense 营业执照OCR识别接口
 func (ocr *OCR) BizLicense(ctx context.Context, path string) (ResBizLicense ResBizLicense, err error) {
 	accessToken, err := ocr.GetAccessToken(ctx)
 	if err != nil {
@@ -248,7 +248,7 @@ func (ocr *OCR) BizLicense(ctx context.Context, path string) (ResBizLicense ResB
 	return
 }
 
-//Common 通用印刷体OCR识别接口
+// Common 通用印刷体OCR识别接口
 func (ocr *OCR) Common(ctx context.Context, path string) (ResCommon ResCommon, err error) {
 	accessToken, err := ocr.GetAccessToken(ctx)
 	if err != nil {
@@ -267,7 +267,7 @@ func (ocr *OCR) Common(ctx context.Context, path string) (ResCommon ResCommon, e
 	return
 }
 
-//PlateNumber 车牌OCR识别接口
+// PlateNumber 车牌OCR识别接口
 func (ocr *OCR) PlateNumber(ctx context.Context, path string) (ResPlateNumber ResPlateNumber, err error) {
 	accessToken, err := ocr.GetAccessToken(ctx)
 	if err != nil {

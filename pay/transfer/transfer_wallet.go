@@ -22,7 +22,7 @@ func NewTransfer(cfg *config.Config) *Transfer {
 	return &Transfer{cfg}
 }
 
-//Params 调用参数
+// Params 调用参数
 type Params struct {
 	DeviceInfo     string
 	PartnerTradeNo string
@@ -35,7 +35,7 @@ type Params struct {
 	RootCa         string //ca证书
 }
 
-//request 接口请求参数
+// request 接口请求参数
 type request struct {
 	AppID          string `xml:"mch_appid"`
 	MchID          string `xml:"mchid"`
@@ -51,7 +51,7 @@ type request struct {
 	SpbillCreateIP string `xml:"spbill_create_ip,omitempty"`
 }
 
-//Response 接口返回
+// Response 接口返回
 type Response struct {
 	ReturnCode     string `xml:"return_code"`
 	ReturnMsg      string `xml:"return_msg"`
@@ -67,7 +67,7 @@ type Response struct {
 	PaymentTime    string `xml:"payment_time"`
 }
 
-//WalletTransfer 付款到零钱
+// WalletTransfer 付款到零钱
 func (transfer *Transfer) WalletTransfer(p *Params) (rsp *Response, err error) {
 	nonceStr := util.RandomStr(32)
 	param := make(map[string]string)

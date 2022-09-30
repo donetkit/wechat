@@ -14,18 +14,18 @@ func writeContextType(c *gin.Context, value []string) {
 	}
 }
 
-//Render render from bytes
+// Render render from bytes
 func (srv *Server) Render(bytes []byte) {
 	srv.GContext.Writer.WriteString(string(bytes))
 }
 
-//String render from string
+// String render from string
 func (srv *Server) String(str string) {
 	writeContextType(srv.GContext, plainContentType)
 	srv.Render([]byte(str))
 }
 
-//XML render to xml
+// XML render to xml
 func (srv *Server) XML(obj interface{}) {
 	writeContextType(srv.GContext, xmlContentType)
 	bytes, err := xml.Marshal(obj)

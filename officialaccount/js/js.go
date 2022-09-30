@@ -23,7 +23,7 @@ type Config struct {
 	Signature string `json:"signature"`
 }
 
-//NewJs init
+// NewJs init
 func NewJs(context *context2.Context) *Js {
 	js := new(Js)
 	js.Context = context
@@ -32,13 +32,13 @@ func NewJs(context *context2.Context) *Js {
 	return js
 }
 
-//SetJsTicketHandle 自定义js ticket取值方式
+// SetJsTicketHandle 自定义js ticket取值方式
 func (js *Js) SetJsTicketHandle(ticketHandle credential.JsTicketHandle) {
 	js.JsTicketHandle = ticketHandle
 }
 
-//GetConfig 获取jssdk需要的配置参数
-//uri 为当前网页地址
+// GetConfig 获取jssdk需要的配置参数
+// uri 为当前网页地址
 func (js *Js) GetConfig(ctx context.Context, uri string) (config *Config, err error) {
 	config = new(Config)
 	var accessToken string

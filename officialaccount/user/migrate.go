@@ -1,5 +1,5 @@
-//Package user migrate 用于微信公众号账号迁移，获取openID变化
-//参考文档：https://kf.qq.com/faq/1901177NrqMr190117nqYJze.html
+// Package user migrate 用于微信公众号账号迁移，获取openID变化
+// 参考文档：https://kf.qq.com/faq/1901177NrqMr190117nqYJze.html
 package user
 
 import (

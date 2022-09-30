@@ -10,13 +10,13 @@ import (
 	openContext "github.com/donetkit/wechat/openplatform/context"
 )
 
-//Encryptor struct
+// Encryptor struct
 type Encryptor struct {
 	*openContext.Context
 	appID string // 小程序appId
 }
 
-//NewEncryptor 实例
+// NewEncryptor 实例
 func NewEncryptor(context *openContext.Context, appId string) *Encryptor {
 	encryptor := new(Encryptor)
 	encryptor.Context = context

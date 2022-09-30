@@ -16,19 +16,19 @@ const (
 	templateDelURL  = "https://api.weixin.qq.com/cgi-bin/template/del_private_template"
 )
 
-//Template 模板消息
+// Template 模板消息
 type Template struct {
 	*context2.Context
 }
 
-//NewTemplate 实例化
+// NewTemplate 实例化
 func NewTemplate(context *context2.Context) *Template {
 	tpl := new(Template)
 	tpl.Context = context
 	return tpl
 }
 
-//TemplateMessage 发送的模板消息内容
+// TemplateMessage 发送的模板消息内容
 type TemplateMessage struct {
 	ToUser     string                       `json:"touser"`          // 必须, 接受者OpenID
 	TemplateID string                       `json:"template_id"`     // 必须, 模版ID
@@ -42,7 +42,7 @@ type TemplateMessage struct {
 	} `json:"miniprogram"` //可选,跳转至小程序地址
 }
 
-//TemplateDataItem 模版内某个 .DATA 的值
+// TemplateDataItem 模版内某个 .DATA 的值
 type TemplateDataItem struct {
 	Value string `json:"value"`
 	Color string `json:"color,omitempty"`
@@ -54,7 +54,7 @@ type resTemplateSend struct {
 	MsgID int64 `json:"msgid"`
 }
 
-//Send 发送模板消息
+// Send 发送模板消息
 func (tpl *Template) Send(ctx context.Context, msg *TemplateMessage) (msgID int64, err error) {
 	var accessToken string
 	accessToken, err = tpl.GetAccessToken(ctx)
@@ -96,7 +96,7 @@ type resTemplateList struct {
 	TemplateList []*TemplateItem `json:"template_list"`
 }
 
-//List 获取模板列表
+// List 获取模板列表
 func (tpl *Template) List(ctx context.Context) (templateList []*TemplateItem, err error) {
 	var accessToken string
 	accessToken, err = tpl.GetAccessToken(ctx)

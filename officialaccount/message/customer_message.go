@@ -13,19 +13,19 @@ const (
 	customerSendMessage = "https://api.weixin.qq.com/cgi-bin/message/custom/send"
 )
 
-//Manager 消息管理者，可以发送消息
+// Manager 消息管理者，可以发送消息
 type Manager struct {
 	*context2.Context
 }
 
-//NewMessageManager 实例化消息管理者
+// NewMessageManager 实例化消息管理者
 func NewMessageManager(context *context2.Context) *Manager {
 	return &Manager{
 		context,
 	}
 }
 
-//CustomerMessage  客服消息
+// CustomerMessage  客服消息
 type CustomerMessage struct {
 	ToUser          string                `json:"touser"`                    //接受者OpenID
 	Msgtype         MsgType               `json:"msgtype"`                   //客服消息类型
@@ -41,7 +41,7 @@ type CustomerMessage struct {
 	Miniprogrampage *MediaMiniprogrampage `json:"miniprogrampage,omitempty"` //可选
 }
 
-//NewCustomerTextMessage 文本消息结构体构造方法
+// NewCustomerTextMessage 文本消息结构体构造方法
 func NewCustomerTextMessage(toUser, text string) *CustomerMessage {
 	return &CustomerMessage{
 		ToUser:  toUser,
@@ -52,7 +52,7 @@ func NewCustomerTextMessage(toUser, text string) *CustomerMessage {
 	}
 }
 
-//NewCustomerImgMessage 图片消息的构造方法
+// NewCustomerImgMessage 图片消息的构造方法
 func NewCustomerImgMessage(toUser, mediaID string) *CustomerMessage {
 	return &CustomerMessage{
 		ToUser:  toUser,
@@ -63,7 +63,7 @@ func NewCustomerImgMessage(toUser, mediaID string) *CustomerMessage {
 	}
 }
 
-//NewCustomerVoiceMessage 语音消息的构造方法
+// NewCustomerVoiceMessage 语音消息的构造方法
 func NewCustomerVoiceMessage(toUser, mediaID string) *CustomerMessage {
 	return &CustomerMessage{
 		ToUser:  toUser,
@@ -74,7 +74,7 @@ func NewCustomerVoiceMessage(toUser, mediaID string) *CustomerMessage {
 	}
 }
 
-//NewCustomerMiniprogrampageMessage 小程序卡片消息的构造方法
+// NewCustomerMiniprogrampageMessage 小程序卡片消息的构造方法
 func NewCustomerMiniprogrampageMessage(toUser, title, appID, pagePath, thumbMediaID string) *CustomerMessage {
 	return &CustomerMessage{
 		ToUser:  toUser,
@@ -88,17 +88,17 @@ func NewCustomerMiniprogrampageMessage(toUser, title, appID, pagePath, thumbMedi
 	}
 }
 
-//MediaText 文本消息的文字
+// MediaText 文本消息的文字
 type MediaText struct {
 	Content string `json:"content"`
 }
 
-//MediaResource  消息使用的永久素材id
+// MediaResource  消息使用的永久素材id
 type MediaResource struct {
 	MediaID string `json:"media_id"`
 }
 
-//MediaVideo 视频消息包含的内容
+// MediaVideo 视频消息包含的内容
 type MediaVideo struct {
 	MediaID      string `json:"media_id"`
 	ThumbMediaID string `json:"thumb_media_id"`
@@ -106,7 +106,7 @@ type MediaVideo struct {
 	Description  string `json:"description"`
 }
 
-//MediaMusic 音乐消息包括的内容
+// MediaMusic 音乐消息包括的内容
 type MediaMusic struct {
 	Title        string `json:"title"`
 	Description  string `json:"description"`
@@ -115,12 +115,12 @@ type MediaMusic struct {
 	ThumbMediaID string `json:"thumb_media_id"`
 }
 
-//MediaNews 图文消息的内容
+// MediaNews 图文消息的内容
 type MediaNews struct {
 	Articles []MediaArticles `json:"articles"`
 }
 
-//MediaArticles 图文消息的内容的文章列表中的单独一条
+// MediaArticles 图文消息的内容的文章列表中的单独一条
 type MediaArticles struct {
 	Title       string `json:"title"`
 	Description string `json:"description"`
@@ -128,25 +128,25 @@ type MediaArticles struct {
 	Picurl      string `json:"picurl"`
 }
 
-//MediaMsgmenu 菜单消息的内容
+// MediaMsgmenu 菜单消息的内容
 type MediaMsgmenu struct {
 	HeadContent string        `json:"head_content"`
 	List        []MsgmenuItem `json:"list"`
 	TailContent string        `json:"tail_content"`
 }
 
-//MsgmenuItem 菜单消息的菜单按钮
+// MsgmenuItem 菜单消息的菜单按钮
 type MsgmenuItem struct {
 	ID      string `json:"id"`
 	Content string `json:"content"`
 }
 
-//MediaWxcard 卡券的id
+// MediaWxcard 卡券的id
 type MediaWxcard struct {
 	CardID string `json:"card_id"`
 }
 
-//MediaMiniprogrampage 小程序消息
+// MediaMiniprogrampage 小程序消息
 type MediaMiniprogrampage struct {
 	Title        string `json:"title"`
 	AppID        string `json:"appid"`
@@ -154,7 +154,7 @@ type MediaMiniprogrampage struct {
 	ThumbMediaID string `json:"thumb_media_id"`
 }
 
-//Send 发送客服消息
+// Send 发送客服消息
 func (manager *Manager) Send(ctx context.Context, msg *CustomerMessage) error {
 	accessToken, err := manager.Context.GetAccessToken(ctx)
 	if err != nil {

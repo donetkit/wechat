@@ -16,12 +16,12 @@ const (
 	getWXACodeUnlimitURL = "https://api.q.qq.com/wxa/getwxacodeunlimit?access_token=%s"
 )
 
-//QRCode struct
+// QRCode struct
 type QRCode struct {
 	*context2.Context
 }
 
-//NewQRCode 实例
+// NewQRCode 实例
 func NewQRCode(context *context2.Context) *QRCode {
 	qrCode := new(QRCode)
 	qrCode.Context = context

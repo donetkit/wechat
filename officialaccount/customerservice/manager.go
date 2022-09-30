@@ -227,7 +227,7 @@ func (csm *Manager) UploadHeadImg(ctx context.Context, kfAccount, fileName strin
 	return
 }
 
-//SendTypingStatus 下发客服输入状态给用户
+// SendTypingStatus 下发客服输入状态给用户
 func (csm *Manager) SendTypingStatus(ctx context.Context, openid string, cmd TypingStatus) (err error) {
 	var accessToken string
 	accessToken, err = csm.GetAccessToken(ctx)

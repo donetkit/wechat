@@ -9,7 +9,7 @@ import (
 	"github.com/donetkit/wechat/util"
 )
 
-//AdSlot 广告位类型
+// AdSlot 广告位类型
 type AdSlot string
 
 const (
@@ -47,13 +47,13 @@ const (
 	actionPublisherSettlement   = "publisher_settlement"
 )
 
-//BaseResp 错误信息
+// BaseResp 错误信息
 type BaseResp struct {
 	ErrMsg string `json:"err_msg"`
 	Ret    int    `json:"ret"`
 }
 
-//ResPublisherAdPos 公众号分广告位数据响应
+// ResPublisherAdPos 公众号分广告位数据响应
 type ResPublisherAdPos struct {
 	util.CommonError
 
@@ -63,7 +63,7 @@ type ResPublisherAdPos struct {
 	TotalNum int             `json:"total_num"`
 }
 
-//ResAdPosList 公众号分广告位列表
+// ResAdPosList 公众号分广告位列表
 type ResAdPosList struct {
 	SlotID        int64   `json:"slot_id"`
 	AdSlot        string  `json:"ad_slot"`
@@ -77,7 +77,7 @@ type ResAdPosList struct {
 	Ecpm          float64 `json:"ecpm"`
 }
 
-//ResAdPosSummary 公众号分广告位概览
+// ResAdPosSummary 公众号分广告位概览
 type ResAdPosSummary struct {
 	ReqSuccCount  int     `json:"req_succ_count"`
 	ExposureCount int     `json:"exposure_count"`
@@ -88,7 +88,7 @@ type ResAdPosSummary struct {
 	Ecpm          float64 `json:"ecpm"`
 }
 
-//ResPublisherCps 公众号返佣商品数据响应
+// ResPublisherCps 公众号返佣商品数据响应
 type ResPublisherCps struct {
 	util.CommonError
 
@@ -98,7 +98,7 @@ type ResPublisherCps struct {
 	TotalNum int           `json:"total_num"`
 }
 
-//ResCpsList 公众号返佣商品列表
+// ResCpsList 公众号返佣商品列表
 type ResCpsList struct {
 	Date            string  `json:"date"`
 	ExposureCount   int     `json:"exposure_count"`
@@ -110,7 +110,7 @@ type ResCpsList struct {
 	TotalCommission int     `json:"total_commission"`
 }
 
-//ResCpsSummary 公众号返佣概览
+// ResCpsSummary 公众号返佣概览
 type ResCpsSummary struct {
 	ExposureCount   int     `json:"exposure_count"`
 	ClickCount      int     `json:"click_count"`
@@ -121,7 +121,7 @@ type ResCpsSummary struct {
 	TotalCommission int     `json:"total_commission"`
 }
 
-//ResPublisherSettlement 公众号结算收入数据及结算主体信息响应
+// ResPublisherSettlement 公众号结算收入数据及结算主体信息响应
 type ResPublisherSettlement struct {
 	util.CommonError
 
@@ -134,7 +134,7 @@ type ResPublisherSettlement struct {
 	TotalNum          int              `json:"total_num"`
 }
 
-//SettlementList 结算单列表
+// SettlementList 结算单列表
 type SettlementList struct {
 	Date           string        `json:"date"`
 	Zone           string        `json:"zone"`
@@ -147,13 +147,13 @@ type SettlementList struct {
 	SlotRevenue    []SlotRevenue `json:"slot_revenue"`
 }
 
-//SlotRevenue 产生收入的广告
+// SlotRevenue 产生收入的广告
 type SlotRevenue struct {
 	SlotID             string `json:"slot_id"`
 	SlotSettledRevenue int    `json:"slot_settled_revenue"`
 }
 
-//ParamsPublisher 拉取数据参数
+// ParamsPublisher 拉取数据参数
 type ParamsPublisher struct {
 	Action    string `json:"action"`
 	StartDate string `json:"start_date"`
@@ -190,7 +190,7 @@ func (cube *DataCube) fetchData(ctx context.Context, params ParamsPublisher) (re
 	return
 }
 
-//GetPublisherAdPosGeneral 获取公众号分广告位数据
+// GetPublisherAdPosGeneral 获取公众号分广告位数据
 func (cube *DataCube) GetPublisherAdPosGeneral(ctx context.Context, startDate, endDate string, page, pageSize int, adSlot AdSlot) (resPublisherAdPos ResPublisherAdPos, err error) {
 	params := ParamsPublisher{
 		Action:    actionPublisherAdPosGeneral,
@@ -218,7 +218,7 @@ func (cube *DataCube) GetPublisherAdPosGeneral(ctx context.Context, startDate, e
 	return
 }
 
-//GetPublisherCpsGeneral 获取公众号返佣商品数据
+// GetPublisherCpsGeneral 获取公众号返佣商品数据
 func (cube *DataCube) GetPublisherCpsGeneral(ctx context.Context, startDate, endDate string, page, pageSize int) (resPublisherCps ResPublisherCps, err error) {
 	params := ParamsPublisher{
 		Action:    actionPublisherCpsGeneral,
@@ -245,7 +245,7 @@ func (cube *DataCube) GetPublisherCpsGeneral(ctx context.Context, startDate, end
 	return
 }
 
-//GetPublisherSettlement 获取公众号结算收入数据及结算主体信息
+// GetPublisherSettlement 获取公众号结算收入数据及结算主体信息
 func (cube *DataCube) GetPublisherSettlement(ctx context.Context, startDate, endDate string, page, pageSize int) (resPublisherSettlement ResPublisherSettlement, err error) {
 	params := ParamsPublisher{
 		Action:    actionPublisherSettlement,

@@ -12,7 +12,7 @@ const (
 	getUserAccumulate = "https://api.weixin.qq.com/datacube/getusercumulate"
 )
 
-//ResUserSummary 获取用户增减数据响应
+// ResUserSummary 获取用户增减数据响应
 type ResUserSummary struct {
 	util.CommonError
 
@@ -24,7 +24,7 @@ type ResUserSummary struct {
 	} `json:"list"`
 }
 
-//ResUserAccumulate 获取累计用户数据响应
+// ResUserAccumulate 获取累计用户数据响应
 type ResUserAccumulate struct {
 	util.CommonError
 
@@ -34,7 +34,7 @@ type ResUserAccumulate struct {
 	} `json:"list"`
 }
 
-//GetUserSummary 获取用户增减数据
+// GetUserSummary 获取用户增减数据
 func (cube *DataCube) GetUserSummary(ctx context.Context, s string, e string) (resUserSummary ResUserSummary, err error) {
 	accessToken, err := cube.GetAccessToken(ctx)
 	if err != nil {
@@ -56,7 +56,7 @@ func (cube *DataCube) GetUserSummary(ctx context.Context, s string, e string) (r
 	return
 }
 
-//GetUserAccumulate 获取累计用户数据
+// GetUserAccumulate 获取累计用户数据
 func (cube *DataCube) GetUserAccumulate(ctx context.Context, s string, e string) (resUserAccumulate ResUserAccumulate, err error) {
 	accessToken, err := cube.GetAccessToken(ctx)
 	if err != nil {

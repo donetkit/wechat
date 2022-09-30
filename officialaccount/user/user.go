@@ -16,19 +16,19 @@ const (
 	userListURL     = "https://api.weixin.qq.com/cgi-bin/user/get"
 )
 
-//User 用户管理
+// User 用户管理
 type User struct {
 	*context2.Context
 }
 
-//NewUser 实例化
+// NewUser 实例化
 func NewUser(context *context2.Context) *User {
 	user := new(User)
 	user.Context = context
 	return user
 }
 
-//Info 用户基本信息
+// Info 用户基本信息
 type Info struct {
 	util.CommonError
 
@@ -63,7 +63,7 @@ type OpenidList struct {
 	NextOpenID string `json:"next_openid"`
 }
 
-//GetUserInfo 获取用户基本信息
+// GetUserInfo 获取用户基本信息
 func (user *User) GetUserInfo(ctx context.Context, openID string) (userInfo *Info, err error) {
 	var accessToken string
 	accessToken, err = user.GetAccessToken(ctx)

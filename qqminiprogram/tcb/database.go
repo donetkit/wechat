@@ -44,16 +44,16 @@ const (
 	FileTypeCsv FileType = 2
 )
 
-//ConflictMode 冲突处理模式
+// ConflictMode 冲突处理模式
 type ConflictMode int
 
-//FileType 文件上传和导出的允许文件类型
+// FileType 文件上传和导出的允许文件类型
 type FileType int
 
-//ValidDirections 合法的direction值
+// ValidDirections 合法的direction值
 var ValidDirections = []string{"1", "-1", "2dsphere"}
 
-//DatabaseMigrateExportReq 数据库出 请求参数
+// DatabaseMigrateExportReq 数据库出 请求参数
 type DatabaseMigrateExportReq struct {
 	Env      string   `json:"env,omitempty"`       //云环境ID
 	FilePath string   `json:"file_path,omitempty"` //导出文件路径(导入文件需先上传到同环境的存储中，可使用开发者工具或 HTTP API的上传文件 API上传）
@@ -61,13 +61,13 @@ type DatabaseMigrateExportReq struct {
 	Query    string   `json:"query,omitempty"`     //导出条件
 }
 
-//DatabaseMigrateExportRes 数据库导出 返回结果
+// DatabaseMigrateExportRes 数据库导出 返回结果
 type DatabaseMigrateExportRes struct {
 	util.CommonError
 	JobID int64 `json:"job_id"` //导出任务ID，可使用数据库迁移进度查询 API 查询导入进度及结果
 }
 
-//DatabaseMigrateImportReq 数据库导入 请求参数
+// DatabaseMigrateImportReq 数据库导入 请求参数
 type DatabaseMigrateImportReq struct {
 	Env            string       `json:"env,omitempty"`             //云环境ID
 	CollectionName string       `json:"collection_name,omitempty"` //集合名称
@@ -77,13 +77,13 @@ type DatabaseMigrateImportReq struct {
 	ConflictMode   ConflictMode `json:"conflict_mode,omitempty"`   //冲突处理模式  1:inster 2:UPSERT
 }
 
-//DatabaseMigrateImportRes 数据库导入 返回结果
+// DatabaseMigrateImportRes 数据库导入 返回结果
 type DatabaseMigrateImportRes struct {
 	util.CommonError
 	JobID int64 `json:"job_id"` //导入任务ID，可使用数据库迁移进度查询 API 查询导入进度及结果
 }
 
-//DatabaseMigrateQueryInfoRes 数据库迁移状态查询
+// DatabaseMigrateQueryInfoRes 数据库迁移状态查询
 type DatabaseMigrateQueryInfoRes struct {
 	util.CommonError
 	Status        string `json:"status"`         //导出状态
@@ -93,7 +93,7 @@ type DatabaseMigrateQueryInfoRes struct {
 	FileURL       string `json:"file_url"`       //导出文件下载地址
 }
 
-//UpdateIndexReq 变更数据库索引 请求参数
+// UpdateIndexReq 变更数据库索引 请求参数
 type UpdateIndexReq struct {
 	Env            string        `json:"env,omitempty"`             //云环境ID
 	CollectionName string        `json:"collection_name,omitempty"` //集合名称
@@ -101,38 +101,38 @@ type UpdateIndexReq struct {
 	DropIndexes    []DropIndex   `json:"drop_indexes,omitempty"`    //删除索引
 }
 
-//CreateIndex 新增索引
+// CreateIndex 新增索引
 type CreateIndex struct {
 	Name   string           `json:"name,omitempty"`   //索引名
 	Unique bool             `json:"unique,omitempty"` //是否唯一
 	Keys   []CreateIndexKey `json:"keys,omitempty"`   //索引字段
 }
 
-//CreateIndexKey create index key
+// CreateIndexKey create index key
 type CreateIndexKey struct {
 	Name      string `json:"name,omitempty"`      //字段名
 	Direction string `json:"direction,omitempty"` //字段排序
 }
 
-//DropIndex 删除索引
+// DropIndex 删除索引
 type DropIndex struct {
 	Name string `json:"name,omitempty"`
 }
 
-//DatabaseCollectionReq 新增/删除集合请求参数
+// DatabaseCollectionReq 新增/删除集合请求参数
 type DatabaseCollectionReq struct {
 	Env            string `json:"env,omitempty"`             //云环境ID
 	CollectionName string `json:"collection_name,omitempty"` //集合名称
 }
 
-//DatabaseCollectionGetReq 获取特定云环境下集合信息请求
+// DatabaseCollectionGetReq 获取特定云环境下集合信息请求
 type DatabaseCollectionGetReq struct {
 	Env    string `json:"env,omitempty"`    //云环境ID
 	Limit  int64  `json:"limit,omitempty"`  //获取数量限制
 	Offset int64  `json:"offset,omitempty"` //偏移量
 }
 
-//DatabaseCollectionGetRes 获取特定云环境下集合信息结果
+// DatabaseCollectionGetRes 获取特定云环境下集合信息结果
 type DatabaseCollectionGetRes struct {
 	util.CommonError
 	Pager struct {
@@ -149,25 +149,25 @@ type DatabaseCollectionGetRes struct {
 	} `json:"collections"`
 }
 
-//DatabaseReq 数据库插入/删除/更新/查询/统计记录请求参数
+// DatabaseReq 数据库插入/删除/更新/查询/统计记录请求参数
 type DatabaseReq struct {
 	Env   string `json:"env,omitempty"`   //云环境ID
 	Query string `json:"query,omitempty"` //数据库操作语句
 }
 
-//DatabaseAddRes 数据库插入记录返回结果
+// DatabaseAddRes 数据库插入记录返回结果
 type DatabaseAddRes struct {
 	util.CommonError
 	IDList []string `json:"id_list"` //插入成功的数据集合主键_id。
 }
 
-//DatabaseDeleteRes 数据库删除记录返回结果
+// DatabaseDeleteRes 数据库删除记录返回结果
 type DatabaseDeleteRes struct {
 	util.CommonError
 	Deleted int64 `json:"deleted"` //删除记录数量
 }
 
-//DatabaseUpdateRes 数据库更新记录返回结果
+// DatabaseUpdateRes 数据库更新记录返回结果
 type DatabaseUpdateRes struct {
 	util.CommonError
 	Matched  int64  `json:"matched"`  //更新条件匹配到的结果数
@@ -175,7 +175,7 @@ type DatabaseUpdateRes struct {
 	ID       string `json:"id"`
 }
 
-//DatabaseQueryRes 数据库查询记录 返回结果
+// DatabaseQueryRes 数据库查询记录 返回结果
 type DatabaseQueryRes struct {
 	util.CommonError
 	Pager struct {
@@ -186,13 +186,14 @@ type DatabaseQueryRes struct {
 	Data []string `json:"data"`
 }
 
-//DatabaseCountRes 统计集合记录数或统计查询语句对应的结果记录数 返回结果
+// DatabaseCountRes 统计集合记录数或统计查询语句对应的结果记录数 返回结果
 type DatabaseCountRes struct {
 	util.CommonError
 	Count int64 `json:"count"` //记录数量
 }
 
-//DatabaseMigrateImport 数据库导入
+// DatabaseMigrateImport 数据库导入
+//
 //reference:https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-http-api/database/databaseMigrateImport.html
 func (tcb *Tcb) DatabaseMigrateImport(ctx context.Context, req *DatabaseMigrateImportReq) (*DatabaseMigrateImportRes, error) {
 	accessToken, err := tcb.GetAccessToken(ctx)
@@ -209,7 +210,8 @@ func (tcb *Tcb) DatabaseMigrateImport(ctx context.Context, req *DatabaseMigrateI
 	return databaseMigrateImportRes, err
 }
 
-//DatabaseMigrateExport 数据库导出
+// DatabaseMigrateExport 数据库导出
+//
 //reference:https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-http-api/database/databaseMigrateExport.html
 func (tcb *Tcb) DatabaseMigrateExport(ctx context.Context, req *DatabaseMigrateExportReq) (*DatabaseMigrateExportRes, error) {
 	accessToken, err := tcb.GetAccessToken(ctx)
@@ -226,7 +228,8 @@ func (tcb *Tcb) DatabaseMigrateExport(ctx context.Context, req *DatabaseMigrateE
 	return databaseMigrateExportRes, err
 }
 
-//DatabaseMigrateQueryInfo 数据库迁移状态查询
+// DatabaseMigrateQueryInfo 数据库迁移状态查询
+//
 //reference:https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-http-api/database/databaseMigrateQueryInfo.html
 func (tcb *Tcb) DatabaseMigrateQueryInfo(ctx context.Context, env string, jobID int64) (*DatabaseMigrateQueryInfoRes, error) {
 	accessToken, err := tcb.GetAccessToken(ctx)
@@ -246,8 +249,8 @@ func (tcb *Tcb) DatabaseMigrateQueryInfo(ctx context.Context, env string, jobID 
 	return databaseMigrateQueryInfoRes, err
 }
 
-//UpdateIndex 变更数据库索引
-//https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-http-api/database/updateIndex.html
+// UpdateIndex 变更数据库索引
+// https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-http-api/database/updateIndex.html
 func (tcb *Tcb) UpdateIndex(ctx context.Context, req *UpdateIndexReq) error {
 	accessToken, err := tcb.GetAccessToken(ctx)
 	if err != nil {
@@ -261,7 +264,8 @@ func (tcb *Tcb) UpdateIndex(ctx context.Context, req *UpdateIndexReq) error {
 	return util.DecodeWithCommonError(response, "UpdateIndex")
 }
 
-//DatabaseCollectionAdd 新增集合
+// DatabaseCollectionAdd 新增集合
+//
 //reference:https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-http-api/database/databaseCollectionAdd.html
 func (tcb *Tcb) DatabaseCollectionAdd(ctx context.Context, env, collectionName string) error {
 	accessToken, err := tcb.GetAccessToken(ctx)
@@ -279,7 +283,8 @@ func (tcb *Tcb) DatabaseCollectionAdd(ctx context.Context, env, collectionName s
 	return util.DecodeWithCommonError(response, "DatabaseCollectionAdd")
 }
 
-//DatabaseCollectionDelete 删除集合
+// DatabaseCollectionDelete 删除集合
+//
 //reference:https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-http-api/database/databaseCollectionDelete.html
 func (tcb *Tcb) DatabaseCollectionDelete(ctx context.Context, env, collectionName string) error {
 	accessToken, err := tcb.GetAccessToken(ctx)
@@ -297,7 +302,8 @@ func (tcb *Tcb) DatabaseCollectionDelete(ctx context.Context, env, collectionNam
 	return util.DecodeWithCommonError(response, "DatabaseCollectionDelete")
 }
 
-//DatabaseCollectionGet 获取特定云环境下集合信息
+// DatabaseCollectionGet 获取特定云环境下集合信息
+//
 //reference:https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-http-api/database/databaseCollectionGet.html
 func (tcb *Tcb) DatabaseCollectionGet(ctx context.Context, env string, limit, offset int64) (*DatabaseCollectionGetRes, error) {
 	accessToken, err := tcb.GetAccessToken(ctx)
@@ -318,7 +324,8 @@ func (tcb *Tcb) DatabaseCollectionGet(ctx context.Context, env string, limit, of
 	return databaseCollectionGetRes, err
 }
 
-//DatabaseAdd 数据库插入记录
+// DatabaseAdd 数据库插入记录
+//
 //reference:https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-http-api/database/databaseAdd.html
 func (tcb *Tcb) DatabaseAdd(ctx context.Context, env, query string) (*DatabaseAddRes, error) {
 	accessToken, err := tcb.GetAccessToken(ctx)
@@ -338,7 +345,8 @@ func (tcb *Tcb) DatabaseAdd(ctx context.Context, env, query string) (*DatabaseAd
 	return databaseAddRes, err
 }
 
-//DatabaseDelete 数据库插入记录
+// DatabaseDelete 数据库插入记录
+//
 //reference:https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-http-api/database/databaseDelete.html
 func (tcb *Tcb) DatabaseDelete(ctx context.Context, env, query string) (*DatabaseDeleteRes, error) {
 	accessToken, err := tcb.GetAccessToken(ctx)
@@ -358,7 +366,8 @@ func (tcb *Tcb) DatabaseDelete(ctx context.Context, env, query string) (*Databas
 	return databaseDeleteRes, err
 }
 
-//DatabaseUpdate 数据库插入记录
+// DatabaseUpdate 数据库插入记录
+//
 //reference:https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-http-api/database/databaseUpdate.html
 func (tcb *Tcb) DatabaseUpdate(ctx context.Context, env, query string) (*DatabaseUpdateRes, error) {
 	accessToken, err := tcb.GetAccessToken(ctx)
@@ -378,7 +387,8 @@ func (tcb *Tcb) DatabaseUpdate(ctx context.Context, env, query string) (*Databas
 	return databaseUpdateRes, err
 }
 
-//DatabaseQuery 数据库查询记录
+// DatabaseQuery 数据库查询记录
+//
 //reference:https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-http-api/database/databaseQuery.html
 func (tcb *Tcb) DatabaseQuery(ctx context.Context, env, query string) (*DatabaseQueryRes, error) {
 	accessToken, err := tcb.GetAccessToken(ctx)
@@ -398,7 +408,8 @@ func (tcb *Tcb) DatabaseQuery(ctx context.Context, env, query string) (*Database
 	return databaseQueryRes, err
 }
 
-//DatabaseCount 统计集合记录数或统计查询语句对应的结果记录数
+// DatabaseCount 统计集合记录数或统计查询语句对应的结果记录数
+//
 //reference:https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-http-api/database/databaseCount.html
 func (tcb *Tcb) DatabaseCount(ctx context.Context, env, query string) (*DatabaseCountRes, error) {
 	accessToken, err := tcb.GetAccessToken(ctx)

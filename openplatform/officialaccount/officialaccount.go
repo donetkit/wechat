@@ -10,15 +10,15 @@ import (
 	"github.com/donetkit/wechat/openplatform/officialaccount/oauth"
 )
 
-//OfficialAccount 代公众号实现业务
+// OfficialAccount 代公众号实现业务
 type OfficialAccount struct {
 	//授权的公众号的appID
 	appID string
 	*officialaccount.OfficialAccount
 }
 
-//NewOfficialAccount 实例化
-//appID :为授权方公众号 APPID，非开放平台第三方平台 APPID
+// NewOfficialAccount 实例化
+// appID :为授权方公众号 APPID，非开放平台第三方平台 APPID
 func NewOfficialAccount(opCtx *opContext.Context, appID string) *OfficialAccount {
 	officialAccount := officialaccount.NewOfficialAccount(&offConfig.Config{
 		AppID:          opCtx.AppID,
@@ -41,13 +41,13 @@ func (officialAccount *OfficialAccount) PlatformJs() *js.Js {
 	return js.NewJs(officialAccount.GetContext(), officialAccount.appID)
 }
 
-//DefaultAuthrAccessToken 默认获取授权ak的方法
+// DefaultAuthrAccessToken 默认获取授权ak的方法
 type DefaultAuthrAccessToken struct {
 	opCtx *opContext.Context
 	appID string
 }
 
-//NewDefaultAuthrAccessToken New
+// NewDefaultAuthrAccessToken New
 func NewDefaultAuthrAccessToken(opCtx *opContext.Context, appID string) credential.AccessTokenHandle {
 	return &DefaultAuthrAccessToken{
 		opCtx: opCtx,
@@ -55,7 +55,7 @@ func NewDefaultAuthrAccessToken(opCtx *opContext.Context, appID string) credenti
 	}
 }
 
-//GetAccessToken 获取ak
+// GetAccessToken 获取ak
 func (ak *DefaultAuthrAccessToken) GetAccessToken(ctx context.Context) (string, error) {
 	return ak.opCtx.GetAuthAccessToken(ctx, ak.appID)
 }

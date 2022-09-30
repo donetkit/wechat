@@ -50,13 +50,13 @@ type Message struct {
 	Lang             string               `json:"lang"`              //入小程序查看”的语言类型，支持zh_CN(简体中文)、en_US(英文)、zh_HK(繁体中文)、zh_TW(繁体中文)，默认为zh_CN
 }
 
-//DataItem 模版内某个 .DATA 的值
+// DataItem 模版内某个 .DATA 的值
 type DataItem struct {
 	Value interface{} `json:"value"`
 	Color string      `json:"color"`
 }
 
-//TemplateItem template item
+// TemplateItem template item
 type TemplateItem struct {
 	PriTmplID string `json:"priTmplId"`
 	Title     string `json:"title"`
@@ -65,7 +65,7 @@ type TemplateItem struct {
 	Type      int64  `json:"type"`
 }
 
-//TemplateList template list
+// TemplateList template list
 type TemplateList struct {
 	util.CommonError
 	Data []TemplateItem `json:"data"`
@@ -86,7 +86,7 @@ func (s *Subscribe) Send(ctx context.Context, msg *Message) (err error) {
 	return util.DecodeWithCommonError(response, "Send")
 }
 
-//ListTemplates 获取当前帐号下的个人模板列表
+// ListTemplates 获取当前帐号下的个人模板列表
 // https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/subscribe-message/subscribeMessage.getTemplateList.html
 func (s *Subscribe) ListTemplates(ctx context.Context) (*TemplateList, error) {
 	accessToken, err := s.GetAccessToken(ctx)

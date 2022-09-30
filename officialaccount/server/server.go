@@ -21,7 +21,7 @@ import (
 	"github.com/donetkit/wechat/util"
 )
 
-//Server struct
+// Server struct
 type Server struct {
 	*context.Context
 	GContext     *gin.Context
@@ -43,7 +43,7 @@ type Server struct {
 	timestamp     int64
 }
 
-//NewServer init
+// NewServer init
 func NewServer(context *context.Context) *Server {
 	srv := new(Server)
 	srv.Context = context
@@ -55,7 +55,7 @@ func (srv *Server) SkipValidate(skip bool) {
 	srv.skipValidate = skip
 }
 
-//Serve 处理微信的请求消息
+// Serve 处理微信的请求消息
 func (srv *Server) Serve() error {
 	if !srv.Validate() {
 		log.Log.Error("Validate Signature Failed.")
@@ -85,7 +85,7 @@ func (srv *Server) Serve() error {
 	return srv.buildResponse(response)
 }
 
-//Validate 校验请求是否合法
+// Validate 校验请求是否合法
 func (srv *Server) Validate() bool {
 	if srv.skipValidate {
 		return true
@@ -97,7 +97,7 @@ func (srv *Server) Validate() bool {
 	return signature == util.Signature(srv.Token, timestamp, nonce)
 }
 
-//HandleRequest 处理微信的请求
+// HandleRequest 处理微信的请求
 func (srv *Server) handleRequest() (reply *message.Reply, err error) {
 	//set isSafeMode
 	srv.isSafeMode = false
@@ -127,12 +127,12 @@ func (srv *Server) handleRequest() (reply *message.Reply, err error) {
 	return
 }
 
-//GetOpenID return openID
+// GetOpenID return openID
 func (srv *Server) GetOpenID() string {
 	return srv.openID
 }
 
-//getMessage 解析微信返回的消息
+// getMessage 解析微信返回的消息
 func (srv *Server) getMessage() (interface{}, error) {
 	var rawXMLMsgBytes []byte
 	var err error
@@ -219,7 +219,7 @@ func (srv *Server) parseRequestMessage(rawXMLMsgBytes []byte) (msg *message.MixM
 	return
 }
 
-//SetMessageHandler 设置用户自定义的回调方法
+// SetMessageHandler 设置用户自定义的回调方法
 func (srv *Server) SetMessageHandler(handler func(*message.MixMessage) *message.Reply) {
 	srv.messageHandler = handler
 }
@@ -274,7 +274,7 @@ func (srv *Server) buildResponse(reply *message.Reply) (err error) {
 	return
 }
 
-//Send 将自定义的消息发送
+// Send 将自定义的消息发送
 func (srv *Server) Send() (err error) {
 	replyMsg := srv.ResponseMsg
 	log.Log.Debugf("response msg =%+v", replyMsg)

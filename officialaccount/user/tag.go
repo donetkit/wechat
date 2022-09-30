@@ -19,7 +19,7 @@ const (
 	tagUserTidListURL    = "https://api.weixin.qq.com/cgi-bin/tags/getidlist?access_token=%s"
 )
 
-//TagInfo 标签信息
+// TagInfo 标签信息
 type TagInfo struct {
 	ID    int32  `json:"id"`
 	Name  string `json:"name"`
@@ -35,7 +35,7 @@ type TagOpenIDList struct {
 	NextOpenID string `json:"next_openid"`
 }
 
-//CreateTag 创建标签
+// CreateTag 创建标签
 func (user *User) CreateTag(ctx context.Context, tagName string) (tagInfo *TagInfo, err error) {
 	var accessToken string
 	accessToken, err = user.GetAccessToken(ctx)
@@ -69,7 +69,7 @@ func (user *User) CreateTag(ctx context.Context, tagName string) (tagInfo *TagIn
 	return result.Tag, nil
 }
 
-//DeleteTag  删除标签
+// DeleteTag  删除标签
 func (user *User) DeleteTag(ctx context.Context, tagID int32) (err error) {
 	accessToken, err := user.GetAccessToken(ctx)
 	if err != nil {
@@ -89,7 +89,7 @@ func (user *User) DeleteTag(ctx context.Context, tagID int32) (err error) {
 	return util.DecodeWithCommonError(resp, "DeleteTag")
 }
 
-//UpdateTag  编辑标签
+// UpdateTag  编辑标签
 func (user *User) UpdateTag(ctx context.Context, tagID int32, tagName string) (err error) {
 	accessToken, err := user.GetAccessToken(ctx)
 	if err != nil {
@@ -111,7 +111,7 @@ func (user *User) UpdateTag(ctx context.Context, tagID int32, tagName string) (e
 	return util.DecodeWithCommonError(resp, "UpdateTag")
 }
 
-//GetTag 获取公众号已创建的标签
+// GetTag 获取公众号已创建的标签
 func (user *User) GetTag(ctx context.Context) (tags []*TagInfo, err error) {
 	accessToken, err := user.GetAccessToken(ctx)
 	if err != nil {
@@ -133,7 +133,7 @@ func (user *User) GetTag(ctx context.Context) (tags []*TagInfo, err error) {
 	return result.Tags, nil
 }
 
-//OpenIDListByTag 获取标签下粉丝列表
+// OpenIDListByTag 获取标签下粉丝列表
 func (user *User) OpenIDListByTag(ctx context.Context, tagID int32, nextOpenID ...string) (userList *TagOpenIDList, err error) {
 	accessToken, err := user.GetAccessToken(ctx)
 	if err != nil {
@@ -161,7 +161,7 @@ func (user *User) OpenIDListByTag(ctx context.Context, tagID int32, nextOpenID .
 	return
 }
 
-//BatchTag 批量为用户打标签
+// BatchTag 批量为用户打标签
 func (user *User) BatchTag(ctx context.Context, openIDList []string, tagID int32) (err error) {
 	accessToken, err := user.GetAccessToken(ctx)
 	if err != nil {
@@ -185,7 +185,7 @@ func (user *User) BatchTag(ctx context.Context, openIDList []string, tagID int32
 	return util.DecodeWithCommonError(resp, "BatchTag")
 }
 
-//BatchUntag 批量为用户取消标签
+// BatchUntag 批量为用户取消标签
 func (user *User) BatchUntag(ctx context.Context, openIDList []string, tagID int32) (err error) {
 	if len(openIDList) == 0 {
 		return
@@ -209,7 +209,7 @@ func (user *User) BatchUntag(ctx context.Context, openIDList []string, tagID int
 	return util.DecodeWithCommonError(resp, "BatchUntag")
 }
 
-//UserTidList 获取用户身上的标签列表
+// UserTidList 获取用户身上的标签列表
 func (user *User) UserTidList(ctx context.Context, openID string) (tagIDList []int32, err error) {
 	accessToken, err := user.GetAccessToken(ctx)
 	if err != nil {

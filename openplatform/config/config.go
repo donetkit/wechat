@@ -5,7 +5,7 @@ import (
 	"sync"
 )
 
-//Config config for 微信开放平台
+// Config config for 微信开放平台
 type Config struct {
 	AppID          string `json:"app_id"`           //appid 开放平台
 	AppSecret      string `json:"app_secret"`       //appsecret 开放平台

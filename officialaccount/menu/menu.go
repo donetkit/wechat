@@ -19,42 +19,42 @@ const (
 	menuSelfMenuInfoURL      = "https://api.weixin.qq.com/cgi-bin/get_current_selfmenu_info"
 )
 
-//Menu struct
+// Menu struct
 type Menu struct {
 	*context2.Context
 }
 
-//reqMenu 设置菜单请求数据
+// reqMenu 设置菜单请求数据
 type reqMenu struct {
 	Button    []*Button  `json:"button,omitempty"`
 	MatchRule *MatchRule `json:"matchrule,omitempty"`
 }
 
-//reqDeleteConditional 删除个性化菜单请求数据
+// reqDeleteConditional 删除个性化菜单请求数据
 type reqDeleteConditional struct {
 	MenuID int64 `json:"menuid"`
 }
 
-//reqMenuTryMatch 菜单匹配请求
+// reqMenuTryMatch 菜单匹配请求
 type reqMenuTryMatch struct {
 	UserID string `json:"user_id"`
 }
 
-//resConditionalMenu 个性化菜单返回结果
+// resConditionalMenu 个性化菜单返回结果
 type resConditionalMenu struct {
 	Button    []Button  `json:"button"`
 	MatchRule MatchRule `json:"matchrule"`
 	MenuID    int64     `json:"menuid"`
 }
 
-//resMenuTryMatch 菜单匹配请求结果
+// resMenuTryMatch 菜单匹配请求结果
 type resMenuTryMatch struct {
 	util.CommonError
 
 	Button []Button `json:"button"`
 }
 
-//ResMenu 查询菜单的返回数据
+// ResMenu 查询菜单的返回数据
 type ResMenu struct {
 	util.CommonError
 
@@ -65,7 +65,7 @@ type ResMenu struct {
 	Conditionalmenu []resConditionalMenu `json:"conditionalmenu"`
 }
 
-//ResSelfMenuInfo 自定义菜单配置返回结果
+// ResSelfMenuInfo 自定义菜单配置返回结果
 type ResSelfMenuInfo struct {
 	util.CommonError
 
@@ -75,7 +75,7 @@ type ResSelfMenuInfo struct {
 	} `json:"selfmenu_info"`
 }
 
-//SelfMenuButton 自定义菜单配置详情
+// SelfMenuButton 自定义菜单配置详情
 type SelfMenuButton struct {
 	Type      string `json:"type"`
 	Name      string `json:"name"`
@@ -90,7 +90,7 @@ type SelfMenuButton struct {
 	} `json:"news_info,omitempty"`
 }
 
-//ButtonNew 图文消息菜单
+// ButtonNew 图文消息菜单
 type ButtonNew struct {
 	Title      string `json:"title"`
 	Author     string `json:"author"`
@@ -101,7 +101,7 @@ type ButtonNew struct {
 	SourceURL  string `json:"source_url"`
 }
 
-//MatchRule 个性化菜单规则
+// MatchRule 个性化菜单规则
 type MatchRule struct {
 	GroupID            string `json:"group_id,omitempty"`
 	Sex                string `json:"sex,omitempty"`
@@ -112,14 +112,14 @@ type MatchRule struct {
 	Language           string `json:"language,omitempty"`
 }
 
-//NewMenu 实例
+// NewMenu 实例
 func NewMenu(context *context2.Context) *Menu {
 	menu := new(Menu)
 	menu.Context = context
 	return menu
 }
 
-//SetMenu 设置按钮
+// SetMenu 设置按钮
 func (menu *Menu) SetMenu(ctx context.Context, buttons []*Button) error {
 	accessToken, err := menu.GetAccessToken(ctx)
 	if err != nil {
@@ -139,7 +139,7 @@ func (menu *Menu) SetMenu(ctx context.Context, buttons []*Button) error {
 	return util.DecodeWithCommonError(response, "SetMenu")
 }
 
-//SetMenuByJSON 设置按钮
+// SetMenuByJSON 设置按钮
 func (menu *Menu) SetMenuByJSON(ctx context.Context, jsonInfo string) error {
 	accessToken, err := menu.GetAccessToken(ctx)
 	if err != nil {
@@ -156,7 +156,7 @@ func (menu *Menu) SetMenuByJSON(ctx context.Context, jsonInfo string) error {
 	return util.DecodeWithCommonError(response, "SetMenuByJSON")
 }
 
-//GetMenu 获取菜单配置
+// GetMenu 获取菜单配置
 func (menu *Menu) GetMenu(ctx context.Context) (resMenu ResMenu, err error) {
 	var accessToken string
 	accessToken, err = menu.GetAccessToken(ctx)
@@ -180,7 +180,7 @@ func (menu *Menu) GetMenu(ctx context.Context) (resMenu ResMenu, err error) {
 	return
 }
 
-//DeleteMenu 删除菜单
+// DeleteMenu 删除菜单
 func (menu *Menu) DeleteMenu(ctx context.Context) error {
 	accessToken, err := menu.GetAccessToken(ctx)
 	if err != nil {
@@ -195,7 +195,7 @@ func (menu *Menu) DeleteMenu(ctx context.Context) error {
 	return util.DecodeWithCommonError(response, "GetMenu")
 }
 
-//AddConditional 添加个性化菜单
+// AddConditional 添加个性化菜单
 func (menu *Menu) AddConditional(ctx context.Context, buttons []*Button, matchRule *MatchRule) error {
 	accessToken, err := menu.GetAccessToken(ctx)
 	if err != nil {
@@ -216,7 +216,7 @@ func (menu *Menu) AddConditional(ctx context.Context, buttons []*Button, matchRu
 	return util.DecodeWithCommonError(response, "AddConditional")
 }
 
-//AddConditionalByJSON 添加个性化菜单
+// AddConditionalByJSON 添加个性化菜单
 func (menu *Menu) AddConditionalByJSON(ctx context.Context, jsonInfo string) error {
 	accessToken, err := menu.GetAccessToken(ctx)
 	if err != nil {
@@ -232,7 +232,7 @@ func (menu *Menu) AddConditionalByJSON(ctx context.Context, jsonInfo string) err
 	return util.DecodeWithCommonError(response, "AddConditional")
 }
 
-//DeleteConditional 删除个性化菜单
+// DeleteConditional 删除个性化菜单
 func (menu *Menu) DeleteConditional(ctx context.Context, menuID int64) error {
 	accessToken, err := menu.GetAccessToken(ctx)
 	if err != nil {
@@ -252,7 +252,7 @@ func (menu *Menu) DeleteConditional(ctx context.Context, menuID int64) error {
 	return util.DecodeWithCommonError(response, "DeleteConditional")
 }
 
-//MenuTryMatch 菜单匹配
+// MenuTryMatch 菜单匹配
 func (menu *Menu) MenuTryMatch(ctx context.Context, userID string) (buttons []Button, err error) {
 	var accessToken string
 	accessToken, err = menu.GetAccessToken(ctx)
@@ -279,7 +279,7 @@ func (menu *Menu) MenuTryMatch(ctx context.Context, userID string) (buttons []Bu
 	return
 }
 
-//GetCurrentSelfMenuInfo 获取自定义菜单配置接口
+// GetCurrentSelfMenuInfo 获取自定义菜单配置接口
 func (menu *Menu) GetCurrentSelfMenuInfo(ctx context.Context) (resSelfMenuInfo ResSelfMenuInfo, err error) {
 	var accessToken string
 	accessToken, err = menu.GetAccessToken(ctx)

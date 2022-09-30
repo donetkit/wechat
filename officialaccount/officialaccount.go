@@ -24,7 +24,7 @@ import (
 	"github.com/donetkit/wechat/officialaccount/user"
 )
 
-//OfficialAccount 微信公众号相关API
+// OfficialAccount 微信公众号相关API
 type OfficialAccount struct {
 	ctx          *context2.Context
 	basic        *basic.Basic
@@ -45,7 +45,7 @@ type OfficialAccount struct {
 	manager      *customerservice.Manager
 }
 
-//NewOfficialAccount 实例化公众号API
+// NewOfficialAccount 实例化公众号API
 func NewOfficialAccount(cfg *config.Config) *OfficialAccount {
 	defaultAkHandle := credential.NewDefaultAccessToken(cfg.AppID, cfg.AppSecret, credential.CacheKeyOfficialAccountPrefix, cfg.Cache)
 	ctx := &context2.Context{
@@ -55,7 +55,7 @@ func NewOfficialAccount(cfg *config.Config) *OfficialAccount {
 	return &OfficialAccount{ctx: ctx}
 }
 
-//SetAccessTokenHandle 自定义access_token获取方式
+// SetAccessTokenHandle 自定义access_token获取方式
 func (officialAccount *OfficialAccount) SetAccessTokenHandle(accessTokenHandle credential.AccessTokenHandle) {
 	officialAccount.ctx.AccessTokenHandle = accessTokenHandle
 }
@@ -88,7 +88,7 @@ func (officialAccount *OfficialAccount) GetServer(c *gin.Context) *server.Server
 	return srv
 }
 
-//GetAccessToken 获取access_token
+// GetAccessToken 获取access_token
 func (officialAccount *OfficialAccount) GetAccessToken(ctx context.Context) (string, error) {
 	return officialAccount.ctx.GetAccessToken(ctx)
 }
@@ -165,8 +165,8 @@ func (officialAccount *OfficialAccount) GetDevice() *device.Device {
 	return officialAccount.device
 }
 
-//GetBroadcast 群发消息
-//TODO 待完善
+// GetBroadcast 群发消息
+// TODO 待完善
 func (officialAccount *OfficialAccount) GetBroadcast() *broadcast.Broadcast {
 	if officialAccount.broadcast == nil {
 		officialAccount.broadcast = broadcast.NewBroadcast(officialAccount.ctx)
@@ -174,7 +174,7 @@ func (officialAccount *OfficialAccount) GetBroadcast() *broadcast.Broadcast {
 	return officialAccount.broadcast
 }
 
-//GetDataCube 数据统计
+// GetDataCube 数据统计
 func (officialAccount *OfficialAccount) GetDataCube() *datacube.DataCube {
 	if officialAccount.datacube == nil {
 		officialAccount.datacube = datacube.NewCube(officialAccount.ctx)
@@ -182,7 +182,7 @@ func (officialAccount *OfficialAccount) GetDataCube() *datacube.DataCube {
 	return officialAccount.datacube
 }
 
-//GetOCR OCR接口
+// GetOCR OCR接口
 func (officialAccount *OfficialAccount) GetOCR() *ocr.OCR {
 	if officialAccount.ocr == nil {
 		officialAccount.ocr = ocr.NewOCR(officialAccount.ctx)
@@ -190,7 +190,7 @@ func (officialAccount *OfficialAccount) GetOCR() *ocr.OCR {
 	return officialAccount.ocr
 }
 
-//GetSubscribe 公众号订阅消息
+// GetSubscribe 公众号订阅消息
 func (officialAccount *OfficialAccount) GetSubscribe() *message.Subscribe {
 	if officialAccount.subscribeMsg == nil {
 		officialAccount.subscribeMsg = message.NewSubscribe(officialAccount.ctx)
