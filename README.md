@@ -13,7 +13,6 @@
 - minigame:小游戏API
 - pay:微信支付API
 - openplatform:开放平台API
-- work:企业微信
 - aispeech:智能对话
 
 ## Thanks
