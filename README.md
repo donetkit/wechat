@@ -18,6 +18,3 @@
 ## Thanks
 - 感谢 [silenceper](https://github.com/silenceper/wechat)
 
-## License
-
-Apache License, Version 2.0
