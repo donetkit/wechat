@@ -3,6 +3,9 @@ package miniprogram
 import (
 	"context"
 	"fmt"
+	"github.com/donetkit/wechat/credential"
+	"github.com/donetkit/wechat/miniprogram"
+	miniConfig "github.com/donetkit/wechat/miniprogram/config"
 	miniContext "github.com/donetkit/wechat/miniprogram/context"
 	"github.com/donetkit/wechat/miniprogram/urllink"
 	openContext "github.com/donetkit/wechat/openplatform/context"
@@ -13,17 +16,37 @@ import (
 
 // MiniProgram 代小程序实现业务
 type MiniProgram struct {
-	AppID                  string
-	openContext            *openContext.Context
+	AppID       string
+	openContext *openContext.Context
+	*miniprogram.MiniProgram
 	authorizerRefreshToken string
 }
 
 // NewMiniProgram 实例化
 func NewMiniProgram(opCtx *openContext.Context, appID string) *MiniProgram {
-	return &MiniProgram{
-		openContext: opCtx,
-		AppID:       appID,
-	}
+	miniProgram := miniprogram.NewMiniProgram(&miniConfig.Config{
+		AppID: opCtx.AppID,
+		Cache: opCtx.Cache,
+	})
+	// 设置获取access_token的函数
+	miniProgram.SetAccessTokenHandle(NewDefaultAuthrAccessToken(opCtx, appID))
+	return &MiniProgram{AppID: appID, MiniProgram: miniProgram, openContext: opCtx}
+}
+
+// DefaultAuthrAccessToken 默认获取授权ak的方法
+type DefaultAuthrAccessToken struct {
+	opCtx *openContext.Context
+	appID string
+}
+
+// NewDefaultAuthrAccessToken 设置access_token
+func NewDefaultAuthrAccessToken(opCtx *openContext.Context, appID string) credential.AccessTokenHandle {
+	return &DefaultAuthrAccessToken{opCtx: opCtx, appID: appID}
+}
+
+// GetAccessToken 获取ak
+func (ak *DefaultAuthrAccessToken) GetAccessToken(ctx context.Context) (string, error) {
+	return ak.opCtx.GetAuthrAccessToken(ctx, ak.appID)
 }
 
 // GetAccessToken 获取ak
