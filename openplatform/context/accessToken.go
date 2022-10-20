@@ -198,8 +198,8 @@ func (c *Context) RefreshAuthrToken(ctx context.Context, appid, refreshToken str
 	return ret, nil
 }
 
-// GetAuthrAccessToken 获取授权方AccessToken
-func (c *Context) GetAuthrAccessToken(ctx context.Context, appid string) (string, error) {
+// GetAuthAccessToken 获取授权方AccessToken
+func (c *Context) GetAuthAccessToken(ctx context.Context, appid string) (string, error) {
 	authrTokenKey := "authorizer_access_token_" + appid
 	val := c.Cache.WithContext(ctx).Get(authrTokenKey)
 	if val == nil {

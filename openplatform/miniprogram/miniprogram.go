@@ -46,12 +46,12 @@ func NewDefaultAuthrAccessToken(opCtx *openContext.Context, appID string) creden
 
 // GetAccessToken 获取ak
 func (ak *DefaultAuthrAccessToken) GetAccessToken(ctx context.Context) (string, error) {
-	return ak.opCtx.GetAuthrAccessToken(ctx, ak.appID)
+	return ak.opCtx.GetAuthAccessToken(ctx, ak.appID)
 }
 
 // GetAccessToken 获取ak
 func (miniProgram *MiniProgram) GetAccessToken(ctx context.Context) (string, error) {
-	ak, akErr := miniProgram.openContext.GetAuthrAccessToken(ctx, miniProgram.AppID)
+	ak, akErr := miniProgram.openContext.GetAuthAccessToken(ctx, miniProgram.AppID)
 	if akErr == nil {
 		return ak, nil
 	}
