@@ -74,7 +74,7 @@ func (srv *Server) Serve() error {
 	}
 
 	//debug print request msg
-	log.Log.Debugf("request msg =%s", string(srv.RequestRawXMLMsg))
+	log.Log.Debugf("request msg: %s", string(srv.RequestRawXMLMsg))
 
 	// 非安全模式下，请求处理方法返回为nil则直接回复success给微信服务器
 	if response == nil && !srv.isSafeMode {
@@ -277,7 +277,7 @@ func (srv *Server) buildResponse(reply *message.Reply) (err error) {
 // Send 将自定义的消息发送
 func (srv *Server) Send() (err error) {
 	replyMsg := srv.ResponseMsg
-	log.Log.Debugf("response msg =%+v", replyMsg)
+	log.Log.Debugf("response msg: %v", replyMsg)
 	if srv.isSafeMode {
 		//安全模式下对消息进行加密
 		var encryptedMsg []byte

@@ -104,7 +104,6 @@ func OpenOauthCallBack(c *gin.Context) {
 			c.Writer.WriteString(err.Error())
 			return
 		}
-		//logger.Log.Info(info)
 	}
 	c.Writer.WriteString("success")
 
