@@ -75,7 +75,7 @@ func (ak *DefaultAccessToken) GetAccessToken(ctx context.Context) (accessToken s
 
 	//cache失效，从微信服务器获取
 	var resAccessToken ResAccessToken
-	resAccessToken, err = GetTokenFromServer(fmt.Sprintf(accessTokenURL, ak.appID, ak.appSecret))
+	resAccessToken, err = GetTokenFromServerContext(ctx, fmt.Sprintf(accessTokenURL, ak.appID, ak.appSecret))
 	if err != nil {
 		return
 	}
@@ -208,24 +208,6 @@ func (ak *StableAccessToken) GetAccessTokenDirectly(ctx context.Context, forceRe
 
 	if resAccessToken.ErrCode != 0 {
 		err = fmt.Errorf("get stable access_token error : errcode=%v , errormsg=%v", resAccessToken.ErrCode, resAccessToken.ErrMsg)
-		return
-	}
-	return
-}
-
-// GetTokenFromServer 强制从微信服务器获取token
-func GetTokenFromServer(url string) (resAccessToken ResAccessToken, err error) {
-	var body []byte
-	body, err = util.HTTPGet(url)
-	if err != nil {
-		return
-	}
-	err = json.Unmarshal(body, &resAccessToken)
-	if err != nil {
-		return
-	}
-	if resAccessToken.ErrCode != 0 {
-		err = fmt.Errorf("get access_token error : errcode=%v , errormsg=%v", resAccessToken.ErrCode, resAccessToken.ErrMsg)
 		return
 	}
 	return
