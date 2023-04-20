@@ -132,7 +132,7 @@ func (csm *Manager) Add(ctx context.Context, kfAccount, nickName string) (err er
 		NickName:  nickName,
 	}
 	var response []byte
-	response, err = util.PostJSON(uri, data)
+	response, err = util.PostJSONContext(ctx, uri, data)
 	if err != nil {
 		return
 	}
@@ -156,7 +156,7 @@ func (csm *Manager) Update(ctx context.Context, kfAccount, nickName string) (err
 		NickName:  nickName,
 	}
 	var response []byte
-	response, err = util.PostJSON(uri, data)
+	response, err = util.PostJSONContext(ctx, uri, data)
 	if err != nil {
 		return
 	}
@@ -178,7 +178,7 @@ func (csm *Manager) Delete(ctx context.Context, kfAccount string) (err error) {
 		KfAccount: kfAccount,
 	}
 	var response []byte
-	response, err = util.PostJSON(uri, data)
+	response, err = util.PostJSONContext(ctx, uri, data)
 	if err != nil {
 		return
 	}
@@ -202,7 +202,7 @@ func (csm *Manager) InviteBind(ctx context.Context, kfAccount, inviteWX string) 
 		InviteWX:  inviteWX,
 	}
 	var response []byte
-	response, err = util.PostJSON(uri, data)
+	response, err = util.PostJSONContext(ctx, uri, data)
 	if err != nil {
 		return
 	}
@@ -243,7 +243,7 @@ func (csm *Manager) SendTypingStatus(ctx context.Context, openid string, cmd Typ
 		Command: string(cmd),
 	}
 	var response []byte
-	response, err = util.PostJSON(uri, data)
+	response, err = util.PostJSONContext(ctx, uri, data)
 	if err != nil {
 		return
 	}

@@ -40,7 +40,7 @@ func (security *Security) MediaCheckAsyncV1(ctx context.Context, in *MediaCheckA
 	}
 
 	uri := fmt.Sprintf(mediaCheckAsyncURL, accessToken)
-	response, err := util.PostJSON(uri, in)
+	response, err := util.PostJSONContext(ctx, uri, in)
 	if err != nil {
 		return
 	}
@@ -82,7 +82,7 @@ func (security *Security) MediaCheckAsync(ctx context.Context, in *MediaCheckAsy
 	req.Version = 2
 
 	uri := fmt.Sprintf(mediaCheckAsyncURL, accessToken)
-	response, err := util.PostJSON(uri, req)
+	response, err := util.PostJSONContext(ctx, uri, req)
 	if err != nil {
 		return
 	}
@@ -220,7 +220,7 @@ func (security *Security) MsgCheckV1(ctx context.Context, content string) (res M
 	req.Content = content
 
 	uri := fmt.Sprintf(msgCheckURL, accessToken)
-	response, err := util.PostJSON(uri, req)
+	response, err := util.PostJSONContext(ctx, uri, req)
 	if err != nil {
 		return
 	}
@@ -245,7 +245,7 @@ func (security *Security) MsgCheck(ctx context.Context, in *MsgCheckRequest) (re
 	req.Version = 2
 
 	uri := fmt.Sprintf(msgCheckURL, accessToken)
-	response, err := util.PostJSON(uri, req)
+	response, err := util.PostJSONContext(ctx, uri, req)
 	if err != nil {
 		return
 	}

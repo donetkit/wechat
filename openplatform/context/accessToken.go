@@ -47,7 +47,7 @@ func (c *Context) SetComponentAccessToken(ctx context.Context, verifyTicket stri
 		"component_appsecret":     c.AppSecret,
 		"component_verify_ticket": verifyTicket,
 	}
-	respBody, err := util.PostJSON(componentAccessTokenURL, body)
+	respBody, err := util.PostJSONContext(ctx, componentAccessTokenURL, body)
 	if err != nil {
 		return nil, err
 	}
@@ -79,7 +79,7 @@ func (c *Context) GetPreCode(ctx context.Context) (string, error) {
 		"component_appid": c.AppID,
 	}
 	uri := fmt.Sprintf(getPreCodeURL, cat)
-	body, err := util.PostJSON(uri, req)
+	body, err := util.PostJSONContext(ctx, uri, req)
 	if err != nil {
 		return "", err
 	}
@@ -148,7 +148,7 @@ func (c *Context) QueryAuthCode(ctx context.Context, authCode string) (*AuthBase
 		"authorization_code": authCode,
 	}
 	uri := fmt.Sprintf(queryAuthURL, cat)
-	body, err := util.PostJSON(uri, req)
+	body, err := util.PostJSONContext(ctx, uri, req)
 	if err != nil {
 		return nil, err
 	}
@@ -181,7 +181,7 @@ func (c *Context) RefreshAuthrToken(ctx context.Context, appid, refreshToken str
 		"authorizer_refresh_token": refreshToken,
 	}
 	uri := fmt.Sprintf(refreshTokenURL, cat)
-	body, err := util.PostJSON(uri, req)
+	body, err := util.PostJSONContext(ctx, uri, req)
 	if err != nil {
 		return nil, err
 	}
@@ -270,7 +270,7 @@ func (c *Context) GetAuthrInfo(ctx context.Context, appid string) (*AuthorizerIn
 	}
 
 	uri := fmt.Sprintf(getComponentInfoURL, cat)
-	body, err := util.PostJSON(uri, req)
+	body, err := util.PostJSONContext(ctx, uri, req)
 	if err != nil {
 		return nil, nil, err
 	}

@@ -54,7 +54,7 @@ func (draft *Draft) AddDraft(ctx context.Context, articles []*Article) (mediaID 
 	req.Articles = articles
 
 	uri := fmt.Sprintf("%s?access_token=%s", addURL, accessToken)
-	response, err := util.PostJSON(uri, req)
+	response, err := util.PostJSONContext(ctx, uri, req)
 	if err != nil {
 		return
 	}
@@ -84,7 +84,7 @@ func (draft *Draft) GetDraft(ctx context.Context, mediaID string) (articles []*A
 	req.MediaID = mediaID
 
 	uri := fmt.Sprintf("%s?access_token=%s", getURL, accessToken)
-	response, err := util.PostJSON(uri, req)
+	response, err := util.PostJSONContext(ctx, uri, req)
 	if err != nil {
 		return
 	}
@@ -116,7 +116,7 @@ func (draft *Draft) DeleteDraft(ctx context.Context, mediaID string) (err error)
 
 	var response []byte
 	uri := fmt.Sprintf("%s?access_token=%s", deleteURL, accessToken)
-	response, err = util.PostJSON(uri, req)
+	response, err = util.PostJSONContext(ctx, uri, req)
 	if err != nil {
 		return
 	}
@@ -144,7 +144,7 @@ func (draft *Draft) UpdateDraft(ctx context.Context, article *Article, mediaID s
 
 	uri := fmt.Sprintf("%s?access_token=%s", updateURL, accessToken)
 	var response []byte
-	response, err = util.PostJSON(uri, req)
+	response, err = util.PostJSONContext(ctx, uri, req)
 	if err != nil {
 		return
 	}
@@ -218,7 +218,7 @@ func (draft *Draft) PaginateDraft(ctx context.Context, offset, count int64, noRe
 
 	var response []byte
 	uri := fmt.Sprintf("%s?access_token=%s", paginateURL, accessToken)
-	response, err = util.PostJSON(uri, req)
+	response, err = util.PostJSONContext(ctx, uri, req)
 	if err != nil {
 		return
 	}

@@ -167,7 +167,7 @@ func (manager *Manager) Send(ctx context.Context, msg *CustomerMessage) error {
 		return err
 	}
 	uri := fmt.Sprintf("%s?access_token=%s", customerSendMessage, accessToken)
-	response, err := util.PostJSON(uri, msg)
+	response, err := util.PostJSONContext(ctx, uri, msg)
 	if err != nil {
 		return err
 	}

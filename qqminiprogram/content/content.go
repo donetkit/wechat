@@ -29,7 +29,7 @@ func (content *Content) CheckText(ctx context.Context, text string) error {
 	if err != nil {
 		return err
 	}
-	response, err := util.PostJSON(
+	response, err := util.PostJSONContext(ctx,
 		fmt.Sprintf(checkTextURL, accessToken),
 		map[string]string{
 			"content": text,

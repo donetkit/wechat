@@ -99,7 +99,7 @@ func (user *User) UpdateRemark(ctx context.Context, openID, remark string) (err 
 
 	uri := fmt.Sprintf(updateRemarkURL, accessToken)
 	var response []byte
-	response, err = util.PostJSON(uri, map[string]string{"openid": openID, "remark": remark})
+	response, err = util.PostJSONContext(ctx, uri, map[string]string{"openid": openID, "remark": remark})
 	if err != nil {
 		return
 	}

@@ -63,7 +63,7 @@ func (freePublish *FreePublish) Publish(ctx context.Context, mediaID string) (pu
 
 	var response []byte
 	uri := fmt.Sprintf("%s?access_token=%s", publishURL, accessToken)
-	response, err = util.PostJSON(uri, req)
+	response, err = util.PostJSONContext(ctx, uri, req)
 	if err != nil {
 		return
 	}
@@ -117,7 +117,7 @@ func (freePublish *FreePublish) SelectStatus(ctx context.Context, publishID int6
 
 	var response []byte
 	uri := fmt.Sprintf("%s?access_token=%s", selectStateURL, accessToken)
-	response, err = util.PostJSON(uri, req)
+	response, err = util.PostJSONContext(ctx, uri, req)
 	if err != nil {
 		return
 	}
@@ -144,7 +144,7 @@ func (freePublish *FreePublish) Delete(ctx context.Context, articleID string, in
 
 	var response []byte
 	uri := fmt.Sprintf("%s?access_token=%s", deleteURL, accessToken)
-	response, err = util.PostJSON(uri, req)
+	response, err = util.PostJSONContext(ctx, uri, req)
 	if err != nil {
 		return err
 	}
@@ -181,7 +181,7 @@ func (freePublish *FreePublish) First(ctx context.Context, articleID string) (li
 
 	var response []byte
 	uri := fmt.Sprintf("%s?access_token=%s", firstArticleURL, accessToken)
-	response, err = util.PostJSON(uri, req)
+	response, err = util.PostJSONContext(ctx, uri, req)
 	if err != nil {
 		return
 	}
@@ -238,7 +238,7 @@ func (freePublish *FreePublish) Paginate(ctx context.Context, offset, count int6
 
 	var response []byte
 	uri := fmt.Sprintf("%s?access_token=%s", paginateURL, accessToken)
-	response, err = util.PostJSON(uri, req)
+	response, err = util.PostJSONContext(ctx, uri, req)
 	if err != nil {
 		return
 	}

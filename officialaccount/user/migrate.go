@@ -57,7 +57,7 @@ func (user *User) ListChangeOpenIDs(ctx context.Context, fromAppID string, openI
 	}
 	req.FromAppID = fromAppID
 	req.OpenidList = append(req.OpenidList, openIDs...)
-	resp, err = util.PostJSON(uri, req)
+	resp, err = util.PostJSONContext(ctx, uri, req)
 	if err != nil {
 		return
 	}

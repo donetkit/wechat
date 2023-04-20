@@ -28,9 +28,9 @@ func InitRouter(appServe *webserve.Server, log glog.ILogger) {
 	r.Use(favicon.New(favicon.WithRoutePaths("/favicon.ico", "./favicon.ico")))
 	r.Use(requestid.New())
 	r.LoadHTMLGlob("templates/*")
-	r.Use(logger.NewErrorLogger(logger.WithLogger(log), logger.WithConsoleColor(false), logger.WithWriterErrorFn(func(logParams *logger.LogFormatterParams) (int, interface{}) {
-		log.WithField("GIN-Exception", "GIN-Exception").Error(logParams)
-		return http.StatusInternalServerError, nil
+	r.Use(logger.NewErrorLogger(logger.WithLogger(log), logger.WithConsoleColor(false), logger.WithWriterErrorFn(func(c *gin.Context, logParams *logger.LogFormatterParams) (int, interface{}) {
+		log.WithField("GIN-Exception", "GIN-Exception").Error(log)
+		return http.StatusInternalServerError, "网络超时, 请重试!"
 	})))
 
 	if appServe.IsDevelopment() {

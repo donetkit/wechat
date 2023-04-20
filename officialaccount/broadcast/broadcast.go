@@ -114,7 +114,7 @@ func (broadcast *Broadcast) SendText(ctx context.Context, user *User, content st
 	}
 	req, sendURL := broadcast.chooseTagOrOpenID(user, req)
 	url := fmt.Sprintf("%s?access_token=%s", sendURL, ak)
-	data, err := util.PostJSON(url, req)
+	data, err := util.PostJSONContext(ctx, url, req)
 	if err != nil {
 		return nil, err
 	}
@@ -141,7 +141,7 @@ func (broadcast *Broadcast) SendNews(ctx context.Context, user *User, mediaID st
 	}
 	req, sendURL := broadcast.chooseTagOrOpenID(user, req)
 	url := fmt.Sprintf("%s?access_token=%s", sendURL, ak)
-	data, err := util.PostJSON(url, req)
+	data, err := util.PostJSONContext(ctx, url, req)
 	if err != nil {
 		return nil, err
 	}
@@ -165,7 +165,7 @@ func (broadcast *Broadcast) SendVoice(ctx context.Context, user *User, mediaID s
 	}
 	req, sendURL := broadcast.chooseTagOrOpenID(user, req)
 	url := fmt.Sprintf("%s?access_token=%s", sendURL, ak)
-	data, err := util.PostJSON(url, req)
+	data, err := util.PostJSONContext(ctx, url, req)
 	if err != nil {
 		return nil, err
 	}
@@ -187,7 +187,7 @@ func (broadcast *Broadcast) SendImage(ctx context.Context, user *User, images *I
 	req.Images = images
 	req, sendURL := broadcast.chooseTagOrOpenID(user, req)
 	url := fmt.Sprintf("%s?access_token=%s", sendURL, ak)
-	data, err := util.PostJSON(url, req)
+	data, err := util.PostJSONContext(ctx, url, req)
 	if err != nil {
 		return nil, err
 	}
@@ -213,7 +213,7 @@ func (broadcast *Broadcast) SendVideo(ctx context.Context, user *User, mediaID s
 	}
 	req, sendURL := broadcast.chooseTagOrOpenID(user, req)
 	url := fmt.Sprintf("%s?access_token=%s", sendURL, ak)
-	data, err := util.PostJSON(url, req)
+	data, err := util.PostJSONContext(ctx, url, req)
 	if err != nil {
 		return nil, err
 	}
@@ -237,7 +237,7 @@ func (broadcast *Broadcast) SendWxCard(ctx context.Context, user *User, cardID s
 	}
 	req, sendURL := broadcast.chooseTagOrOpenID(user, req)
 	url := fmt.Sprintf("%s?access_token=%s", sendURL, ak)
-	data, err := util.PostJSON(url, req)
+	data, err := util.PostJSONContext(ctx, url, req)
 	if err != nil {
 		return nil, err
 	}
@@ -257,7 +257,7 @@ func (broadcast *Broadcast) Delete(ctx context.Context, msgID int64, articleIDx 
 		"article_idx": articleIDx,
 	}
 	url := fmt.Sprintf("%s?access_token=%s", deleteSendURL, ak)
-	data, err := util.PostJSON(url, req)
+	data, err := util.PostJSONContext(ctx, url, req)
 	if err != nil {
 		return err
 	}
@@ -280,7 +280,7 @@ func (broadcast *Broadcast) GetMassStatus(ctx context.Context, msgID string) (*R
 		"msg_id": msgID,
 	}
 	url := fmt.Sprintf("%s?access_token=%s", massStatusSendURL, ak)
-	data, err := util.PostJSON(url, req)
+	data, err := util.PostJSONContext(ctx, url, req)
 	if err != nil {
 		return nil, err
 	}
@@ -297,7 +297,7 @@ func (broadcast *Broadcast) GetSpeed(ctx context.Context) (*SpeedResult, error) 
 	}
 	req := map[string]interface{}{}
 	url := fmt.Sprintf("%s?access_token=%s", getSpeedSendURL, ak)
-	data, err := util.PostJSON(url, req)
+	data, err := util.PostJSONContext(ctx, url, req)
 	if err != nil {
 		return nil, err
 	}
@@ -316,7 +316,7 @@ func (broadcast *Broadcast) SetSpeed(ctx context.Context, speed int) (*SpeedResu
 		"speed": speed,
 	}
 	url := fmt.Sprintf("%s?access_token=%s", setSpeedSendURL, ak)
-	data, err := util.PostJSON(url, req)
+	data, err := util.PostJSONContext(ctx, url, req)
 	if err != nil {
 		return nil, err
 	}

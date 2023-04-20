@@ -50,7 +50,7 @@ func (user *User) CreateTag(ctx context.Context, tagName string) (tagInfo *TagIn
 		} `json:"tag"`
 	}
 	request.Tag.Name = tagName
-	response, err = util.PostJSON(uri, &request)
+	response, err = util.PostJSONContext(ctx, uri, &request)
 	if err != nil {
 		return
 	}
@@ -82,7 +82,7 @@ func (user *User) DeleteTag(ctx context.Context, tagID int32) (err error) {
 		} `json:"tag"`
 	}
 	request.Tag.ID = tagID
-	resp, err := util.PostJSON(url, &request)
+	resp, err := util.PostJSONContext(ctx, url, &request)
 	if err != nil {
 		return
 	}
@@ -104,7 +104,7 @@ func (user *User) UpdateTag(ctx context.Context, tagID int32, tagName string) (e
 	}
 	request.Tag.ID = tagID
 	request.Tag.Name = tagName
-	resp, err := util.PostJSON(url, &request)
+	resp, err := util.PostJSONContext(ctx, url, &request)
 	if err != nil {
 		return
 	}
@@ -149,7 +149,7 @@ func (user *User) OpenIDListByTag(ctx context.Context, tagID int32, nextOpenID .
 	if len(nextOpenID) > 0 {
 		request.OpenID = nextOpenID[0]
 	}
-	response, err := util.PostJSON(url, &request)
+	response, err := util.PostJSONContext(ctx, url, &request)
 	if err != nil {
 		return nil, err
 	}
@@ -178,7 +178,7 @@ func (user *User) BatchTag(ctx context.Context, openIDList []string, tagID int32
 		TagID:      tagID,
 	}
 	url := fmt.Sprintf(tagBatchtaggingURL, accessToken)
-	resp, err := util.PostJSON(url, &request)
+	resp, err := util.PostJSONContext(ctx, url, &request)
 	if err != nil {
 		return
 	}
@@ -202,7 +202,7 @@ func (user *User) BatchUntag(ctx context.Context, openIDList []string, tagID int
 		OpenIDList: openIDList,
 		TagID:      tagID,
 	}
-	resp, err := util.PostJSON(url, &request)
+	resp, err := util.PostJSONContext(ctx, url, &request)
 	if err != nil {
 		return
 	}
@@ -222,7 +222,7 @@ func (user *User) UserTidList(ctx context.Context, openID string) (tagIDList []i
 	}{
 		OpenID: openID,
 	}
-	resp, err := util.PostJSON(url, &request)
+	resp, err := util.PostJSONContext(ctx, url, &request)
 	if err != nil {
 		return
 	}

@@ -73,7 +73,7 @@ func (u *URLScheme) Generate(ctx context.Context, params *USParams) (string, err
 	}
 
 	uri := fmt.Sprintf("%s?access_token=%s", generateURL, accessToken)
-	response, err := util.PostJSON(uri, params)
+	response, err := util.PostJSONContext(ctx, uri, params)
 	if err != nil {
 		return "", err
 	}

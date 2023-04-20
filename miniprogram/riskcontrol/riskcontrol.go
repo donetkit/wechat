@@ -49,7 +49,7 @@ func (riskControl *RiskControl) GetUserRiskRank(ctx context.Context, in *UserRis
 	}
 
 	uri := fmt.Sprintf(getUserRiskRankURL, accessToken)
-	response, err := util.PostJSON(uri, in)
+	response, err := util.PostJSONContext(ctx, uri, in)
 	if err != nil {
 		return
 	}

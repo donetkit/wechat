@@ -26,7 +26,7 @@ func (d *Device) Bind(ctx context.Context, req ReqBind) (err error) {
 	}
 	uri := fmt.Sprintf("%s?access_token=%s", uriBind, accessToken)
 	var response []byte
-	if response, err = util.PostJSON(uri, req); err != nil {
+	if response, err = util.PostJSONContext(ctx, uri, req); err != nil {
 		return
 	}
 	var result resBind
@@ -48,7 +48,7 @@ func (d *Device) Unbind(ctx context.Context, req ReqBind) (err error) {
 	}
 	uri := fmt.Sprintf("%s?access_token=%s", uriUnbind, accessToken)
 	var response []byte
-	if response, err = util.PostJSON(uri, req); err != nil {
+	if response, err = util.PostJSONContext(ctx, uri, req); err != nil {
 		return
 	}
 	var result resBind
@@ -70,7 +70,7 @@ func (d *Device) CompelBind(ctx context.Context, req ReqBind) (err error) {
 	}
 	uri := fmt.Sprintf("%s?access_token=%s", uriCompelBind, accessToken)
 	var response []byte
-	if response, err = util.PostJSON(uri, req); err != nil {
+	if response, err = util.PostJSONContext(ctx, uri, req); err != nil {
 		return
 	}
 	var result resBind
@@ -92,7 +92,7 @@ func (d *Device) CompelUnbind(ctx context.Context, req ReqBind) (err error) {
 	}
 	uri := fmt.Sprintf("%s?access_token=%s", uriCompelUnbind, accessToken)
 	var response []byte
-	if response, err = util.PostJSON(uri, req); err != nil {
+	if response, err = util.PostJSONContext(ctx, uri, req); err != nil {
 		return
 	}
 	var result resBind

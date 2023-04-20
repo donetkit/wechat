@@ -51,7 +51,7 @@ func (basic *Basic) GetQRTicket(ctx context.Context, tq *Request) (t *Ticket, er
 	}
 
 	uri := fmt.Sprintf(qrCreateURL, accessToken)
-	response, err := util.PostJSON(uri, tq)
+	response, err := util.PostJSONContext(ctx, uri, tq)
 	if err != nil {
 		err = fmt.Errorf("get qr ticket failed, %s", err)
 		return

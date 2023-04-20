@@ -79,7 +79,7 @@ func (s *Subscribe) Send(ctx context.Context, msg *Message) (err error) {
 		return
 	}
 	uri := fmt.Sprintf("%s?access_token=%s", subscribeSendURL, accessToken)
-	response, err := util.PostJSON(uri, msg)
+	response, err := util.PostJSONContext(ctx, uri, msg)
 	if err != nil {
 		return
 	}
@@ -136,7 +136,7 @@ func (s *Subscribe) UniformSend(ctx context.Context, msg *UniformMessage) (err e
 		return
 	}
 	uri := fmt.Sprintf("%s?access_token=%s", uniformMessageSend, accessToken)
-	response, err := util.PostJSON(uri, msg)
+	response, err := util.PostJSONContext(ctx, uri, msg)
 	if err != nil {
 		return
 	}
@@ -163,7 +163,7 @@ func (s *Subscribe) Add(ctx context.Context, ShortID string, kidList []int, scen
 	}{TemplateIDShort: ShortID, SceneDesc: sceneDesc, KidList: kidList}
 	uri := fmt.Sprintf("%s?access_token=%s", addTemplateURL, accessToken)
 	var response []byte
-	response, err = util.PostJSON(uri, msg)
+	response, err = util.PostJSONContext(ctx, uri, msg)
 	if err != nil {
 		return
 	}
@@ -188,7 +188,7 @@ func (s *Subscribe) Delete(ctx context.Context, templateID string) (err error) {
 	}{TemplateID: templateID}
 	uri := fmt.Sprintf("%s?access_token=%s", delTemplateURL, accessToken)
 	var response []byte
-	response, err = util.PostJSON(uri, msg)
+	response, err = util.PostJSONContext(ctx, uri, msg)
 	if err != nil {
 		return
 	}

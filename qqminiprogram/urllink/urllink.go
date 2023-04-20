@@ -59,7 +59,7 @@ func (u *URLLink) Generate(ctx context.Context, params *ULParams) (string, error
 	}
 
 	uri := fmt.Sprintf("%s?access_token=%s", generateURL, accessToken)
-	response, err := util.PostJSON(uri, params)
+	response, err := util.PostJSONContext(ctx, uri, params)
 	if err != nil {
 		return "", err
 	}

@@ -84,7 +84,7 @@ func (tcb *Tcb) UploadFile(ctx context.Context, env, path string) (*UploadFileRe
 		Env:  env,
 		Path: path,
 	}
-	response, err := util.PostJSON(uri, req)
+	response, err := util.PostJSONContext(ctx, uri, req)
 	if err != nil {
 		return nil, err
 	}
@@ -106,7 +106,7 @@ func (tcb *Tcb) BatchDownloadFile(ctx context.Context, env string, fileList []*D
 		Env:      env,
 		FileList: fileList,
 	}
-	response, err := util.PostJSON(uri, req)
+	response, err := util.PostJSONContext(ctx, uri, req)
 	if err != nil {
 		return nil, err
 	}
@@ -128,7 +128,7 @@ func (tcb *Tcb) BatchDeleteFile(ctx context.Context, env string, fileIDList []st
 		Env:        env,
 		FileIDList: fileIDList,
 	}
-	response, err := util.PostJSON(uri, req)
+	response, err := util.PostJSONContext(ctx, uri, req)
 	if err != nil {
 		return nil, err
 	}

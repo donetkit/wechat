@@ -64,7 +64,7 @@ func (tpl *Template) Send(ctx context.Context, msg *TemplateMessage) (msgID int6
 	}
 	uri := fmt.Sprintf("%s?access_token=%s", templateSendURL, accessToken)
 	var response []byte
-	response, err = util.PostJSON(uri, msg)
+	response, err = util.PostJSONContext(ctx, uri, msg)
 	if err != nil {
 		return
 	}
@@ -137,7 +137,7 @@ func (tpl *Template) Add(ctx context.Context, shortID string) (templateID string
 	}{ShortID: shortID}
 	uri := fmt.Sprintf("%s?access_token=%s", templateAddURL, accessToken)
 	var response []byte
-	response, err = util.PostJSON(uri, msg)
+	response, err = util.PostJSONContext(ctx, uri, msg)
 	if err != nil {
 		return
 	}
@@ -164,7 +164,7 @@ func (tpl *Template) Delete(ctx context.Context, templateID string) (err error) 
 
 	uri := fmt.Sprintf("%s?access_token=%s", templateDelURL, accessToken)
 	var response []byte
-	response, err = util.PostJSON(uri, msg)
+	response, err = util.PostJSONContext(ctx, uri, msg)
 	if err != nil {
 		return
 	}

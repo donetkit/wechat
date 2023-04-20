@@ -52,7 +52,7 @@ func (cube *DataCube) GetInterfaceSummary(ctx context.Context, s string, e strin
 		EndDate:   e,
 	}
 
-	response, err := util.PostJSON(uri, reqDate)
+	response, err := util.PostJSONContext(ctx, uri, reqDate)
 	if err != nil {
 		return
 	}
@@ -74,7 +74,7 @@ func (cube *DataCube) GetInterfaceSummaryHour(ctx context.Context, s string, e s
 		EndDate:   e,
 	}
 
-	response, err := util.PostJSON(uri, reqDate)
+	response, err := util.PostJSONContext(ctx, uri, reqDate)
 	if err != nil {
 		return
 	}

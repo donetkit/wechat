@@ -40,7 +40,7 @@ func (user *User) GetBlackList(ctx context.Context, beginOpenid ...string) (user
 	// 调用接口
 	var resp []byte
 	url := fmt.Sprintf(getblacklistURL, accessToken)
-	if resp, err = util.PostJSON(url, &request); err != nil {
+	if resp, err = util.PostJSONContext(ctx, url, &request); err != nil {
 		return nil, err
 	}
 
@@ -108,7 +108,7 @@ func (user *User) batch(ctx context.Context, url, apiName string, openidList ...
 	// 调用接口
 	var resp []byte
 	url = fmt.Sprintf(url, accessToken)
-	if resp, err = util.PostJSON(url, &request); err != nil {
+	if resp, err = util.PostJSONContext(ctx, url, &request); err != nil {
 		return
 	}
 

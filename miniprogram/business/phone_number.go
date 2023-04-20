@@ -34,7 +34,7 @@ func (business *Business) GetPhoneNumber(ctx context.Context, in *GetPhoneNumber
 	}
 
 	uri := fmt.Sprintf(getPhoneNumberURL, accessToken)
-	response, err := util.PostJSON(uri, in)
+	response, err := util.PostJSONContext(ctx, uri, in)
 	if err != nil {
 		return
 	}

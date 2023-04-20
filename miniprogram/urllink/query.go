@@ -39,7 +39,7 @@ func (u *URLLink) Query(ctx context.Context, urlLink string) (*ULQueryResult, er
 	}
 
 	uri := fmt.Sprintf("%s?access_token=%s", queryURL, accessToken)
-	response, err := util.PostJSON(uri, map[string]string{"url_link": urlLink})
+	response, err := util.PostJSONContext(ctx, uri, map[string]string{"url_link": urlLink})
 	if err != nil {
 		return nil, err
 	}

@@ -51,7 +51,7 @@ func (analysis *Analysis) fetchData(ctx context.Context, urlStr string, body int
 		return
 	}
 	urlStr = fmt.Sprintf(urlStr, accessToken)
-	response, err = util.PostJSON(urlStr, body)
+	response, err = util.PostJSONContext(ctx, urlStr, body)
 	return
 }
 

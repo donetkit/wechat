@@ -75,7 +75,7 @@ func (basic *Basic) ClearQuota(ctx context.Context) error {
 		return err
 	}
 	url := fmt.Sprintf("%s?access_token=%s", clearQuotaURL, ak)
-	data, err := util.PostJSON(url, map[string]string{
+	data, err := util.PostJSONContext(ctx, url, map[string]string{
 		"appid": basic.AppID,
 	})
 	if err != nil {

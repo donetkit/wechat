@@ -40,7 +40,7 @@ func (component *Component) RegisterMiniProgram(ctx context.Context, param *Regi
 		return nil
 	}
 	url := fmt.Sprintf(fastregisterweappURL+"?action=create&component_access_token=%s", componentAK)
-	data, err := util.PostJSON(url, param)
+	data, err := util.PostJSONContext(ctx, url, param)
 	if err != nil {
 		return err
 	}
@@ -62,7 +62,7 @@ func (component *Component) GetRegistrationStatus(ctx context.Context, param *Ge
 		return nil
 	}
 	url := fmt.Sprintf(fastregisterweappURL+"?action=search&component_access_token=%s", componentAK)
-	data, err := util.PostJSON(url, param)
+	data, err := util.PostJSONContext(ctx, url, param)
 	if err != nil {
 		return err
 	}

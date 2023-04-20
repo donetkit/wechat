@@ -30,7 +30,7 @@ func (d *Device) CreateQRCode(ctx context.Context, devices []string) (res ResCre
 		"device_id_list": devices,
 	}
 	var response []byte
-	if response, err = util.PostJSON(uri, req); err != nil {
+	if response, err = util.PostJSONContext(ctx, uri, req); err != nil {
 		return
 	}
 	if err = json.Unmarshal(response, &res); err != nil {
@@ -63,7 +63,7 @@ func (d *Device) VerifyQRCode(ctx context.Context, ticket string) (res ResVerify
 	}
 
 	var response []byte
-	if response, err = util.PostJSON(uri, req); err != nil {
+	if response, err = util.PostJSONContext(ctx, uri, req); err != nil {
 		return
 	}
 	if err = json.Unmarshal(response, &res); err != nil {

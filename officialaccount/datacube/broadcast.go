@@ -152,7 +152,7 @@ func (cube *DataCube) GetArticleSummary(ctx context.Context, s string, e string)
 		EndDate:   e,
 	}
 
-	response, err := util.PostJSON(uri, reqDate)
+	response, err := util.PostJSONContext(ctx, uri, reqDate)
 	if err != nil {
 		return
 	}
@@ -174,7 +174,7 @@ func (cube *DataCube) GetArticleTotal(ctx context.Context, s string, e string) (
 		EndDate:   e,
 	}
 
-	response, err := util.PostJSON(uri, reqDate)
+	response, err := util.PostJSONContext(ctx, uri, reqDate)
 	if err != nil {
 		return
 	}
@@ -196,7 +196,7 @@ func (cube *DataCube) GetUserRead(ctx context.Context, s string, e string) (resU
 		EndDate:   e,
 	}
 
-	response, err := util.PostJSON(uri, reqDate)
+	response, err := util.PostJSONContext(ctx, uri, reqDate)
 	if err != nil {
 		return
 	}
@@ -218,7 +218,7 @@ func (cube *DataCube) GetUserReadHour(ctx context.Context, s string, e string) (
 		EndDate:   e,
 	}
 
-	response, err := util.PostJSON(uri, reqDate)
+	response, err := util.PostJSONContext(ctx, uri, reqDate)
 	if err != nil {
 		return
 	}
@@ -240,7 +240,7 @@ func (cube *DataCube) GetUserShare(ctx context.Context, s string, e string) (res
 		EndDate:   e,
 	}
 
-	response, err := util.PostJSON(uri, reqDate)
+	response, err := util.PostJSONContext(ctx, uri, reqDate)
 	if err != nil {
 		return
 	}
@@ -262,7 +262,7 @@ func (cube *DataCube) GetUserShareHour(ctx context.Context, s string, e string) 
 		EndDate:   e,
 	}
 
-	response, err := util.PostJSON(uri, reqDate)
+	response, err := util.PostJSONContext(ctx, uri, reqDate)
 	if err != nil {
 		return
 	}

@@ -201,7 +201,7 @@ func (tcb *Tcb) DatabaseMigrateImport(ctx context.Context, req *DatabaseMigrateI
 		return nil, err
 	}
 	uri := fmt.Sprintf("%s?access_token=%s", databaseMigrateImportURL, accessToken)
-	response, err := util.PostJSON(uri, req)
+	response, err := util.PostJSONContext(ctx, uri, req)
 	if err != nil {
 		return nil, err
 	}
@@ -219,7 +219,7 @@ func (tcb *Tcb) DatabaseMigrateExport(ctx context.Context, req *DatabaseMigrateE
 		return nil, err
 	}
 	uri := fmt.Sprintf("%s?access_token=%s", databaseMigrateExportURL, accessToken)
-	response, err := util.PostJSON(uri, req)
+	response, err := util.PostJSONContext(ctx, uri, req)
 	if err != nil {
 		return nil, err
 	}
@@ -237,7 +237,7 @@ func (tcb *Tcb) DatabaseMigrateQueryInfo(ctx context.Context, env string, jobID 
 		return nil, err
 	}
 	uri := fmt.Sprintf("%s?access_token=%s", databaseMigrateQueryInfoURL, accessToken)
-	response, err := util.PostJSON(uri, map[string]interface{}{
+	response, err := util.PostJSONContext(ctx, uri, map[string]interface{}{
 		"env":    env,
 		"job_id": jobID,
 	})
@@ -257,7 +257,7 @@ func (tcb *Tcb) UpdateIndex(ctx context.Context, req *UpdateIndexReq) error {
 		return err
 	}
 	uri := fmt.Sprintf("%s?access_token=%s", updateIndexURL, accessToken)
-	response, err := util.PostJSON(uri, req)
+	response, err := util.PostJSONContext(ctx, uri, req)
 	if err != nil {
 		return err
 	}
@@ -273,7 +273,7 @@ func (tcb *Tcb) DatabaseCollectionAdd(ctx context.Context, env, collectionName s
 		return err
 	}
 	uri := fmt.Sprintf("%s?access_token=%s", databaseCollectionAddURL, accessToken)
-	response, err := util.PostJSON(uri, &DatabaseCollectionReq{
+	response, err := util.PostJSONContext(ctx, uri, &DatabaseCollectionReq{
 		Env:            env,
 		CollectionName: collectionName,
 	})
@@ -292,7 +292,7 @@ func (tcb *Tcb) DatabaseCollectionDelete(ctx context.Context, env, collectionNam
 		return err
 	}
 	uri := fmt.Sprintf("%s?access_token=%s", databaseCollectionDeleteURL, accessToken)
-	response, err := util.PostJSON(uri, &DatabaseCollectionReq{
+	response, err := util.PostJSONContext(ctx, uri, &DatabaseCollectionReq{
 		Env:            env,
 		CollectionName: collectionName,
 	})
@@ -311,7 +311,7 @@ func (tcb *Tcb) DatabaseCollectionGet(ctx context.Context, env string, limit, of
 		return nil, err
 	}
 	uri := fmt.Sprintf("%s?access_token=%s", databaseCollectionGetURL, accessToken)
-	response, err := util.PostJSON(uri, &DatabaseCollectionGetReq{
+	response, err := util.PostJSONContext(ctx, uri, &DatabaseCollectionGetReq{
 		Env:    env,
 		Limit:  limit,
 		Offset: offset,
@@ -333,7 +333,7 @@ func (tcb *Tcb) DatabaseAdd(ctx context.Context, env, query string) (*DatabaseAd
 		return nil, err
 	}
 	uri := fmt.Sprintf("%s?access_token=%s", databaseAddURL, accessToken)
-	response, err := util.PostJSON(uri, &DatabaseReq{
+	response, err := util.PostJSONContext(ctx, uri, &DatabaseReq{
 		Env:   env,
 		Query: query,
 	})
@@ -354,7 +354,7 @@ func (tcb *Tcb) DatabaseDelete(ctx context.Context, env, query string) (*Databas
 		return nil, err
 	}
 	uri := fmt.Sprintf("%s?access_token=%s", databaseDeleteURL, accessToken)
-	response, err := util.PostJSON(uri, &DatabaseReq{
+	response, err := util.PostJSONContext(ctx, uri, &DatabaseReq{
 		Env:   env,
 		Query: query,
 	})
@@ -375,7 +375,7 @@ func (tcb *Tcb) DatabaseUpdate(ctx context.Context, env, query string) (*Databas
 		return nil, err
 	}
 	uri := fmt.Sprintf("%s?access_token=%s", databaseUpdateURL, accessToken)
-	response, err := util.PostJSON(uri, &DatabaseReq{
+	response, err := util.PostJSONContext(ctx, uri, &DatabaseReq{
 		Env:   env,
 		Query: query,
 	})
@@ -396,7 +396,7 @@ func (tcb *Tcb) DatabaseQuery(ctx context.Context, env, query string) (*Database
 		return nil, err
 	}
 	uri := fmt.Sprintf("%s?access_token=%s", databaseQueryURL, accessToken)
-	response, err := util.PostJSON(uri, &DatabaseReq{
+	response, err := util.PostJSONContext(ctx, uri, &DatabaseReq{
 		Env:   env,
 		Query: query,
 	})
@@ -417,7 +417,7 @@ func (tcb *Tcb) DatabaseCount(ctx context.Context, env, query string) (*Database
 		return nil, err
 	}
 	uri := fmt.Sprintf("%s?access_token=%s", databaseCountURL, accessToken)
-	response, err := util.PostJSON(uri, &DatabaseReq{
+	response, err := util.PostJSONContext(ctx, uri, &DatabaseReq{
 		Env:   env,
 		Query: query,
 	})

@@ -53,7 +53,7 @@ func (shortLink *ShortLink) generate(ctx context.Context, shortLinkParams ShortL
 	}
 
 	urlStr := fmt.Sprintf(generateShortLinkURL, accessToken)
-	response, err := util.PostJSON(urlStr, shortLinkParams)
+	response, err := util.PostJSONContext(ctx, urlStr, shortLinkParams)
 	if err != nil {
 		return "", err
 	}

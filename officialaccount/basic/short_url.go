@@ -41,7 +41,7 @@ func (basic *Basic) Long2ShortURL(ctx context.Context, longURL string) (shortURL
 		return
 	}
 	uri = fmt.Sprintf(long2shortURL, ac)
-	responseBytes, err = util.PostJSON(uri, req)
+	responseBytes, err = util.PostJSONContext(ctx, uri, req)
 	if err != nil {
 		return
 	}

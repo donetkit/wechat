@@ -95,7 +95,7 @@ func (s *Privacy) GetPrivacySetting(ctx context.Context, privacyVer int) (GetPri
 		return GetPrivacySettingResponse{}, err
 	}
 
-	response, err := util.PostJSON(fmt.Sprintf("%s?access_token=%s", getPrivacySettingURL, accessToken), map[string]int{
+	response, err := util.PostJSONContext(ctx, fmt.Sprintf("%s?access_token=%s", getPrivacySettingURL, accessToken), map[string]int{
 		"privacy_ver": privacyVer,
 	})
 	if err != nil {
@@ -120,7 +120,7 @@ func (s *Privacy) SetPrivacySetting(ctx context.Context, privacyVer int, ownerSe
 		return err
 	}
 
-	response, err := util.PostJSON(fmt.Sprintf("%s?access_token=%s", setPrivacySettingURL, accessToken), SetPrivacySettingRequest{
+	response, err := util.PostJSONContext(ctx, fmt.Sprintf("%s?access_token=%s", setPrivacySettingURL, accessToken), SetPrivacySettingRequest{
 		PrivacyVer:   privacyVer,
 		OwnerSetting: ownerSetting,
 		SettingList:  settingList,
@@ -150,7 +150,7 @@ func (s *Privacy) UploadPrivacyExtFile(ctx context.Context, fileData []byte) (Up
 		return UploadPrivacyExtFileResponse{}, err
 	}
 
-	response, err := util.PostJSON(fmt.Sprintf("%s?access_token=%s", uploadPrivacyExtFileURL, accessToken), map[string][]byte{
+	response, err := util.PostJSONContext(ctx, fmt.Sprintf("%s?access_token=%s", uploadPrivacyExtFileURL, accessToken), map[string][]byte{
 		"file": fileData,
 	})
 	if err != nil {

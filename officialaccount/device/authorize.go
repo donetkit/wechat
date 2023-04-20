@@ -100,7 +100,7 @@ func (d *Device) DeviceAuthorize(ctx context.Context, devices []ReqDevice, opTyp
 		ProductID:  product,
 	}
 	var response []byte
-	response, err = util.PostJSON(uri, req)
+	response, err = util.PostJSONContext(ctx, uri, req)
 	if err != nil {
 		return nil, err
 	}

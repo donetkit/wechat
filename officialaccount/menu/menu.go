@@ -131,7 +131,7 @@ func (menu *Menu) SetMenu(ctx context.Context, buttons []*Button) error {
 		Button: buttons,
 	}
 
-	response, err := util.PostJSON(uri, reqMenu)
+	response, err := util.PostJSONContext(ctx, uri, reqMenu)
 	if err != nil {
 		return err
 	}
@@ -208,7 +208,7 @@ func (menu *Menu) AddConditional(ctx context.Context, buttons []*Button, matchRu
 		MatchRule: matchRule,
 	}
 
-	response, err := util.PostJSON(uri, reqMenu)
+	response, err := util.PostJSONContext(ctx, uri, reqMenu)
 	if err != nil {
 		return err
 	}
@@ -244,7 +244,7 @@ func (menu *Menu) DeleteConditional(ctx context.Context, menuID int64) error {
 		MenuID: menuID,
 	}
 
-	response, err := util.PostJSON(uri, reqDeleteConditional)
+	response, err := util.PostJSONContext(ctx, uri, reqDeleteConditional)
 	if err != nil {
 		return err
 	}
@@ -262,7 +262,7 @@ func (menu *Menu) MenuTryMatch(ctx context.Context, userID string) (buttons []Bu
 	uri := fmt.Sprintf("%s?access_token=%s", menuTryMatchURL, accessToken)
 	reqMenuTryMatch := &reqMenuTryMatch{userID}
 	var response []byte
-	response, err = util.PostJSON(uri, reqMenuTryMatch)
+	response, err = util.PostJSONContext(ctx, uri, reqMenuTryMatch)
 	if err != nil {
 		return
 	}

@@ -54,7 +54,7 @@ func (u *URLScheme) QueryScheme(ctx context.Context, querySchemeParams QuerySche
 
 	urlStr := fmt.Sprintf(querySchemeURL, accessToken)
 	var response []byte
-	response, err = util.PostJSON(urlStr, querySchemeParams)
+	response, err = util.PostJSONContext(ctx, urlStr, querySchemeParams)
 	if err != nil {
 		return
 	}

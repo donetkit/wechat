@@ -6,3 +6,9 @@ import "context"
 type AccessTokenHandle interface {
 	GetAccessToken(ctx context.Context) (accessToken string, err error)
 }
+
+// AccessTokenContextHandle AccessToken 接口
+type AccessTokenContextHandle interface {
+	AccessTokenHandle
+	GetAccessTokenContext(ctx context.Context) (accessToken string, err error)
+}

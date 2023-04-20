@@ -72,7 +72,7 @@ func (material *Material) GetNews(ctx context.Context, id string) ([]*Article, e
 		MediaID string `json:"media_id"`
 	}
 	req.MediaID = id
-	responseBytes, err := util.PostJSON(uri, req)
+	responseBytes, err := util.PostJSONContext(ctx, uri, req)
 	if err != nil {
 		return nil, err
 	}
@@ -111,7 +111,7 @@ func (material *Material) AddNews(ctx context.Context, articles []*Article) (med
 	}
 
 	uri := fmt.Sprintf("%s?access_token=%s", addNewsURL, accessToken)
-	responseBytes, err := util.PostJSON(uri, req)
+	responseBytes, err := util.PostJSONContext(ctx, uri, req)
 	if err != nil {
 		return
 	}
@@ -146,7 +146,7 @@ func (material *Material) UpdateNews(ctx context.Context, article *Article, medi
 
 	uri := fmt.Sprintf("%s?access_token=%s", updateNewsURL, accessToken)
 	var response []byte
-	response, err = util.PostJSON(uri, req)
+	response, err = util.PostJSONContext(ctx, uri, req)
 	if err != nil {
 		return
 	}
@@ -263,7 +263,7 @@ func (material *Material) DeleteMaterial(ctx context.Context, mediaID string) er
 	}
 
 	uri := fmt.Sprintf("%s?access_token=%s", delMaterialURL, accessToken)
-	response, err := util.PostJSON(uri, reqDeleteMaterial{mediaID})
+	response, err := util.PostJSONContext(ctx, uri, reqDeleteMaterial{mediaID})
 	if err != nil {
 		return err
 	}
@@ -320,7 +320,7 @@ func (material *Material) BatchGetMaterial(ctx context.Context, permanentMateria
 	}
 
 	var response []byte
-	response, err = util.PostJSON(uri, req)
+	response, err = util.PostJSONContext(ctx, uri, req)
 	if err != nil {
 		return
 	}

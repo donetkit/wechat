@@ -112,7 +112,7 @@ func (cube *DataCube) GetUpstreamMsg(ctx context.Context, s string, e string) (r
 		EndDate:   e,
 	}
 
-	response, err := util.PostJSON(uri, reqDate)
+	response, err := util.PostJSONContext(ctx, uri, reqDate)
 	if err != nil {
 		return
 	}
@@ -134,7 +134,7 @@ func (cube *DataCube) GetUpstreamMsgHour(ctx context.Context, s string, e string
 		EndDate:   e,
 	}
 
-	response, err := util.PostJSON(uri, reqDate)
+	response, err := util.PostJSONContext(ctx, uri, reqDate)
 	if err != nil {
 		return
 	}
@@ -156,7 +156,7 @@ func (cube *DataCube) GetUpstreamMsgWeek(ctx context.Context, s string, e string
 		EndDate:   e,
 	}
 
-	response, err := util.PostJSON(uri, reqDate)
+	response, err := util.PostJSONContext(ctx, uri, reqDate)
 	if err != nil {
 		return
 	}
@@ -178,7 +178,7 @@ func (cube *DataCube) GetUpstreamMsgMonth(ctx context.Context, s string, e strin
 		EndDate:   e,
 	}
 
-	response, err := util.PostJSON(uri, reqDate)
+	response, err := util.PostJSONContext(ctx, uri, reqDate)
 	if err != nil {
 		return
 	}
@@ -200,7 +200,7 @@ func (cube *DataCube) GetUpstreamMsgDist(ctx context.Context, s string, e string
 		EndDate:   e,
 	}
 
-	response, err := util.PostJSON(uri, reqDate)
+	response, err := util.PostJSONContext(ctx, uri, reqDate)
 	if err != nil {
 		return
 	}
@@ -222,7 +222,7 @@ func (cube *DataCube) GetUpstreamMsgDistWeek(ctx context.Context, s string, e st
 		EndDate:   e,
 	}
 
-	response, err := util.PostJSON(uri, reqDate)
+	response, err := util.PostJSONContext(ctx, uri, reqDate)
 	if err != nil {
 		return
 	}
@@ -244,7 +244,7 @@ func (cube *DataCube) GetUpstreamMsgDistMonth(ctx context.Context, s string, e s
 		EndDate:   e,
 	}
 
-	response, err := util.PostJSON(uri, reqDate)
+	response, err := util.PostJSONContext(ctx, uri, reqDate)
 	if err != nil {
 		return
 	}

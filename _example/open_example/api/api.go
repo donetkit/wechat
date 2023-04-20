@@ -1,7 +1,6 @@
 package api
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/donetkit/wechat/log"
 	"github.com/donetkit/wechat/officialaccount/message"
@@ -31,10 +30,7 @@ func OpenCallNotice(c *gin.Context) {
 	//设置接收消息的处理方法
 	server.SetMessageHandler(func(msg *message.MixMessage) *message.Reply {
 		if msg.InfoType != message.InfoTypeVerifyTicket {
-			jsonData, err := json.Marshal(msg)
-			if err == nil {
-				server.Cache.WithContext(c.Request.Context()).XAdd(OpenCallNoticeRedisKey, "", []string{"", string(jsonData)})
-			}
+			server.Cache.WithContext(c.Request.Context()).XAdd(OpenCallNoticeRedisKey, "", false, 0, msg)
 		}
 		switch msg.InfoType {
 		case message.InfoTypeVerifyTicket:
@@ -63,10 +59,7 @@ func OpenCallBack(c *gin.Context) {
 	appId := c.Param("appId")
 	server := weixin_client.OpenPlatformClient.GetServer(c, appId)
 	server.SetMessageHandler(func(msg *message.MixMessage) *message.Reply {
-		jsonData, err := json.Marshal(msg)
-		if err == nil {
-			server.Cache.WithContext(c.Request.Context()).XAdd(OpenCallBackRedisKey, "", []string{appId, string(jsonData)})
-		}
+		server.Cache.WithContext(c.Request.Context()).XAdd(OpenCallBackRedisKey, "", false, 0, msg)
 		if checkPublish {
 			if msg.MsgType == message.MsgTypeText {
 				return weixin_client.OnTextMessage(*msg)
