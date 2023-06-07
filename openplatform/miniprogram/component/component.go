@@ -59,7 +59,7 @@ type GetRegistrationStatusParam struct {
 func (component *Component) GetRegistrationStatus(ctx context.Context, param *GetRegistrationStatusParam) error {
 	componentAK, err := component.GetComponentAccessToken(ctx)
 	if err != nil {
-		return nil
+		return err
 	}
 	url := fmt.Sprintf(fastregisterweappURL+"?action=search&component_access_token=%s", componentAK)
 	data, err := util.PostJSONContext(ctx, url, param)
