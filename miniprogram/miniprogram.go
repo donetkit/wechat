@@ -2,6 +2,7 @@ package miniprogram
 
 import (
 	"github.com/donetkit/wechat/credential"
+	"github.com/donetkit/wechat/internal/openapi"
 	"github.com/donetkit/wechat/miniprogram/analysis"
 	"github.com/donetkit/wechat/miniprogram/auth"
 	"github.com/donetkit/wechat/miniprogram/business"
@@ -119,4 +120,9 @@ func (miniProgram *MiniProgram) GetSecurity() *security.Security {
 // GetShortLink 小程序短链接口
 func (miniProgram *MiniProgram) GetShortLink() *shortlink.ShortLink {
 	return shortlink.NewShortLink(miniProgram.ctx)
+}
+
+// GetOpenAPI openApi管理接口
+func (miniProgram *MiniProgram) GetOpenAPI() *openapi.OpenAPI {
+	return openapi.NewOpenAPI(miniProgram.ctx)
 }

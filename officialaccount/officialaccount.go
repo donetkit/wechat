@@ -2,6 +2,7 @@ package officialaccount
 
 import (
 	"context"
+	"github.com/donetkit/wechat/internal/openapi"
 	"github.com/donetkit/wechat/officialaccount/customerservice"
 	"github.com/donetkit/wechat/officialaccount/datacube"
 	"github.com/donetkit/wechat/officialaccount/draft"
@@ -204,4 +205,9 @@ func (officialAccount *OfficialAccount) GetCustomerServiceManager() *customerser
 		officialAccount.manager = customerservice.NewCustomerServiceManager(officialAccount.ctx)
 	}
 	return officialAccount.manager
+}
+
+// GetOpenAPI openApi管理接口
+func (officialAccount *OfficialAccount) GetOpenAPI() *openapi.OpenAPI {
+	return openapi.NewOpenAPI(officialAccount.ctx)
 }
