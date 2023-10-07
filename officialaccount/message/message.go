@@ -194,6 +194,15 @@ type MixMessage struct {
 		LegalPersonaName   string `xml:"legal_persona_name"`
 		ComponentPhone     string `xml:"component_phone"`
 	} `xml:"info"`
+	
+	ResultInfo struct {
+		APIName   string `xml:"api_name"`
+		ApplyTime string `xml:"apply_time"`
+		AuditID   string `xml:"audit_id"`
+		AuditTime string `xml:"audit_time"`
+		Reason    string `xml:"reason"`
+		Status    string `xml:"status"`
+	} `xml:"result_info"`
 
 	// 卡券相关
 	CardID              string `xml:"CardId"`
