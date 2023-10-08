@@ -1,4 +1,4 @@
-// Package config 小程序config配置
+// Package config 小程序 config 配置
 package config
 
 import "github.com/donetkit/contrib/utils/cache"
@@ -7,5 +7,6 @@ import "github.com/donetkit/contrib/utils/cache"
 type Config struct {
 	AppID     string `json:"app_id"`     // appid
 	AppSecret string `json:"app_secret"` // appSecret
+	AppKey    string `json:"app_key"`    // appKey
 	Cache     cache.ICache
 }

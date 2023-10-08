@@ -19,6 +19,7 @@ import (
 	"github.com/donetkit/wechat/miniprogram/subscribe"
 	"github.com/donetkit/wechat/miniprogram/tcb"
 	"github.com/donetkit/wechat/miniprogram/urllink"
+	"github.com/donetkit/wechat/miniprogram/virtualpayment"
 	"github.com/donetkit/wechat/miniprogram/werun"
 )
 
@@ -125,4 +126,9 @@ func (miniProgram *MiniProgram) GetShortLink() *shortlink.ShortLink {
 // GetOpenAPI openApi管理接口
 func (miniProgram *MiniProgram) GetOpenAPI() *openapi.OpenAPI {
 	return openapi.NewOpenAPI(miniProgram.ctx)
+}
+
+// GetVirtualPayment 小程序虚拟支付
+func (miniProgram *MiniProgram) GetVirtualPayment() *virtualpayment.VirtualPayment {
+	return virtualpayment.NewVirtualPayment(miniProgram.ctx)
 }
