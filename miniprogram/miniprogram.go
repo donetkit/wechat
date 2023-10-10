@@ -11,6 +11,7 @@ import (
 	"github.com/donetkit/wechat/miniprogram/context"
 	"github.com/donetkit/wechat/miniprogram/encryptor"
 	"github.com/donetkit/wechat/miniprogram/message"
+	"github.com/donetkit/wechat/miniprogram/minidrama"
 	"github.com/donetkit/wechat/miniprogram/privacy"
 	"github.com/donetkit/wechat/miniprogram/qrcode"
 	"github.com/donetkit/wechat/miniprogram/riskcontrol"
@@ -131,4 +132,9 @@ func (miniProgram *MiniProgram) GetOpenAPI() *openapi.OpenAPI {
 // GetVirtualPayment 小程序虚拟支付
 func (miniProgram *MiniProgram) GetVirtualPayment() *virtualpayment.VirtualPayment {
 	return virtualpayment.NewVirtualPayment(miniProgram.ctx)
+}
+
+// GetMiniDrama 小程序娱乐微短剧
+func (miniProgram *MiniProgram) GetMiniDrama() *minidrama.MiniDrama {
+	return minidrama.NewMiniDrama(miniProgram.ctx)
 }

@@ -28,6 +28,7 @@ miniprogram := wc.GetMiniProgram(&miniConfig.Config{
     AppID:     "xxx",
     AppSecret: "xxx",
     AppKey:    "xxx",
+    OfferID:   "xxx",
     Cache: cache.NewRedis(&redis.Options{
         Addr: "",
     }),
