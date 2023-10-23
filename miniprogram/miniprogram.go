@@ -12,6 +12,7 @@ import (
 	"github.com/donetkit/wechat/miniprogram/encryptor"
 	"github.com/donetkit/wechat/miniprogram/message"
 	"github.com/donetkit/wechat/miniprogram/minidrama"
+	"github.com/donetkit/wechat/miniprogram/order"
 	"github.com/donetkit/wechat/miniprogram/privacy"
 	"github.com/donetkit/wechat/miniprogram/qrcode"
 	"github.com/donetkit/wechat/miniprogram/riskcontrol"
@@ -132,6 +133,11 @@ func (miniProgram *MiniProgram) GetOpenAPI() *openapi.OpenAPI {
 // GetVirtualPayment 小程序虚拟支付
 func (miniProgram *MiniProgram) GetVirtualPayment() *virtualpayment.VirtualPayment {
 	return virtualpayment.NewVirtualPayment(miniProgram.ctx)
+}
+
+// GetShipping 小程序发货信息管理服务
+func (miniProgram *MiniProgram) GetShipping() *order.Shipping {
+	return order.NewShipping(miniProgram.ctx)
 }
 
 // GetMiniDrama 小程序娱乐微短剧
