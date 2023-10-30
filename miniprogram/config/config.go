@@ -5,9 +5,11 @@ import "github.com/donetkit/contrib/utils/cache"
 
 // Config .config for 小程序
 type Config struct {
-	AppID     string `json:"app_id"`     // appid
-	AppSecret string `json:"app_secret"` // appSecret
-	AppKey    string `json:"app_key"`    // appKey
-	OfferID   string `json:"offer_id"`   // offerId
-	Cache     cache.ICache
+	AppID          string `json:"app_id"`           // appid
+	AppSecret      string `json:"app_secret"`       // appSecret
+	AppKey         string `json:"app_key"`          // appKey
+	OfferID        string `json:"offer_id"`         // offerId
+	Token          string `json:"token"`            // token
+	EncodingAESKey string `json:"encoding_aes_key"` // EncodingAESKey
+	Cache          cache.ICache
 }
