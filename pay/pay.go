@@ -4,6 +4,7 @@ import (
 	"github.com/donetkit/wechat/pay/config"
 	"github.com/donetkit/wechat/pay/notify"
 	"github.com/donetkit/wechat/pay/order"
+	"github.com/donetkit/wechat/pay/redpacket"
 	"github.com/donetkit/wechat/pay/refund"
 	"github.com/donetkit/wechat/pay/transfer"
 )
@@ -36,4 +37,9 @@ func (pay *Pay) GetRefund() *refund.Refund {
 // GetTransfer 付款
 func (pay *Pay) GetTransfer() *transfer.Transfer {
 	return transfer.NewTransfer(pay.cfg)
+}
+
+// GetRedPacket 红包
+func (pay *Pay) GetRedPacket() *redpacket.RedPacket {
+	return redpacket.NewRedPacket(pay.cfg)
 }
