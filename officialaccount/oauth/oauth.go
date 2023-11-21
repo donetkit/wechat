@@ -1,14 +1,14 @@
 package oauth
 
 import (
+	context2 "context"
 	"encoding/json"
 	"fmt"
+	"github.com/donetkit/wechat/officialaccount/context"
+	"github.com/donetkit/wechat/util"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"net/url"
-
-	"github.com/donetkit/wechat/officialaccount/context"
-	"github.com/donetkit/wechat/util"
 )
 
 const (
@@ -74,8 +74,39 @@ type ResAccessToken struct {
 	UnionID string `json:"unionid"`
 }
 
+// GetUserInfoByCodeContext 通过网页授权的code 换取用户的信息
+func (oauth *Oauth) GetUserInfoByCodeContext(ctx context2.Context, code string) (result UserInfo, err error) {
+	var (
+		token ResAccessToken
+	)
+	if token, err = oauth.GetUserAccessTokenContext(ctx, code); err != nil {
+		return
+	}
+
+	return oauth.GetUserInfoContext(ctx, token.AccessToken, token.OpenID, "")
+}
+
 // GetUserAccessToken 通过网页授权的code 换取access_token(区别于context中的access_token)
 func (oauth *Oauth) GetUserAccessToken(code string) (result ResAccessToken, err error) {
+	urlStr := fmt.Sprintf(accessTokenURL, oauth.AppID, oauth.AppSecret, code)
+	var response []byte
+	response, err = util.HTTPGet(urlStr)
+	if err != nil {
+		return
+	}
+	err = json.Unmarshal(response, &result)
+	if err != nil {
+		return
+	}
+	if result.ErrCode != 0 {
+		err = fmt.Errorf("GetUserAccessToken error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
+		return
+	}
+	return
+}
+
+// GetUserAccessTokenContext 通过网页授权的code 换取access_token(区别于context中的access_token)
+func (oauth *Oauth) GetUserAccessTokenContext(ctx context2.Context, code string) (result ResAccessToken, err error) {
 	urlStr := fmt.Sprintf(accessTokenURL, oauth.AppID, oauth.AppSecret, code)
 	var response []byte
 	response, err = util.HTTPGet(urlStr)
@@ -156,6 +187,28 @@ func (oauth *Oauth) GetUserInfo(accessToken, openID, lang string) (result UserIn
 	urlStr := fmt.Sprintf(userInfoURL, accessToken, openID, lang)
 	var response []byte
 	response, err = util.HTTPGet(urlStr)
+	if err != nil {
+		return
+	}
+	err = json.Unmarshal(response, &result)
+	if err != nil {
+		return
+	}
+	if result.ErrCode != 0 {
+		err = fmt.Errorf("GetUserInfo error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
+		return
+	}
+	return
+}
+
+// GetUserInfoContext 如果scope为 snsapi_userinfo 则可以通过此方法获取到用户基本信息
+func (oauth *Oauth) GetUserInfoContext(ctx context2.Context, accessToken, openID, lang string) (result UserInfo, err error) {
+	if lang == "" {
+		lang = "zh_CN"
+	}
+	urlStr := fmt.Sprintf(userInfoURL, accessToken, openID, lang)
+	var response []byte
+	response, err = util.HTTPGetContext(ctx, urlStr)
 	if err != nil {
 		return
 	}
