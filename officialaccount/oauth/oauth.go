@@ -96,7 +96,7 @@ func (oauth *Oauth) GetUserAccessToken(code string) (result ResAccessToken, err 
 func (oauth *Oauth) GetUserAccessTokenContext(ctx context2.Context, code string) (result ResAccessToken, err error) {
 	urlStr := fmt.Sprintf(accessTokenURL, oauth.AppID, oauth.AppSecret, code)
 	var response []byte
-	response, err = util.HTTPGet(urlStr)
+	response, err = util.HTTPGetContext(ctx, urlStr)
 	if err != nil {
 		return
 	}
