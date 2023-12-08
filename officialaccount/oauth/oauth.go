@@ -112,10 +112,10 @@ func (oauth *Oauth) GetUserAccessTokenContext(ctx context2.Context, code string)
 }
 
 // RefreshAccessToken 刷新access_token
-func (oauth *Oauth) RefreshAccessToken(refreshToken string) (result ResAccessToken, err error) {
+func (oauth *Oauth) RefreshAccessToken(ctx context2.Context, refreshToken string) (result ResAccessToken, err error) {
 	urlStr := fmt.Sprintf(refreshAccessTokenURL, oauth.AppID, refreshToken)
 	var response []byte
-	response, err = util.HTTPGet(urlStr)
+	response, err = util.HTTPGetContext(ctx, urlStr)
 	if err != nil {
 		return
 	}
@@ -131,10 +131,10 @@ func (oauth *Oauth) RefreshAccessToken(refreshToken string) (result ResAccessTok
 }
 
 // CheckAccessToken 检验access_token是否有效
-func (oauth *Oauth) CheckAccessToken(accessToken, openID string) (b bool, err error) {
+func (oauth *Oauth) CheckAccessToken(ctx context2.Context, accessToken, openID string) (b bool, err error) {
 	urlStr := fmt.Sprintf(checkAccessTokenURL, accessToken, openID)
 	var response []byte
-	response, err = util.HTTPGet(urlStr)
+	response, err = util.HTTPGetContext(ctx, urlStr)
 	if err != nil {
 		return
 	}
@@ -164,11 +164,6 @@ type UserInfo struct {
 	HeadImgURL string   `json:"headimgurl"`
 	Privilege  []string `json:"privilege"`
 	Unionid    string   `json:"unionid"`
-}
-
-// GetUserInfo 如果scope为 snsapi_userinfo 则可以通过此方法获取到用户基本信息
-func (oauth *Oauth) GetUserInfo(accessToken, openID, lang string) (result UserInfo, err error) {
-	return oauth.GetUserInfoContext(context2.Background(), accessToken, openID, lang)
 }
 
 // GetUserInfoContext 如果scope为 snsapi_userinfo 则可以通过此方法获取到用户基本信息
