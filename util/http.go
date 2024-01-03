@@ -213,6 +213,9 @@ func PostMultipartForm(fields []MultipartFormField, uri string) (respBody []byte
 
 // PostXML perform a HTTP/POST request with XML body
 func PostXML(uri string, obj interface{}) ([]byte, error) {
+	if uriModifier != nil {
+		uri = uriModifier(uri)
+	}
 	xmlData, err := xml.Marshal(obj)
 	if err != nil {
 		return nil, err
@@ -274,6 +277,9 @@ func pkcs12ToPem(p12 []byte, password string) tls.Certificate {
 
 // PostXMLWithTLS perform a HTTP/POST request with XML body and TLS
 func PostXMLWithTLS(uri string, obj interface{}, ca, key string) ([]byte, error) {
+	if uriModifier != nil {
+		uri = uriModifier(uri)
+	}
 	xmlData, err := xml.Marshal(obj)
 	if err != nil {
 		return nil, err
