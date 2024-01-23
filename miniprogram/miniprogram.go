@@ -15,6 +15,7 @@ import (
 	"github.com/donetkit/wechat/miniprogram/order"
 	"github.com/donetkit/wechat/miniprogram/privacy"
 	"github.com/donetkit/wechat/miniprogram/qrcode"
+	"github.com/donetkit/wechat/miniprogram/redpacketcover"
 	"github.com/donetkit/wechat/miniprogram/riskcontrol"
 	"github.com/donetkit/wechat/miniprogram/security"
 	"github.com/donetkit/wechat/miniprogram/shortlink"
@@ -148,4 +149,9 @@ func (miniProgram *MiniProgram) GetShipping() *order.Shipping {
 // GetMiniDrama 小程序娱乐微短剧
 func (miniProgram *MiniProgram) GetMiniDrama() *minidrama.MiniDrama {
 	return minidrama.NewMiniDrama(miniProgram.ctx)
+}
+
+// GetRedPacketCover 小程序微信红包封面 API
+func (miniProgram *MiniProgram) GetRedPacketCover() *redpacketcover.RedPacketCover {
+	return redpacketcover.NewRedPacketCover(miniProgram.ctx)
 }
