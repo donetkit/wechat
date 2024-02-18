@@ -16,5 +16,5 @@
 
 
 ## Thanks
-- 感谢 silenceper
+- 感谢 [silenceper](https://github.com/silenceper/wechat)
 
