@@ -77,7 +77,11 @@ type sendRequest struct {
 	//发送文本
 	Text map[string]interface{} `json:"text,omitempty"`
 	//发送图文消息
-	Mpnews map[string]interface{} `json:"mpnews,omitempty"`
+	MpNews map[string]interface{} `json:"mpnews,omitempty"`
+	// 发送视频
+	MpVideo map[string]interface{} `json:"mpvideo,omitempty"`
+	// 发送图片-预览使用
+	Image map[string]interface{} `json:"image,omitempty"`
 	//发送语音
 	Voice map[string]interface{} `json:"voice,omitempty"`
 	//发送图片
@@ -136,7 +140,7 @@ func (broadcast *Broadcast) SendNews(ctx context.Context, user *User, mediaID st
 	if ignoreReprint {
 		req.SendIgnoreReprint = 1
 	}
-	req.Mpnews = map[string]interface{}{
+	req.MpNews = map[string]interface{}{
 		"media_id": mediaID,
 	}
 	req, sendURL := broadcast.chooseTagOrOpenID(user, req)
@@ -184,7 +188,13 @@ func (broadcast *Broadcast) SendImage(ctx context.Context, user *User, images *I
 		ToUser:  nil,
 		MsgType: MsgTypeImage,
 	}
-	req.Images = images
+	if broadcast.preview {
+		req.Image = map[string]interface{}{
+			"media_id": images.MediaIDs[0],
+		}
+	} else {
+		req.Images = images
+	}
 	req, sendURL := broadcast.chooseTagOrOpenID(user, req)
 	url := fmt.Sprintf("%s?access_token=%s", sendURL, ak)
 	data, err := util.PostJSONContext(ctx, url, req)
@@ -206,7 +216,7 @@ func (broadcast *Broadcast) SendVideo(ctx context.Context, user *User, mediaID s
 		ToUser:  nil,
 		MsgType: MsgTypeVideo,
 	}
-	req.Voice = map[string]interface{}{
+	req.MpVideo = map[string]interface{}{
 		"media_id":    mediaID,
 		"title":       title,
 		"description": description,
