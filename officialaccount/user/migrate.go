@@ -63,10 +63,6 @@ func (user *User) ListChangeOpenIDs(ctx context.Context, fromAppID string, openI
 	}
 
 	err = util.DecodeWithError(resp, list, "ListChangeOpenIDs")
-	if err != nil {
-		return
-	}
-
 	return
 }
 

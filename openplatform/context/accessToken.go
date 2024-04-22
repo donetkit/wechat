@@ -87,11 +87,8 @@ func (c *Context) GetPreCode(ctx context.Context) (string, error) {
 	var ret struct {
 		PreCode string `json:"pre_auth_code"`
 	}
-	if err := json.Unmarshal(body, &ret); err != nil {
-		return "", err
-	}
-
-	return ret.PreCode, nil
+	err = json.Unmarshal(body, &ret)
+	return ret.PreCode, err
 }
 
 // GetComponentLoginPage 获取第三方公众号授权链接(扫码授权)

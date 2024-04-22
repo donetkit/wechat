@@ -169,11 +169,7 @@ func (s *Subscribe) Add(ctx context.Context, ShortID string, kidList []int, scen
 	}
 	var result resSubscribeAdd
 	err = util.DecodeWithError(response, &result, "AddSubscribe")
-	if err != nil {
-		return
-	}
-	templateID = result.TemplateID
-	return
+	return result.TemplateID, err
 }
 
 // Delete 删除私有模板

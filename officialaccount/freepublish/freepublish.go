@@ -73,12 +73,7 @@ func (freePublish *FreePublish) Publish(ctx context.Context, mediaID string) (pu
 		PublishID int64 `json:"publish_id"`
 	}
 	err = util.DecodeWithError(response, &res, "SubmitFreePublish")
-	if err != nil {
-		return
-	}
-
-	publishID = res.PublishID
-	return
+	return res.PublishID, err
 }
 
 // PublishStatusList 发布任务状态列表
@@ -191,12 +186,7 @@ func (freePublish *FreePublish) First(ctx context.Context, articleID string) (li
 		NewsItem []Article `json:"news_item"`
 	}
 	err = util.DecodeWithError(response, &res, "FirstFreePublish")
-	if err != nil {
-		return
-	}
-
-	list = res.NewsItem
-	return
+	return res.NewsItem, err
 }
 
 // ArticleList 发布列表
