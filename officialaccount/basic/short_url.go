@@ -45,9 +45,6 @@ func (basic *Basic) Long2ShortURL(ctx context.Context, longURL string) (shortURL
 	if err != nil {
 		return
 	}
-	if err = util.DecodeWithError(responseBytes, resp, long2shortAction); err != nil {
-		return
-	}
-	shortURL = resp.ShortURL
-	return
+	err = util.DecodeWithError(responseBytes, resp, long2shortAction)
+	return resp.ShortURL, err
 }

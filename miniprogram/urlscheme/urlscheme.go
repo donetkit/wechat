@@ -79,8 +79,5 @@ func (u *URLScheme) Generate(ctx context.Context, params *USParams) (string, err
 	}
 	var resp USResult
 	err = util.DecodeWithError(response, &resp, "URLScheme.Generate")
-	if err != nil {
-		return "", err
-	}
-	return resp.OpenLink, nil
+	return resp.OpenLink, err
 }
