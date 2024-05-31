@@ -155,3 +155,8 @@ func (miniProgram *MiniProgram) GetMiniDrama() *minidrama.MiniDrama {
 func (miniProgram *MiniProgram) GetRedPacketCover() *redpacketcover.RedPacketCover {
 	return redpacketcover.NewRedPacketCover(miniProgram.ctx)
 }
+
+// GetUpdatableMessage 小程序动态消息
+func (miniProgram *MiniProgram) GetUpdatableMessage() *message.UpdatableMessage {
+	return message.NewUpdatableMessage(miniProgram.ctx)
+}
