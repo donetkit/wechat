@@ -166,22 +166,9 @@ func PostMultipartForm(fields []MultipartFormField, uri string) (respBody []byte
 
 	for _, field := range fields {
 		if field.IsFile {
-			fileWriter, e := bodyWriter.CreateFormFile(field.Fieldname, field.Filename)
-			if e != nil {
-				err = fmt.Errorf("error writing to buffer , err=%v", e)
-				return
-			}
+			err = createFormFile(bodyWriter, &field)
+			return
 
-			fh, e := os.Open(field.Filename)
-			if e != nil {
-				err = fmt.Errorf("error opening file , err=%v", e)
-				return
-			}
-			defer fh.Close()
-
-			if _, err = io.Copy(fileWriter, fh); err != nil {
-				return
-			}
 		} else {
 			partWriter, e := bodyWriter.CreateFormField(field.Fieldname)
 			if e != nil {
@@ -211,7 +198,28 @@ func PostMultipartForm(fields []MultipartFormField, uri string) (respBody []byte
 	return
 }
 
-// PostXML perform a HTTP/POST request with XML body
+func createFormFile(bodyWriter *multipart.Writer, field *MultipartFormField) error {
+	fileWriter, err := bodyWriter.CreateFormFile(field.Fieldname, field.Filename)
+	if err != nil {
+		return fmt.Errorf("error writing to buffer , err=%v", err)
+	}
+
+	fh, err := os.Open(field.Filename)
+	if err != nil {
+		return fmt.Errorf("error opening file , err=%v", err)
+	}
+
+	defer fh.Close()
+
+	_, err = io.Copy(fileWriter, fh)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// PostXML perform HTTP/POST request with XML body
 func PostXML(uri string, obj interface{}) ([]byte, error) {
 	if uriModifier != nil {
 		uri = uriModifier(uri)
@@ -275,7 +283,7 @@ func pkcs12ToPem(p12 []byte, password string) tls.Certificate {
 	return cert
 }
 
-// PostXMLWithTLS perform a HTTP/POST request with XML body and TLS
+// PostXMLWithTLS perform HTTP/POST request with XML body and TLS
 func PostXMLWithTLS(uri string, obj interface{}, ca, key string) ([]byte, error) {
 	if uriModifier != nil {
 		uri = uriModifier(uri)
