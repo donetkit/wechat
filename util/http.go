@@ -148,15 +148,28 @@ func PostFile(fieldName, fileName, uri string) ([]byte, error) {
 	return PostMultipartForm(fields, uri)
 }
 
-// MultipartFormField 保存文件或其他字段信息
-type MultipartFormField struct {
-	IsFile    bool
-	Fieldname string
-	Value     []byte
-	Filename  string
+// PostFileFromReader 上传文件，从 io.Reader 中读取
+func PostFileFromReader(filedName, fileName, uri string, reader io.Reader) ([]byte, error) {
+	fields := []MultipartFormField{
+		{
+			IsFile:     true,
+			Fieldname:  filedName,
+			Filename:   fileName,
+			FileReader: reader,
+		},
+	}
+	return PostMultipartForm(fields, uri)
 }
 
-// PostMultipartForm 上传文件或其他多个字段
+// MultipartFormField 保存文件或其他字段信息
+type MultipartFormField struct {
+	IsFile     bool
+	Fieldname  string
+	Value      []byte
+	Filename   string
+	FileReader io.Reader
+}
+
 func PostMultipartForm(fields []MultipartFormField, uri string) (respBody []byte, err error) {
 	if uriModifier != nil {
 		uri = uriModifier(uri)
@@ -166,9 +179,28 @@ func PostMultipartForm(fields []MultipartFormField, uri string) (respBody []byte
 
 	for _, field := range fields {
 		if field.IsFile {
-			err = createFormFile(bodyWriter, &field)
-			return
+			fileWriter, e := bodyWriter.CreateFormFile(field.Fieldname, field.Filename)
+			if e != nil {
+				err = fmt.Errorf("error writing to buffer , err=%v", e)
+				return
+			}
 
+			if field.FileReader == nil {
+				fh, e := os.Open(field.Filename)
+				if e != nil {
+					err = fmt.Errorf("error opening file , err=%v", e)
+					return
+				}
+				_, err = io.Copy(fileWriter, fh)
+				_ = fh.Close()
+				if err != nil {
+					return
+				}
+			} else {
+				if _, err = io.Copy(fileWriter, field.FileReader); err != nil {
+					return
+				}
+			}
 		} else {
 			partWriter, e := bodyWriter.CreateFormField(field.Fieldname)
 			if e != nil {
@@ -192,7 +224,7 @@ func PostMultipartForm(fields []MultipartFormField, uri string) (respBody []byte
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
-		return nil, err
+		return nil, fmt.Errorf("http code error : uri=%v , statusCode=%v", uri, resp.StatusCode)
 	}
 	respBody, err = io.ReadAll(resp.Body)
 	return
