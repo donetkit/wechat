@@ -62,10 +62,12 @@ func (tpl *Template) Send(ctx context.Context, msg *TemplateMessage) (msgID int6
 	if err != nil {
 		return
 	}
-	uri := fmt.Sprintf("%s?access_token=%s", templateSendURL, accessToken)
-	var response []byte
-	response, err = util.PostJSONContext(ctx, uri, msg)
-	if err != nil {
+
+	var (
+		uri      = fmt.Sprintf("%s?access_token=%s", templateSendURL, accessToken)
+		response []byte
+	)
+	if response, err = util.PostJSONContext(ctx, uri, msg); err != nil {
 		return
 	}
 	var result resTemplateSend
@@ -104,10 +106,12 @@ func (tpl *Template) List(ctx context.Context) (templateList []*TemplateItem, er
 	if err != nil {
 		return
 	}
-	uri := fmt.Sprintf("%s?access_token=%s", templateListURL, accessToken)
-	var response []byte
-	response, err = util.HTTPGet(uri)
-	if err != nil {
+
+	var (
+		uri      = fmt.Sprintf("%s?access_token=%s", templateListURL, accessToken)
+		response []byte
+	)
+	if response, err = util.HTTPGetContext(ctx, uri); err != nil {
 		return
 	}
 	var res resTemplateList
@@ -122,19 +126,23 @@ type resTemplateAdd struct {
 }
 
 // Add 添加模板.
-func (tpl *Template) Add(ctx context.Context, shortID string) (templateID string, err error) {
+func (tpl *Template) Add(ctx context.Context, shortID string, keyNameList []string) (templateID string, err error) {
+	//func (tpl *Template) Add(ctx context.Context, shortID string) (templateID string, err error) {
 	var accessToken string
 	accessToken, err = tpl.GetAccessToken(ctx)
 	if err != nil {
 		return
 	}
-	var msg = struct {
-		ShortID string `json:"template_id_short"`
-	}{ShortID: shortID}
-	uri := fmt.Sprintf("%s?access_token=%s", templateAddURL, accessToken)
-	var response []byte
-	response, err = util.PostJSONContext(ctx, uri, msg)
-	if err != nil {
+
+	var (
+		msg = struct {
+			ShortID     string   `json:"template_id_short"`
+			KeyNameList []string `json:"keyword_name_list"`
+		}{ShortID: shortID, KeyNameList: keyNameList}
+		uri      = fmt.Sprintf("%s?access_token=%s", templateAddURL, accessToken)
+		response []byte
+	)
+	if response, err = util.PostJSONContext(ctx, uri, msg); err != nil {
 		return
 	}
 
@@ -150,14 +158,15 @@ func (tpl *Template) Delete(ctx context.Context, templateID string) (err error) 
 	if err != nil {
 		return
 	}
-	var msg = struct {
-		TemplateID string `json:"template_id"`
-	}{TemplateID: templateID}
 
-	uri := fmt.Sprintf("%s?access_token=%s", templateDelURL, accessToken)
-	var response []byte
-	response, err = util.PostJSONContext(ctx, uri, msg)
-	if err != nil {
+	var (
+		msg = struct {
+			TemplateID string `json:"template_id"`
+		}{TemplateID: templateID}
+		uri      = fmt.Sprintf("%s?access_token=%s", templateDelURL, accessToken)
+		response []byte
+	)
+	if response, err = util.PostJSONContext(ctx, uri, msg); err != nil {
 		return
 	}
 	return util.DecodeWithCommonError(response, "DeleteTemplate")
