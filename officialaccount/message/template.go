@@ -127,7 +127,6 @@ type resTemplateAdd struct {
 
 // Add 添加模板.
 func (tpl *Template) Add(ctx context.Context, shortID string, keyNameList []string) (templateID string, err error) {
-	//func (tpl *Template) Add(ctx context.Context, shortID string) (templateID string, err error) {
 	var accessToken string
 	accessToken, err = tpl.GetAccessToken(ctx)
 	if err != nil {
