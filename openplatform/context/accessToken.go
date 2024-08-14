@@ -268,7 +268,7 @@ func (c *Context) refreshAuthToken(ctx context.Context, appId, refreshToken stri
 	if err != nil {
 		return "", fmt.Errorf("json Marshal authorizer %s access token", appId)
 	}
-	if err := c.Cache.Set(authTokenKey, string(res), 31*24*3600*time.Second); err != nil {
+	if err := c.Cache.Set(authTokenKey, string(res), 5*12*31*24*3600*time.Second); err != nil {
 		return "", err
 	}
 	return ret.AccessToken, nil
