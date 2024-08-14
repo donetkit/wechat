@@ -32,7 +32,7 @@ func NewQRCode(context *openContext.Context, appID string) *QRCode {
 // fetchCode 请求并返回二维码二进制数据
 func (qrCode *QRCode) fetchCode(ctx context.Context, urlStr string, body interface{}) (response []byte, err error) {
 	var accessToken string
-	accessToken, err = qrCode.GetComponentAccessToken(ctx)
+	accessToken, err = qrCode.GetAuthAccessToken1(ctx, qrCode.appID)
 	if err != nil {
 		return
 	}
