@@ -12,6 +12,7 @@ import (
 	"github.com/donetkit/wechat/openplatform/miniprogram/auth"
 	"github.com/donetkit/wechat/openplatform/miniprogram/basic"
 	"github.com/donetkit/wechat/openplatform/miniprogram/component"
+	"github.com/donetkit/wechat/openplatform/miniprogram/qrcode"
 )
 
 // MiniProgram 代小程序实现业务
@@ -82,9 +83,14 @@ func (miniProgram *MiniProgram) GetBasic() *basic.Basic {
 	return basic.NewBasic(miniProgram.openContext, miniProgram.AppID)
 }
 
-// GetBasic 基础信息设置
+// GetAuth 授权
 func (miniProgram *MiniProgram) GetAuth() *auth.Auth {
 	return auth.NewAuth(miniProgram.openContext, miniProgram.AppID)
+}
+
+// GetQRCode 小程序码
+func (miniProgram *MiniProgram) GetQRCode() *qrcode.QRCode {
+	return qrcode.NewQRCode(miniProgram.openContext, miniProgram.AppID)
 }
 
 // GetURLLink 小程序URL Link接口 调用前需确认已调用 SetAuthorizerRefreshToken 避免由于缓存中 authorizer_access_token 过期执行中断
