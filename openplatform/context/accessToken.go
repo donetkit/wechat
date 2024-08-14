@@ -210,16 +210,17 @@ func (c *Context) GetAuthAccessToken(ctx context.Context, appid string) (string,
 	return val.(string), nil
 }
 
-
 // GetAuthAccessToken 获取授权方AccessToken
-func (c *Context) GetAuthAccessToken1(ctx context.Context,appId string) (string, error) {
+func (c *Context) GetAuthAccessToken1(ctx context.Context, appId string) (string, error) {
 	authorizerAccessToken := AuthorizerAccessToken{}
 	authTokenKey := fmt.Sprintf(AuthorizerAccessTokenCacheKey, appId)
 	val := c.Cache.Get(authTokenKey)
 	if val == nil {
 		return "", fmt.Errorf("cannot get authorizer %s access token", appId)
 	}
-	if err := json.Unmarshal([]byte(val.(string)), &authorizerAccessToken); err != nil {
+
+	buff, _ := json.Marshal(val)
+	if err := json.Unmarshal(buff, &authorizerAccessToken); err != nil {
 		return "", err
 	}
 	if authorizerAccessToken.AuthorizationInfoExpireTime < time.Now().Unix() {
@@ -227,8 +228,6 @@ func (c *Context) GetAuthAccessToken1(ctx context.Context,appId string) (string,
 	}
 	return authorizerAccessToken.AuthorizerAccessToken.AccessToken, nil
 }
-
-
 
 // RefreshAuthToken 获取（刷新）授权公众号或小程序的接口调用凭据（令牌）
 func (c *Context) refreshAuthToken(ctx context.Context, appId, refreshToken string) (string, error) {
@@ -243,7 +242,7 @@ func (c *Context) refreshAuthToken(ctx context.Context, appId, refreshToken stri
 		"authorizer_refresh_token": refreshToken,
 	}
 	uri := fmt.Sprintf(refreshTokenURL, cat)
-	body, err :=util.PostJSONContext(ctx, uri, req)
+	body, err := util.PostJSONContext(ctx, uri, req)
 	if err != nil {
 		return "", err
 	}
@@ -258,7 +257,8 @@ func (c *Context) refreshAuthToken(ctx context.Context, appId, refreshToken stri
 	if val == nil {
 		return "", fmt.Errorf("cannot get authorizer %s access token", appId)
 	}
-	if err := json.Unmarshal([]byte(val.(string)), &authorizerAccessToken); err != nil {
+	buff, _ := json.Marshal(val)
+	if err := json.Unmarshal(buff, &authorizerAccessToken); err != nil {
 		return "", err
 	}
 	authorizerAccessToken.AuthorizerAccessToken = ret
