@@ -21,6 +21,11 @@ const (
 	// getComponentConfigURL = "https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_option?component_access_token=%s"
 	// TODO 获取已授权的账号信息
 	// getuthorizerListURL = "POST https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_list?component_access_token=%s"
+
+	// 开放平台 AccessToken
+	ComponentAccessTokenCacheKey = "WeiXin:Container:Open:AccessToken:%s"
+	// 开放平台授权 公众号/小程序 AccessToken
+	AuthorizerAccessTokenCacheKey = "WeiXin:Container:Open:AuthorizerAccessToken:%s"
 )
 
 // ComponentAccessToken 第三方平台
@@ -32,7 +37,7 @@ type ComponentAccessToken struct {
 
 // GetComponentAccessToken 获取 ComponentAccessToken
 func (c *Context) GetComponentAccessToken(ctx context.Context) (string, error) {
-	accessTokenCacheKey := fmt.Sprintf("component_access_token_%s", c.AppID)
+	accessTokenCacheKey := fmt.Sprintf(ComponentAccessTokenCacheKey, c.AppID)
 	val := c.Cache.WithContext(ctx).Get(accessTokenCacheKey)
 	if val == nil {
 		return "", fmt.Errorf("cann't get component access token")
@@ -61,7 +66,7 @@ func (c *Context) SetComponentAccessToken(ctx context.Context, verifyTicket stri
 		return nil, fmt.Errorf("SetComponentAccessToken Error , errcode=%d , errmsg=%s", at.ErrCode, at.ErrMsg)
 	}
 
-	accessTokenCacheKey := fmt.Sprintf("component_access_token_%s", c.AppID)
+	accessTokenCacheKey := fmt.Sprintf(ComponentAccessTokenCacheKey, c.AppID)
 	expires := at.ExpiresIn - 1500
 	if err := c.Cache.WithContext(ctx).Set(accessTokenCacheKey, at.AccessToken, time.Duration(expires)*time.Second); err != nil {
 		return nil, nil
@@ -188,8 +193,8 @@ func (c *Context) RefreshAuthrToken(ctx context.Context, appid, refreshToken str
 		return nil, err
 	}
 
-	authrTokenKey := "authorizer_access_token_" + appid
-	if err := c.Cache.WithContext(ctx).Set(authrTokenKey, ret.AccessToken, time.Second*time.Duration(ret.ExpiresIn-30)); err != nil {
+	authTokenKey := fmt.Sprintf(AuthorizerAccessTokenCacheKey, appid)
+	if err := c.Cache.WithContext(ctx).Set(authTokenKey, ret.AccessToken, time.Second*time.Duration(ret.ExpiresIn-30)); err != nil {
 		return nil, err
 	}
 	return ret, nil
@@ -197,8 +202,8 @@ func (c *Context) RefreshAuthrToken(ctx context.Context, appid, refreshToken str
 
 // GetAuthAccessToken 获取授权方AccessToken
 func (c *Context) GetAuthAccessToken(ctx context.Context, appid string) (string, error) {
-	authrTokenKey := "authorizer_access_token_" + appid
-	val := c.Cache.WithContext(ctx).Get(authrTokenKey)
+	authTokenKey := fmt.Sprintf(AuthorizerAccessTokenCacheKey, appid)
+	val := c.Cache.WithContext(ctx).Get(authTokenKey)
 	if val == nil {
 		return "", fmt.Errorf("cannot get authorizer %s access token", appid)
 	}
