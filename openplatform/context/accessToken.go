@@ -210,6 +210,70 @@ func (c *Context) GetAuthAccessToken(ctx context.Context, appid string) (string,
 	return val.(string), nil
 }
 
+
+// GetAuthAccessToken 获取授权方AccessToken
+func (c *Context) GetAuthAccessToken1(ctx context.Context,appId string) (string, error) {
+	authorizerAccessToken := AuthorizerAccessToken{}
+	authTokenKey := fmt.Sprintf(AuthorizerAccessTokenCacheKey, appId)
+	val := c.Cache.Get(authTokenKey)
+	if val == nil {
+		return "", fmt.Errorf("cannot get authorizer %s access token", appId)
+	}
+	if err := json.Unmarshal([]byte(val.(string)), &authorizerAccessToken); err != nil {
+		return "", err
+	}
+	if authorizerAccessToken.AuthorizationInfoExpireTime < time.Now().Unix() {
+		return c.refreshAuthToken(ctx, appId, authorizerAccessToken.AuthorizerAccessToken.RefreshToken)
+	}
+	return authorizerAccessToken.AuthorizerAccessToken.AccessToken, nil
+}
+
+
+
+// RefreshAuthToken 获取（刷新）授权公众号或小程序的接口调用凭据（令牌）
+func (c *Context) refreshAuthToken(ctx context.Context, appId, refreshToken string) (string, error) {
+	cat, err := c.GetComponentAccessToken(ctx)
+	if err != nil {
+		return "", err
+	}
+
+	req := map[string]string{
+		"component_appid":          c.AppID,
+		"authorizer_appid":         appId,
+		"authorizer_refresh_token": refreshToken,
+	}
+	uri := fmt.Sprintf(refreshTokenURL, cat)
+	body, err :=util.PostJSONContext(ctx, uri, req)
+	if err != nil {
+		return "", err
+	}
+	ret := AuthrAccessToken{}
+	if err := json.Unmarshal(body, &ret); err != nil {
+		return "", err
+	}
+	ret.Appid = appId
+	authTokenKey := fmt.Sprintf(AuthorizerAccessTokenCacheKey, appId)
+	authorizerAccessToken := &AuthorizerAccessToken{}
+	val := c.Cache.Get(authTokenKey)
+	if val == nil {
+		return "", fmt.Errorf("cannot get authorizer %s access token", appId)
+	}
+	if err := json.Unmarshal([]byte(val.(string)), &authorizerAccessToken); err != nil {
+		return "", err
+	}
+	authorizerAccessToken.AuthorizerAccessToken = ret
+	authorizerAccessToken.AuthorizationInfoExpireTime = time.Now().Unix() + ExpiryTimeSpan(ret.ExpiresIn)
+
+	res, err := json.Marshal(authorizerAccessToken)
+	if err != nil {
+		return "", fmt.Errorf("json Marshal authorizer %s access token", appId)
+	}
+	if err := c.Cache.Set(authTokenKey, string(res), 31*24*3600*time.Second); err != nil {
+		return "", err
+	}
+	return ret.AccessToken, nil
+}
+
 // AuthorizerInfo 授权方详细信息
 type AuthorizerInfo struct {
 	NickName        string `json:"nick_name"`
@@ -286,4 +350,20 @@ func (c *Context) GetAuthrInfo(ctx context.Context, appid string) (*AuthorizerIn
 	}
 
 	return ret.AuthorizerInfo, ret.AuthorizationInfo, nil
+}
+
+type AuthorizerAccessToken struct {
+	AuthorizationInfoExpireTime int64            `json:"authorization_info_expire_time"`
+	AuthorizerAccessToken       AuthrAccessToken `json:"authorizer_info"`
+}
+
+func ExpiryTimeSpan(expireInSeconds int64) int64 {
+	if expireInSeconds > 3600 {
+		expireInSeconds -= 600
+	} else if expireInSeconds > 1800 {
+		expireInSeconds -= 300
+	} else if expireInSeconds > 1800 {
+		expireInSeconds -= 30
+	}
+	return expireInSeconds
 }
