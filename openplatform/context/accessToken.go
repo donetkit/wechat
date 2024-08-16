@@ -58,7 +58,7 @@ func (c *Context) SetComponentAccessToken(ctx context.Context, verifyTicket stri
 	}
 
 	at := &ComponentAccessToken{}
-	if err := json.Unmarshal(respBody, at); err != nil {
+	if err := util.DecodeWithError(respBody, at, "SetComponentAccessToken"); err != nil {
 		return nil, err
 	}
 
@@ -160,7 +160,7 @@ func (c *Context) QueryAuthCode(ctx context.Context, authCode string) (*AuthBase
 		Info *AuthBaseInfo `json:"authorization_info"`
 	}
 
-	if err := json.Unmarshal(body, &ret); err != nil {
+	if err := util.DecodeWithError(body, &ret, "QueryAuthCode"); err != nil {
 		return nil, err
 	}
 	if ret.ErrCode != 0 {
@@ -189,7 +189,7 @@ func (c *Context) RefreshAuthrToken(ctx context.Context, appid, refreshToken str
 	}
 
 	ret := &AuthrAccessToken{}
-	if err := json.Unmarshal(body, ret); err != nil {
+	if err := util.DecodeWithError(body, ret, "RefreshAuthrToken"); err != nil {
 		return nil, err
 	}
 
@@ -246,8 +246,9 @@ func (c *Context) refreshAuthToken(ctx context.Context, appId, refreshToken stri
 	if err != nil {
 		return "", err
 	}
+
 	ret := AuthrAccessToken{}
-	if err := json.Unmarshal(body, &ret); err != nil {
+	if err := util.DecodeWithError(body, &ret, "refreshAuthToken"); err != nil {
 		return "", err
 	}
 	ret.Appid = appId
@@ -345,7 +346,7 @@ func (c *Context) GetAuthrInfo(ctx context.Context, appid string) (*AuthorizerIn
 		AuthorizerInfo    *AuthorizerInfo `json:"authorizer_info"`
 		AuthorizationInfo *AuthBaseInfo   `json:"authorization_info"`
 	}
-	if err := json.Unmarshal(body, &ret); err != nil {
+	if err := util.DecodeWithError(body, &ret, "GetAuthrInfo"); err != nil {
 		return nil, nil, err
 	}
 
