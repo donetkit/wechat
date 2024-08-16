@@ -210,17 +210,17 @@ func (c *Context) GetAuthAccessToken(ctx context.Context, appid string) (string,
 	return val.(string), nil
 }
 
-// GetAuthAccessToken 获取授权方AccessToken
+// GetAuthAccessToken1 获取授权方AccessToken
 func (c *Context) GetAuthAccessToken1(ctx context.Context, appId string) (string, error) {
 	authorizerAccessToken := AuthorizerAccessToken{}
 	authTokenKey := fmt.Sprintf(AuthorizerAccessTokenCacheKey, appId)
+
 	val := c.Cache.Get(authTokenKey)
 	if val == nil {
 		return "", fmt.Errorf("cannot get authorizer %s access token", appId)
 	}
 
-	buff, _ := json.Marshal(val)
-	if err := json.Unmarshal(buff, &authorizerAccessToken); err != nil {
+	if err := json.Unmarshal([]byte(val.(string)), &authorizerAccessToken); err != nil {
 		return "", err
 	}
 	if authorizerAccessToken.AuthorizationInfoExpireTime < time.Now().Unix() {
@@ -254,14 +254,16 @@ func (c *Context) refreshAuthToken(ctx context.Context, appId, refreshToken stri
 	ret.Appid = appId
 	authTokenKey := fmt.Sprintf(AuthorizerAccessTokenCacheKey, appId)
 	authorizerAccessToken := &AuthorizerAccessToken{}
+
 	val := c.Cache.Get(authTokenKey)
 	if val == nil {
 		return "", fmt.Errorf("cannot get authorizer %s access token", appId)
 	}
-	buff, _ := json.Marshal(val)
-	if err := json.Unmarshal(buff, &authorizerAccessToken); err != nil {
+
+	if err := json.Unmarshal([]byte(val.(string)), &authorizerAccessToken); err != nil {
 		return "", err
 	}
+
 	authorizerAccessToken.AuthorizerAccessToken = ret
 	authorizerAccessToken.AuthorizationInfoExpireTime = time.Now().Unix() + ExpiryTimeSpan(ret.ExpiresIn)
 
