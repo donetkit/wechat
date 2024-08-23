@@ -217,7 +217,12 @@ func (c *Context) GetAuthAccessToken1(ctx context.Context, appId string) (string
 
 	val := c.Cache.Get(authTokenKey)
 	if val == nil {
-		return "", fmt.Errorf("cannot get authorizer %s access token", appId)
+		str, _ := c.Cache.GetString(authTokenKey)
+		if len(str) > 0 {
+			var reply interface{}
+			json.Unmarshal([]byte(str), &reply)
+			val = reply
+		}
 	}
 
 	_, ok := val.(string)
@@ -229,7 +234,7 @@ func (c *Context) GetAuthAccessToken1(ctx context.Context, appId string) (string
 	}
 
 	if err := json.Unmarshal([]byte(val.(string)), &authorizerAccessToken); err != nil {
-		return "", err
+		return "", fmt.Errorf("cannot get authorizer %s access token 2", appId)
 	}
 
 	if authorizerAccessToken.AuthorizationInfoExpireTime < time.Now().Unix() {
