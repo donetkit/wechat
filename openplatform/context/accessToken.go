@@ -233,6 +233,8 @@ func (c *Context) GetAuthAccessToken1(ctx context.Context, appId string) (string
 		}
 	}
 
+	fmt.Println(val)
+
 	if err := json.Unmarshal([]byte(val.(string)), &authorizerAccessToken); err != nil {
 		return "", fmt.Errorf("cannot get authorizer %s access token", appId)
 	}
