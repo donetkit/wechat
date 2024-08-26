@@ -38,7 +38,7 @@ type ComponentAccessToken struct {
 // GetComponentAccessToken 获取 ComponentAccessToken
 func (c *Context) GetComponentAccessToken(ctx context.Context) (string, error) {
 	accessTokenCacheKey := fmt.Sprintf(ComponentAccessTokenCacheKey, c.AppID)
-	val := c.Cache.WithContext(ctx).Get(accessTokenCacheKey)
+	val := c.Cache.WithDB(2).WithContext(ctx).Get(accessTokenCacheKey)
 	if val == nil {
 		return "", fmt.Errorf("cann't get component access token")
 	}
@@ -68,7 +68,7 @@ func (c *Context) SetComponentAccessToken(ctx context.Context, verifyTicket stri
 
 	accessTokenCacheKey := fmt.Sprintf(ComponentAccessTokenCacheKey, c.AppID)
 	expires := at.ExpiresIn - 1500
-	if err := c.Cache.WithContext(ctx).Set(accessTokenCacheKey, at.AccessToken, time.Duration(expires)*time.Second); err != nil {
+	if err := c.Cache.WithDB(2).WithContext(ctx).Set(accessTokenCacheKey, at.AccessToken, time.Duration(expires)*time.Second); err != nil {
 		return nil, nil
 	}
 	return at, nil
@@ -194,7 +194,7 @@ func (c *Context) RefreshAuthrToken(ctx context.Context, appid, refreshToken str
 	}
 
 	authTokenKey := fmt.Sprintf(AuthorizerAccessTokenCacheKey, appid)
-	if err := c.Cache.WithContext(ctx).Set(authTokenKey, ret.AccessToken, time.Second*time.Duration(ret.ExpiresIn-30)); err != nil {
+	if err := c.Cache.WithDB(2).WithContext(ctx).Set(authTokenKey, ret.AccessToken, time.Second*time.Duration(ret.ExpiresIn-30)); err != nil {
 		return nil, err
 	}
 	return ret, nil
@@ -203,7 +203,7 @@ func (c *Context) RefreshAuthrToken(ctx context.Context, appid, refreshToken str
 // GetAuthAccessToken 获取授权方AccessToken
 func (c *Context) GetAuthAccessToken(ctx context.Context, appid string) (string, error) {
 	authTokenKey := fmt.Sprintf(AuthorizerAccessTokenCacheKey, appid)
-	val := c.Cache.WithContext(ctx).Get(authTokenKey)
+	val := c.Cache.WithDB(2).WithContext(ctx).Get(authTokenKey)
 	if val == nil {
 		return "", fmt.Errorf("cannot get authorizer %s access token", appid)
 	}
@@ -215,9 +215,9 @@ func (c *Context) GetAuthAccessToken1(ctx context.Context, appId string) (string
 	authorizerAccessToken := AuthorizerAccessToken{}
 	authTokenKey := fmt.Sprintf(AuthorizerAccessTokenCacheKey, appId)
 
-	val := c.Cache.Get(authTokenKey)
+	val := c.Cache.WithDB(2).Get(authTokenKey)
 	if val == nil {
-		str, _ := c.Cache.GetString(authTokenKey)
+		str, _ := c.Cache.WithDB(2).GetString(authTokenKey)
 		if len(str) > 0 {
 			var reply interface{}
 			json.Unmarshal([]byte(str), &reply)
@@ -280,9 +280,9 @@ func (c *Context) refreshAuthToken(ctx context.Context, appId, refreshToken stri
 	authTokenKey := fmt.Sprintf(AuthorizerAccessTokenCacheKey, appId)
 	authorizerAccessToken := &AuthorizerAccessToken{}
 
-	val := c.Cache.Get(authTokenKey)
+	val := c.Cache.WithDB(2).Get(authTokenKey)
 	if val == nil {
-		str, _ := c.Cache.GetString(authTokenKey)
+		str, _ := c.Cache.WithDB(2).GetString(authTokenKey)
 		if len(str) > 0 {
 			var reply interface{}
 			json.Unmarshal([]byte(str), &reply)
@@ -309,7 +309,7 @@ func (c *Context) refreshAuthToken(ctx context.Context, appId, refreshToken stri
 	if err != nil {
 		return "", fmt.Errorf("json Marshal authorizer %s access token", appId)
 	}
-	if err := c.Cache.Set(authTokenKey, string(res), 5*12*31*24*3600*time.Second); err != nil {
+	if err := c.Cache.WithDB(2).Set(authTokenKey, string(res), 5*12*31*24*3600*time.Second); err != nil {
 		return "", err
 	}
 	return ret.AccessToken, nil
