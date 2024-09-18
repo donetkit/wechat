@@ -136,24 +136,38 @@ func PostJSONWithRespContentType(uri string, obj interface{}) ([]byte, string, e
 	return responseData, contentType, err
 }
 
+// PostFileByStream 上传文件
+func PostFileByStream(fieldName, fileName, uri string, byteData []byte) ([]byte, error) {
+	fields := []MultipartFormField{
+		{
+			IsFile:    false,
+			Fieldname: fieldName,
+			Filename:  fileName,
+			Value:     byteData,
+		},
+	}
+	return PostMultipartForm(fields, uri)
+}
+
 // PostFile 上传文件
-func PostFile(fieldName, fileName, uri string) ([]byte, error) {
+func PostFile(fieldName, filePath, uri string) ([]byte, error) {
 	fields := []MultipartFormField{
 		{
 			IsFile:    true,
 			Fieldname: fieldName,
-			Filename:  fileName,
+			FilePath:  filePath,
 		},
 	}
 	return PostMultipartForm(fields, uri)
 }
 
 // PostFileFromReader 上传文件，从 io.Reader 中读取
-func PostFileFromReader(filedName, fileName, uri string, reader io.Reader) ([]byte, error) {
+func PostFileFromReader(filedName, filePath, fileName, uri string, reader io.Reader) ([]byte, error) {
 	fields := []MultipartFormField{
 		{
 			IsFile:     true,
 			Fieldname:  filedName,
+			FilePath:   filePath,
 			Filename:   fileName,
 			FileReader: reader,
 		},
@@ -168,6 +182,7 @@ type MultipartFormField struct {
 	Value      []byte
 	Filename   string
 	FileReader io.Reader
+	FilePath   string
 }
 
 func PostMultipartForm(fields []MultipartFormField, uri string) (respBody []byte, err error) {
@@ -186,7 +201,7 @@ func PostMultipartForm(fields []MultipartFormField, uri string) (respBody []byte
 			}
 
 			if field.FileReader == nil {
-				fh, e := os.Open(field.Filename)
+				fh, e := os.Open(field.FilePath)
 				if e != nil {
 					err = fmt.Errorf("error opening file , err=%v", e)
 					return
@@ -202,7 +217,7 @@ func PostMultipartForm(fields []MultipartFormField, uri string) (respBody []byte
 				}
 			}
 		} else {
-			partWriter, e := bodyWriter.CreateFormField(field.Fieldname)
+			partWriter, e := bodyWriter.CreateFormFile(field.Fieldname, field.Filename)
 			if e != nil {
 				err = e
 				return

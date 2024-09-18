@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path"
 
 	context2 "github.com/donetkit/wechat/officialaccount/context"
 	"github.com/donetkit/wechat/util"
@@ -175,7 +176,7 @@ func (material *Material) AddMaterial(ctx context.Context, mediaType MediaType, 
 }
 
 // AddMaterialFromReader 上传永久性素材（处理视频需要单独上传），从 io.Reader 中读取
-func (material *Material) AddMaterialFromReader(ctx context.Context, mediaType MediaType, filename string, reader io.Reader) (mediaID string, url string, err error) {
+func (material *Material) AddMaterialFromReader(ctx context.Context, mediaType MediaType, filePath string, reader io.Reader) (mediaID string, url string, err error) {
 	if mediaType == MediaTypeVideo {
 		err = errors.New("永久视频素材上传使用 AddVideo 方法")
 		return
@@ -187,8 +188,10 @@ func (material *Material) AddMaterialFromReader(ctx context.Context, mediaType M
 	}
 
 	uri := fmt.Sprintf("%s?access_token=%s&type=%s", addMaterialURL, accessToken, mediaType)
+	// 获取文件名
+	filename := path.Base(filePath)
 	var response []byte
-	response, err = util.PostFileFromReader("media", filename, uri, reader)
+	response, err = util.PostFileFromReader("media", filePath, filename, uri, reader)
 	if err != nil {
 		return
 	}
@@ -212,18 +215,18 @@ type reqVideo struct {
 }
 
 // AddVideo 永久视频素材文件上传
-func (material *Material) AddVideo(ctx context.Context, filename, title, introduction string) (mediaID string, url string, err error) {
-	f, err := os.Open(filename)
+func (material *Material) AddVideo(ctx context.Context, directory, title, introduction string) (mediaID string, url string, err error) {
+	f, err := os.Open(directory)
 	if err != nil {
 		return "", "", err
 	}
 	defer func() { _ = f.Close() }()
 
-	return material.AddVideoFromReader(ctx, filename, title, introduction, f)
+	return material.AddVideoFromReader(ctx, directory, title, introduction, f)
 }
 
 // AddVideoFromReader 永久视频素材文件上传，从 io.Reader 中读取
-func (material *Material) AddVideoFromReader(ctx context.Context, filename, title, introduction string, reader io.Reader) (mediaID string, url string, err error) {
+func (material *Material) AddVideoFromReader(ctx context.Context, filePath, title, introduction string, reader io.Reader) (mediaID string, url string, err error) {
 	var accessToken string
 	accessToken, err = material.GetAccessToken(ctx)
 	if err != nil {
@@ -240,16 +243,19 @@ func (material *Material) AddVideoFromReader(ctx context.Context, filename, titl
 		return
 	}
 
+	fileName := path.Base(filePath)
 	fields := []util.MultipartFormField{
 		{
 			IsFile:     true,
 			Fieldname:  "media",
-			Filename:   filename,
+			FilePath:   filePath,
+			Filename:   fileName,
 			FileReader: reader,
 		},
 		{
 			IsFile:    false,
 			Fieldname: "description",
+			Filename:  fileName,
 			Value:     fieldValue,
 		},
 	}
