@@ -1,16 +1,16 @@
 package router
 
 import (
-	"github.com/donetkit/contrib-gin/middleware/cors"
-	"github.com/donetkit/contrib-gin/middleware/favicon"
-	"github.com/donetkit/contrib-gin/middleware/requestid"
 	"github.com/donetkit/contrib-log/glog"
+	"github.com/donetkit/contrib_gin_middleware/cors"
+	"github.com/donetkit/contrib_gin_middleware/favicon"
+	"github.com/donetkit/contrib_gin_middleware/logger"
+	"github.com/donetkit/contrib_gin_middleware/requestid"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"open_example/api"
 	"open_example/weixin_client"
 
-	"github.com/donetkit/contrib-gin/middleware/logger"
 	"github.com/donetkit/contrib/server/webserve"
 )
 
@@ -22,13 +22,13 @@ func InitRouter(appServe *webserve.Server, log glog.ILogger) {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.New()
 	if appServe.IsDevelopment() {
-		r.Use(logger.New(logger.WithLogger(log), logger.WithConsoleColor(appServe.IsDevelopment()), logger.WithExcludeRegexEndpoint(regexEndpoints)))
+		r.Use(logger.New(logger.WithLogger(log), logger.WithExcludeRegexEndpoint(regexEndpoints)))
 	}
 	r.Use(cors.New(cors.WithExposeHeaders([]string{"X-Requested-With", "Accept"})))
 	r.Use(favicon.New(favicon.WithRoutePaths("/favicon.ico", "./favicon.ico")))
 	r.Use(requestid.New())
 	r.LoadHTMLGlob("templates/*")
-	r.Use(logger.NewErrorLogger(logger.WithLogger(log), logger.WithConsoleColor(false), logger.WithWriterErrorFn(func(c *gin.Context, logParams *logger.LogFormatterParams) (int, interface{}) {
+	r.Use(logger.NewErrorLogger(logger.WithLogger(log), logger.WithWriterErrorFn(func(c *gin.Context, logParams *logger.LogFormatterParams) (int, interface{}) {
 		log.WithField("GIN-Exception", "GIN-Exception").Error(log)
 		return http.StatusInternalServerError, "网络超时, 请重试!"
 	})))
