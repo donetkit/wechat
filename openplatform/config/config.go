@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/donetkit/contrib/utils/cache"
+	"github.com/donetkit/contrib_cache/cache"
 	"sync"
 )
 

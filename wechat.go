@@ -1,10 +1,10 @@
 package wechat
 
 import (
+	"github.com/donetkit/contrib_cache/cache"
 	"github.com/donetkit/wechat/qqminiprogram"
 	qqMiniConfig "github.com/donetkit/wechat/qqminiprogram/config"
 
-	"github.com/donetkit/contrib/utils/cache"
 	"github.com/donetkit/wechat/miniprogram"
 	miniConfig "github.com/donetkit/wechat/miniprogram/config"
 	"github.com/donetkit/wechat/officialaccount"

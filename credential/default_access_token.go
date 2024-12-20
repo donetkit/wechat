@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/donetkit/contrib/utils/cache"
+	"github.com/donetkit/contrib_cache/cache"
 	"github.com/donetkit/wechat/util"
 	"sync"
 	"time"
