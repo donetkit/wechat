@@ -1,0 +1,21 @@
+app:
+    read_time_out: 120s
+    writer_time_out: 120s
+    host: 127.0.0.1
+    port: 80
+    run_mode: debug
+    logger_level: 5
+    api_version: v0
+    url: http://open.example.com
+redis:
+    addr: 192.168.1.10
+    port: 6379
+    password: 123456
+    db: 2
+open_wechat:
+    app_id: app_id
+    app_secret: app_secret
+    url: http://open.example.com
+    token: token
+    encoding_aes_key: encoding_aes_key
+    check_publish: false
