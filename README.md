@@ -14,7 +14,3 @@
 - openplatform:    开放平台API
 - aispeech:        智能对话
 
-
-## Thanks
-- 感谢 [silenceper](https://github.com/silenceper/wechat)
-
