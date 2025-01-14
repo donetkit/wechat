@@ -100,17 +100,18 @@ func NewThirdAppApiClient(corpId, appSuiteId, appSuiteSecret, appSuiteTicket str
 }
 
 // NewCustomizedApiClient 自建应用代开发API客户端初始化，第一次调用这个接口时，appSuiteTicket为空字符串
-func NewCustomizedApiClient(corpId, appSuiteId, appSuiteSecret, appSuiteTicket string, companyPermanentCode string, opts Options) *ApiClient {
+func NewCustomizedApiClient(corpId, appSuiteId, appSuiteSecret, appSuiteTicket string, agentId int, companyPermanentCode string, opts Options) *ApiClient {
 	c := ApiClient{
 		CorpId:          corpId,
 		AppSuiteId:      appSuiteId,
 		AppSuiteSecret:  appSuiteSecret,
 		AppSuiteTicket:  appSuiteTicket,
 		accessTokenName: AccessTokenName,
+		AgentId:         agentId,
 		accessToken: &token{
 			mutex:         &sync.RWMutex{},
 			dcsToken:      opts.DcsToken,
-			tokenCacheKey: fmt.Sprintf("%s#%s#%s", CustomizedApp, SuiteAccessTokenName, appSuiteId),
+			tokenCacheKey: fmt.Sprintf("%s#%s#%s#%d", CustomizedApp, SuiteAccessTokenName, appSuiteId, agentId),
 		},
 		dcsSuiteTicketCacheKey: fmt.Sprintf("%s#%s#%s", CustomizedApp, CustomizedTicket, appSuiteId),
 		dcsAppSuiteTicket:      opts.DcsAppSuiteTicket,
@@ -231,7 +232,6 @@ func (c *ApiClient) composeWXURLWithToken(path string, req interface{}, withAcce
 	//} else {
 	//	q.Set(c.accessTokenName, c.accessToken.getToken())
 	//}
-
 	wxApiURL.RawQuery = q.Encode()
 
 	return wxApiURL
@@ -256,7 +256,7 @@ func (c *ApiClient) executeWXApiGet(path string, req urlValuer, objResp interfac
 		return err
 	}
 	respBody := httpResp.Body()
-	c.logger.Errorf("executeWXApiGet 请求Url httpResp:%s", string(respBody))
+	c.logger.Error("executeWXApiGet 请求Url httpResp:" + string(respBody))
 	if len(respBody) == 0 { // 避免 json.Unmarshal 出现 unexpected end of JSON input 错误
 		c.logger.Errorf("请求企微路由=%s, resp=%s, err=返回空响应体，建议降低并发数试试", urlStr, string(respBody))
 		return errors.New("http resp body is nil")
@@ -300,7 +300,7 @@ func (c *ApiClient) executeWXApiPost(path string, req bodyer, objResp interface{
 	}
 
 	respBody := httpResp.Body()
-	c.logger.Errorf("executeWXApiPost 请求Url httpResp:%s", string(reqBody))
+	c.logger.Error("executeWXApiPost 请求Url httpResp:" + string(respBody))
 	if len(respBody) == 0 { // 避免 json.Unmarshal 出现 unexpected end of JSON input 错误
 		c.logger.Errorf("请求企微路由=%s, req=%s, resp=%s, err=返回空响应体，建议降低并发数试试", path, string(reqBody), respBody)
 		return errors.New("http resp body is nil")
