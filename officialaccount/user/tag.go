@@ -38,7 +38,7 @@ type TagOpenIDList struct {
 // CreateTag 创建标签
 func (user *User) CreateTag(ctx context.Context, tagName string) (tagInfo *TagInfo, err error) {
 	var accessToken string
-	accessToken, err = user.GetAccessToken(ctx)
+	accessToken, err = user.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -71,7 +71,7 @@ func (user *User) CreateTag(ctx context.Context, tagName string) (tagInfo *TagIn
 
 // DeleteTag  删除标签
 func (user *User) DeleteTag(ctx context.Context, tagID int32) (err error) {
-	accessToken, err := user.GetAccessToken(ctx)
+	accessToken, err := user.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -91,7 +91,7 @@ func (user *User) DeleteTag(ctx context.Context, tagID int32) (err error) {
 
 // UpdateTag  编辑标签
 func (user *User) UpdateTag(ctx context.Context, tagID int32, tagName string) (err error) {
-	accessToken, err := user.GetAccessToken(ctx)
+	accessToken, err := user.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -113,7 +113,7 @@ func (user *User) UpdateTag(ctx context.Context, tagID int32, tagName string) (e
 
 // GetTag 获取公众号已创建的标签
 func (user *User) GetTag(ctx context.Context) (tags []*TagInfo, err error) {
-	accessToken, err := user.GetAccessToken(ctx)
+	accessToken, err := user.GetAccessTokenContext(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -132,7 +132,7 @@ func (user *User) GetTag(ctx context.Context) (tags []*TagInfo, err error) {
 
 // OpenIDListByTag 获取标签下粉丝列表
 func (user *User) OpenIDListByTag(ctx context.Context, tagID int32, nextOpenID ...string) (userList *TagOpenIDList, err error) {
-	accessToken, err := user.GetAccessToken(ctx)
+	accessToken, err := user.GetAccessTokenContext(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -157,7 +157,7 @@ func (user *User) OpenIDListByTag(ctx context.Context, tagID int32, nextOpenID .
 
 // BatchTag 批量为用户打标签
 func (user *User) BatchTag(ctx context.Context, openIDList []string, tagID int32) (err error) {
-	accessToken, err := user.GetAccessToken(ctx)
+	accessToken, err := user.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -184,7 +184,7 @@ func (user *User) BatchUntag(ctx context.Context, openIDList []string, tagID int
 	if len(openIDList) == 0 {
 		return
 	}
-	accessToken, err := user.GetAccessToken(ctx)
+	accessToken, err := user.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -205,7 +205,7 @@ func (user *User) BatchUntag(ctx context.Context, openIDList []string, tagID int
 
 // UserTidList 获取用户身上的标签列表
 func (user *User) UserTidList(ctx context.Context, openID string) (tagIDList []int32, err error) {
-	accessToken, err := user.GetAccessToken(ctx)
+	accessToken, err := user.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}

@@ -45,7 +45,7 @@ type Ticket struct {
 
 // GetQRTicket 获取二维码 Ticket
 func (basic *Basic) GetQRTicket(ctx context.Context, tq *Request) (t *Ticket, err error) {
-	accessToken, err := basic.GetAccessToken(ctx)
+	accessToken, err := basic.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}

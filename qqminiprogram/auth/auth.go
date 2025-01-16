@@ -78,7 +78,7 @@ func (auth *Auth) CheckEncryptedDataContext(ctx context.Context, encryptedMsgHas
 	var (
 		at string
 	)
-	if at, err = auth.GetAccessToken(ctx); err != nil {
+	if at, err = auth.GetAccessTokenContext(ctx); err != nil {
 		return
 	}
 	if response, err = util.HTTPPostContext(ctx, fmt.Sprintf(checkEncryptedDataURL, at), []byte("encrypted_msg_hash="+encryptedMsgHash), nil); err != nil {

@@ -33,7 +33,7 @@ type ULQueryResult struct {
 
 // Query 查询小程序 url_link 配置。
 func (u *URLLink) Query(ctx context.Context, urlLink string) (*ULQueryResult, error) {
-	accessToken, err := u.GetAccessToken(ctx)
+	accessToken, err := u.GetAccessTokenContext(ctx)
 	if err != nil {
 		return nil, err
 	}

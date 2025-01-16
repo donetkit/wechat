@@ -40,18 +40,37 @@ type DefaultAuthrAccessToken struct {
 	appID string
 }
 
+func (ak *DefaultAuthrAccessToken) GetAccessToken() (accessToken string, err error) {
+	return ak.GetAccessTokenContext(context.Background())
+}
+
 // NewDefaultAuthrAccessToken 设置access_token
-func NewDefaultAuthrAccessToken(opCtx *openContext.Context, appID string) credential.AccessTokenHandle {
+func NewDefaultAuthrAccessToken(opCtx *openContext.Context, appID string) credential.AccessTokenContextHandle {
 	return &DefaultAuthrAccessToken{opCtx: opCtx, appID: appID}
 }
 
-// GetAccessToken 获取ak
-func (ak *DefaultAuthrAccessToken) GetAccessToken(ctx context.Context) (string, error) {
+// GetAccessTokenContext 获取ak
+func (ak *DefaultAuthrAccessToken) GetAccessTokenContext(ctx context.Context) (string, error) {
 	return ak.opCtx.GetAuthAccessToken(ctx, ak.appID)
 }
 
-// GetAccessToken 获取ak
-func (miniProgram *MiniProgram) GetAccessToken(ctx context.Context) (string, error) {
+func (miniProgram *MiniProgram) GetAccessToken() (string, error) {
+	ak, akErr := miniProgram.openContext.GetAuthAccessToken(context.Background(), miniProgram.AppID)
+	if akErr == nil {
+		return ak, nil
+	}
+	if miniProgram.authorizerRefreshToken == "" {
+		return "", fmt.Errorf("please set the authorizer_refresh_token first")
+	}
+	akRes, akResErr := miniProgram.GetComponent().RefreshAuthrToken(context.Background(), miniProgram.AppID, miniProgram.authorizerRefreshToken)
+	if akResErr != nil {
+		return "", akResErr
+	}
+	return akRes.AccessToken, nil
+}
+
+// GetAccessTokenContext 获取ak
+func (miniProgram *MiniProgram) GetAccessTokenContext(ctx context.Context) (string, error) {
 	ak, akErr := miniProgram.openContext.GetAuthAccessToken(ctx, miniProgram.AppID)
 	if akErr == nil {
 		return ak, nil
@@ -96,6 +115,6 @@ func (miniProgram *MiniProgram) GetQRCode() *qrcode.QRCode {
 // GetURLLink 小程序URL Link接口 调用前需确认已调用 SetAuthorizerRefreshToken 避免由于缓存中 authorizer_access_token 过期执行中断
 func (miniProgram *MiniProgram) GetURLLink() *urllink.URLLink {
 	return urllink.NewURLLink(&miniContext.Context{
-		AccessTokenHandle: miniProgram,
+		AccessTokenContextHandle: miniProgram,
 	})
 }

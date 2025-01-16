@@ -162,7 +162,7 @@ type MediaMiniprogrampage struct {
 
 // Send 发送客服消息
 func (manager *Manager) Send(ctx context.Context, msg *CustomerMessage) error {
-	accessToken, err := manager.Context.GetAccessToken(ctx)
+	accessToken, err := manager.Context.GetAccessTokenContext(ctx)
 	if err != nil {
 		return err
 	}

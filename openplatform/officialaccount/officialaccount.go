@@ -47,8 +47,12 @@ type DefaultAuthrAccessToken struct {
 	appID string
 }
 
+func (ak *DefaultAuthrAccessToken) GetAccessToken() (accessToken string, err error) {
+	return ak.GetAccessTokenContext(context.Background())
+}
+
 // NewDefaultAuthrAccessToken New
-func NewDefaultAuthrAccessToken(opCtx *opContext.Context, appID string) credential.AccessTokenHandle {
+func NewDefaultAuthrAccessToken(opCtx *opContext.Context, appID string) credential.AccessTokenContextHandle {
 	return &DefaultAuthrAccessToken{
 		opCtx: opCtx,
 		appID: appID,
@@ -56,6 +60,6 @@ func NewDefaultAuthrAccessToken(opCtx *opContext.Context, appID string) credenti
 }
 
 // GetAccessToken 获取ak
-func (ak *DefaultAuthrAccessToken) GetAccessToken(ctx context.Context) (string, error) {
+func (ak *DefaultAuthrAccessToken) GetAccessTokenContext(ctx context.Context) (string, error) {
 	return ak.opCtx.GetAuthAccessToken(ctx, ak.appID)
 }

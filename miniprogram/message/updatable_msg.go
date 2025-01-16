@@ -41,7 +41,7 @@ func NewUpdatableMessage(ctx *mcontext.Context) *UpdatableMessage {
 
 // CreateActivityID 创建activity_id
 func (updatableMessage *UpdatableMessage) CreateActivityID(ctx context.Context) (res CreateActivityIDResponse, err error) {
-	accessToken, err := updatableMessage.GetAccessToken(ctx)
+	accessToken, err := updatableMessage.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -57,7 +57,7 @@ func (updatableMessage *UpdatableMessage) CreateActivityID(ctx context.Context) 
 
 // SetUpdatableMsg 修改动态消息
 func (updatableMessage *UpdatableMessage) SetUpdatableMsg(ctx context.Context, activityID string, targetState UpdatableTargetState, template UpdatableMsgTemplate) (err error) {
-	accessToken, err := updatableMessage.GetAccessToken(ctx)
+	accessToken, err := updatableMessage.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}

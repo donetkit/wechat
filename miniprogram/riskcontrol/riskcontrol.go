@@ -43,7 +43,7 @@ type UserRiskRank struct {
 
 // GetUserRiskRank 根据提交的用户信息数据获取用户的安全等级 risk_rank，无需用户授权。
 func (riskControl *RiskControl) GetUserRiskRank(ctx context.Context, in *UserRiskRankRequest) (res UserRiskRank, err error) {
-	accessToken, err := riskControl.GetAccessToken(ctx)
+	accessToken, err := riskControl.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}

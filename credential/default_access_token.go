@@ -34,8 +34,13 @@ type DefaultAccessToken struct {
 	accessTokenLock *sync.Mutex
 }
 
+// GetAccessToken 获取access_token,先从cache中获取，没有则从服务端获取
+func (ak *DefaultAccessToken) GetAccessToken() (accessToken string, err error) {
+	return ak.GetAccessTokenContext(context.Background())
+}
+
 // NewDefaultAccessToken new DefaultAccessToken
-func NewDefaultAccessToken(appID, appSecret, cacheKeyPrefix string, cache cache.ICache) AccessTokenHandle {
+func NewDefaultAccessToken(appID, appSecret, cacheKeyPrefix string, cache cache.ICache) AccessTokenContextHandle {
 	if cache == nil {
 		panic("cache is ineed")
 	}
@@ -56,8 +61,8 @@ type ResAccessToken struct {
 	ExpiresIn   int64  `json:"expires_in"`
 }
 
-// GetAccessToken 获取access_token,先从cache中获取，没有则从服务端获取
-func (ak *DefaultAccessToken) GetAccessToken(ctx context.Context) (accessToken string, err error) {
+// GetAccessTokenContext 获取access_token,先从cache中获取，没有则从服务端获取
+func (ak *DefaultAccessToken) GetAccessTokenContext(ctx context.Context) (accessToken string, err error) {
 	// 先从cache中取
 	accessTokenCacheKey := fmt.Sprintf("%s_access_token_%s", ak.cacheKeyPrefix, ak.appID)
 	accessToken, err = ak.cache.WithContext(ctx).GetString(accessTokenCacheKey)
@@ -98,8 +103,12 @@ type WorkAccessToken struct {
 	accessTokenLock *sync.Mutex
 }
 
+func (ak *WorkAccessToken) GetAccessToken() (accessToken string, err error) {
+	return ak.GetAccessTokenContext(context.Background())
+}
+
 // NewWorkAccessToken new WorkAccessToken
-func NewWorkAccessToken(corpID, corpSecret, cacheKeyPrefix string, cache cache.ICache) AccessTokenHandle {
+func NewWorkAccessToken(corpID, corpSecret, cacheKeyPrefix string, cache cache.ICache) AccessTokenContextHandle {
 	if cache == nil {
 		panic("cache the not exist")
 	}
@@ -112,8 +121,8 @@ func NewWorkAccessToken(corpID, corpSecret, cacheKeyPrefix string, cache cache.I
 	}
 }
 
-// GetAccessToken 企业微信获取access_token,先从cache中获取，没有则从服务端获取
-func (ak *WorkAccessToken) GetAccessToken(ctx context.Context) (accessToken string, err error) {
+// GetAccessTokenContext 企业微信获取access_token,先从cache中获取，没有则从服务端获取
+func (ak *WorkAccessToken) GetAccessTokenContext(ctx context.Context) (accessToken string, err error) {
 	//加上lock，是为了防止在并发获取token时，cache刚好失效，导致从微信服务器上获取到不同token
 	ak.accessTokenLock.Lock()
 	defer ak.accessTokenLock.Unlock()
@@ -153,11 +162,12 @@ func NewStableAccessToken(appID, appSecret, cacheKeyPrefix string, cache cache.I
 	if cache == nil {
 		panic("cache is need")
 	}
-	return &StableAccessToken{
-		appID:          appID,
-		appSecret:      appSecret,
-		cache:          cache,
-		cacheKeyPrefix: cacheKeyPrefix,
+	return &DefaultAccessToken{
+		appID:           appID,
+		appSecret:       appSecret,
+		cache:           cache,
+		cacheKeyPrefix:  cacheKeyPrefix,
+		accessTokenLock: new(sync.Mutex),
 	}
 }
 

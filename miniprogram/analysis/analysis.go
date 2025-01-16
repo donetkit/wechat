@@ -46,7 +46,7 @@ func NewAnalysis(ctx *context2.Context) *Analysis {
 // fetchData 拉取统计数据
 func (analysis *Analysis) fetchData(ctx context.Context, urlStr string, body interface{}) (response []byte, err error) {
 	var accessToken string
-	accessToken, err = analysis.GetAccessToken(ctx)
+	accessToken, err = analysis.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}

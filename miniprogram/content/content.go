@@ -27,7 +27,7 @@ func NewContent(ctx *context2.Context) *Content {
 // Deprecated
 // 采用 security.MsgCheckV1 替代，返回值更加丰富
 func (content *Content) CheckText(ctx context.Context, text string) error {
-	accessToken, err := content.GetAccessToken(ctx)
+	accessToken, err := content.GetAccessTokenContext(ctx)
 	if err != nil {
 		return err
 	}
@@ -49,7 +49,7 @@ func (content *Content) CheckText(ctx context.Context, text string) error {
 // Deprecated
 // 采用 security.ImageCheckV1 替代，返回值更加丰富
 func (content *Content) CheckImage(ctx context.Context, media string) error {
-	accessToken, err := content.GetAccessToken(ctx)
+	accessToken, err := content.GetAccessTokenContext(ctx)
 	if err != nil {
 		return err
 	}

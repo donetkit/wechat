@@ -36,7 +36,7 @@ func (basic *Basic) Long2ShortURL(ctx context.Context, longURL string) (shortURL
 		ac, uri       string
 		responseBytes []byte
 	)
-	ac, err = basic.GetAccessToken(ctx)
+	ac, err = basic.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}

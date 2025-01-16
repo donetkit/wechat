@@ -47,7 +47,7 @@ type resShortLinker struct {
 // Generate 生成 shortLink
 func (shortLink *ShortLink) generate(ctx context.Context, shortLinkParams ShortLinker) (string, error) {
 	var accessToken string
-	accessToken, err := shortLink.GetAccessToken(ctx)
+	accessToken, err := shortLink.GetAccessTokenContext(ctx)
 	if err != nil {
 		return "", err
 	}

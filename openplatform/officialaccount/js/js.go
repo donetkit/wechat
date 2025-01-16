@@ -35,7 +35,7 @@ func (js *Js) SetJsTicketHandle(ticketHandle credential.JsTicketHandle) {
 func (js *Js) GetConfig(ctx context.Context, uri, appid string) (config *officialJs.Config, err error) {
 	config = new(officialJs.Config)
 	var accessToken string
-	accessToken, err = js.GetAccessToken(ctx)
+	accessToken, err = js.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}

@@ -42,7 +42,7 @@ type GetRedPacketCoverResp struct {
 // GetRedPacketCoverURL 获得指定用户可以领取的红包封面链接。获取参数ctoken参考微信红包封面开放平台
 // 文档地址： https://developers.weixin.qq.com/miniprogram/dev/OpenApiDoc/red-packet-cover/getRedPacketCoverUrl.html
 func (cover *RedPacketCover) GetRedPacketCoverURL(ctx context.Context, coderParams GetRedPacketCoverRequest) (res GetRedPacketCoverResp, err error) {
-	accessToken, err := cover.GetAccessToken(ctx)
+	accessToken, err := cover.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}

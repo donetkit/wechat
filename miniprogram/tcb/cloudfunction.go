@@ -22,7 +22,7 @@ type InvokeCloudFunctionRes struct {
 //
 //reference:https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-http-api/functions/invokeCloudFunction.html
 func (tcb *Tcb) InvokeCloudFunction(ctx context.Context, env, name, args string) (*InvokeCloudFunctionRes, error) {
-	accessToken, err := tcb.GetAccessToken(ctx)
+	accessToken, err := tcb.GetAccessTokenContext(ctx)
 	if err != nil {
 		return nil, err
 	}

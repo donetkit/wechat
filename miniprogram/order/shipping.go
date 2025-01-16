@@ -35,7 +35,7 @@ func NewShipping(ctx *context2.Context) *Shipping {
 // UploadShippingInfo 发货信息录入
 // see https://developers.weixin.qq.com/miniprogram/dev/platform-capabilities/business-capabilities/order-shipping/order-shipping.html
 func (shipping *Shipping) UploadShippingInfo(ctx context.Context, in *UploadShippingInfoRequest) (err error) {
-	accessToken, err := shipping.GetAccessToken(ctx)
+	accessToken, err := shipping.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -52,7 +52,7 @@ func (shipping *Shipping) UploadShippingInfo(ctx context.Context, in *UploadShip
 
 // GetShippingOrder 查询订单发货状态
 func (shipping *Shipping) GetShippingOrder(ctx context.Context, in *GetShippingOrderRequest) (res ShippingOrderResponse, err error) {
-	accessToken, err := shipping.GetAccessToken(ctx)
+	accessToken, err := shipping.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -69,7 +69,7 @@ func (shipping *Shipping) GetShippingOrder(ctx context.Context, in *GetShippingO
 
 // GetShippingOrderList 查询订单列表
 func (shipping *Shipping) GetShippingOrderList(ctx context.Context, in *GetShippingOrderListRequest) (res GetShippingOrderListResponse, err error) {
-	accessToken, err := shipping.GetAccessToken(ctx)
+	accessToken, err := shipping.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -86,7 +86,7 @@ func (shipping *Shipping) GetShippingOrderList(ctx context.Context, in *GetShipp
 
 // NotifyConfirmReceive 确认收货提醒接口
 func (shipping *Shipping) NotifyConfirmReceive(ctx context.Context, in *NotifyConfirmReceiveRequest) (err error) {
-	accessToken, err := shipping.GetAccessToken(ctx)
+	accessToken, err := shipping.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}

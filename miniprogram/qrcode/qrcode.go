@@ -62,7 +62,7 @@ type QRCoder struct {
 // fetchCode 请求并返回二维码二进制数据
 func (qrCode *QRCode) fetchCode(ctx context.Context, urlStr string, body interface{}) (response []byte, err error) {
 	var accessToken string
-	accessToken, err = qrCode.GetAccessToken(ctx)
+	accessToken, err = qrCode.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}

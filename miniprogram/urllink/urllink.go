@@ -54,7 +54,7 @@ type ULResult struct {
 
 // Generate 生成url link
 func (u *URLLink) Generate(ctx context.Context, params *ULParams) (string, error) {
-	accessToken, err := u.GetAccessToken(ctx)
+	accessToken, err := u.GetAccessTokenContext(ctx)
 	if err != nil {
 		return "", err
 	}

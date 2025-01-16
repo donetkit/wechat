@@ -141,7 +141,7 @@ type ResUserShareHour struct {
 
 // GetArticleSummary 获取图文群发每日数据
 func (cube *DataCube) GetArticleSummary(ctx context.Context, s string, e string) (resArticleSummary ResArticleSummary, err error) {
-	accessToken, err := cube.GetAccessToken(ctx)
+	accessToken, err := cube.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -163,7 +163,7 @@ func (cube *DataCube) GetArticleSummary(ctx context.Context, s string, e string)
 
 // GetArticleTotal 获取图文群发总数据
 func (cube *DataCube) GetArticleTotal(ctx context.Context, s string, e string) (resArticleTotal ResArticleTotal, err error) {
-	accessToken, err := cube.GetAccessToken(ctx)
+	accessToken, err := cube.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -185,7 +185,7 @@ func (cube *DataCube) GetArticleTotal(ctx context.Context, s string, e string) (
 
 // GetUserRead 获取图文统计数据
 func (cube *DataCube) GetUserRead(ctx context.Context, s string, e string) (resUserRead ResUserRead, err error) {
-	accessToken, err := cube.GetAccessToken(ctx)
+	accessToken, err := cube.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -207,7 +207,7 @@ func (cube *DataCube) GetUserRead(ctx context.Context, s string, e string) (resU
 
 // GetUserReadHour 获取图文统计分时数据
 func (cube *DataCube) GetUserReadHour(ctx context.Context, s string, e string) (resUserReadHour ResUserReadHour, err error) {
-	accessToken, err := cube.GetAccessToken(ctx)
+	accessToken, err := cube.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -229,7 +229,7 @@ func (cube *DataCube) GetUserReadHour(ctx context.Context, s string, e string) (
 
 // GetUserShare 获取图文分享转发数据
 func (cube *DataCube) GetUserShare(ctx context.Context, s string, e string) (resUserShare ResUserShare, err error) {
-	accessToken, err := cube.GetAccessToken(ctx)
+	accessToken, err := cube.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -251,7 +251,7 @@ func (cube *DataCube) GetUserShare(ctx context.Context, s string, e string) (res
 
 // GetUserShareHour 获取图文分享转发分时数据
 func (cube *DataCube) GetUserShareHour(ctx context.Context, s string, e string) (resUserShareHour ResUserShareHour, err error) {
-	accessToken, err := cube.GetAccessToken(ctx)
+	accessToken, err := cube.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}

@@ -59,7 +59,7 @@ type resKeFuList struct {
 // List 获取所有客服基本信息
 func (csm *Manager) List(ctx context.Context) (customerServiceList []*KeFuInfo, err error) {
 	var accessToken string
-	accessToken, err = csm.GetAccessToken(ctx)
+	accessToken, err = csm.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -90,7 +90,7 @@ type resKeFuOnlineList struct {
 // OnlineList 获取在线客服列表
 func (csm *Manager) OnlineList(ctx context.Context) (customerServiceOnlineList []*KeFuOnlineInfo, err error) {
 	var accessToken string
-	accessToken, err = csm.GetAccessToken(ctx)
+	accessToken, err = csm.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -111,7 +111,7 @@ func (csm *Manager) Add(ctx context.Context, kfAccount, nickName string) (err er
 	// nickName：客服昵称，最长16个字
 	// 参数此处均不做校验
 	var accessToken string
-	accessToken, err = csm.GetAccessToken(ctx)
+	accessToken, err = csm.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -135,7 +135,7 @@ func (csm *Manager) Add(ctx context.Context, kfAccount, nickName string) (err er
 // Update 修改客服账号
 func (csm *Manager) Update(ctx context.Context, kfAccount, nickName string) (err error) {
 	var accessToken string
-	accessToken, err = csm.GetAccessToken(ctx)
+	accessToken, err = csm.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -159,7 +159,7 @@ func (csm *Manager) Update(ctx context.Context, kfAccount, nickName string) (err
 // Delete 删除客服帐号
 func (csm *Manager) Delete(ctx context.Context, kfAccount string) (err error) {
 	var accessToken string
-	accessToken, err = csm.GetAccessToken(ctx)
+	accessToken, err = csm.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -181,7 +181,7 @@ func (csm *Manager) Delete(ctx context.Context, kfAccount string) (err error) {
 // InviteBind 邀请绑定客服帐号和微信号
 func (csm *Manager) InviteBind(ctx context.Context, kfAccount, inviteWX string) (err error) {
 	var accessToken string
-	accessToken, err = csm.GetAccessToken(ctx)
+	accessToken, err = csm.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -205,7 +205,7 @@ func (csm *Manager) InviteBind(ctx context.Context, kfAccount, inviteWX string) 
 // UploadHeadImg 上传客服头像
 func (csm *Manager) UploadHeadImg(ctx context.Context, kfAccount, fileName string) (err error) {
 	var accessToken string
-	accessToken, err = csm.GetAccessToken(ctx)
+	accessToken, err = csm.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -222,7 +222,7 @@ func (csm *Manager) UploadHeadImg(ctx context.Context, kfAccount, fileName strin
 // SendTypingStatus 下发客服输入状态给用户
 func (csm *Manager) SendTypingStatus(ctx context.Context, openid string, cmd TypingStatus) (err error) {
 	var accessToken string
-	accessToken, err = csm.GetAccessToken(ctx)
+	accessToken, err = csm.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}

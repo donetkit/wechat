@@ -75,7 +75,7 @@ type BatchDeleteFileRes struct {
 //
 //reference:https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-http-api/storage/uploadFile.html
 func (tcb *Tcb) UploadFile(ctx context.Context, env, path string) (*UploadFileRes, error) {
-	accessToken, err := tcb.GetAccessToken(ctx)
+	accessToken, err := tcb.GetAccessTokenContext(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -97,7 +97,7 @@ func (tcb *Tcb) UploadFile(ctx context.Context, env, path string) (*UploadFileRe
 //
 //reference:https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-http-api/storage/batchDownloadFile.html
 func (tcb *Tcb) BatchDownloadFile(ctx context.Context, env string, fileList []*DownloadFile) (*BatchDownloadFileRes, error) {
-	accessToken, err := tcb.GetAccessToken(ctx)
+	accessToken, err := tcb.GetAccessTokenContext(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -119,7 +119,7 @@ func (tcb *Tcb) BatchDownloadFile(ctx context.Context, env string, fileList []*D
 //
 //reference:https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-http-api/storage/batchDeleteFile.html
 func (tcb *Tcb) BatchDeleteFile(ctx context.Context, env string, fileIDList []string) (*BatchDeleteFileRes, error) {
-	accessToken, err := tcb.GetAccessToken(ctx)
+	accessToken, err := tcb.GetAccessTokenContext(ctx)
 	if err != nil {
 		return nil, err
 	}

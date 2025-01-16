@@ -65,7 +65,7 @@ type Article struct {
 
 // GetNews 获取/下载永久素材
 func (material *Material) GetNews(ctx context.Context, id string) ([]*Article, error) {
-	accessToken, err := material.GetAccessToken(ctx)
+	accessToken, err := material.GetAccessTokenContext(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -108,7 +108,7 @@ func (material *Material) AddNews(ctx context.Context, articles []*Article) (med
 	req := &reqArticles{articles}
 
 	var accessToken string
-	accessToken, err = material.GetAccessToken(ctx)
+	accessToken, err = material.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -142,7 +142,7 @@ func (material *Material) UpdateNews(ctx context.Context, article *Article, medi
 	req := &reqUpdateArticle{mediaID, index, article}
 
 	var accessToken string
-	accessToken, err = material.GetAccessToken(ctx)
+	accessToken, err = material.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -182,7 +182,7 @@ func (material *Material) AddMaterialFromReader(ctx context.Context, mediaType M
 		return
 	}
 	var accessToken string
-	accessToken, err = material.GetAccessToken(ctx)
+	accessToken, err = material.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -228,7 +228,7 @@ func (material *Material) AddVideo(ctx context.Context, directory, title, introd
 // AddVideoFromReader 永久视频素材文件上传，从 io.Reader 中读取
 func (material *Material) AddVideoFromReader(ctx context.Context, filePath, title, introduction string, reader io.Reader) (mediaID string, url string, err error) {
 	var accessToken string
-	accessToken, err = material.GetAccessToken(ctx)
+	accessToken, err = material.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -284,7 +284,7 @@ type reqDeleteMaterial struct {
 
 // DeleteMaterial 删除永久素材
 func (material *Material) DeleteMaterial(ctx context.Context, mediaID string) error {
-	accessToken, err := material.GetAccessToken(ctx)
+	accessToken, err := material.GetAccessTokenContext(ctx)
 	if err != nil {
 		return err
 	}
@@ -334,7 +334,7 @@ type reqBatchGetMaterial struct {
 //reference:https://developers.weixin.qq.com/doc/offiaccount/Asset_Management/Get_materials_list.html
 func (material *Material) BatchGetMaterial(ctx context.Context, permanentMaterialType PermanentMaterialType, offset, count int64) (list ArticleList, err error) {
 	var accessToken string
-	accessToken, err = material.GetAccessToken(ctx)
+	accessToken, err = material.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -368,7 +368,7 @@ type ResMaterialCount struct {
 // GetMaterialCount 获取素材总数.
 func (material *Material) GetMaterialCount(ctx context.Context) (res ResMaterialCount, err error) {
 	var accessToken string
-	accessToken, err = material.GetAccessToken(ctx)
+	accessToken, err = material.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}

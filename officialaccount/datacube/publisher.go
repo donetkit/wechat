@@ -165,7 +165,7 @@ type ParamsPublisher struct {
 
 // fetchData 拉取统计数据
 func (cube *DataCube) fetchData(ctx context.Context, params ParamsPublisher) (response []byte, err error) {
-	accessToken, err := cube.GetAccessToken(ctx)
+	accessToken, err := cube.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}

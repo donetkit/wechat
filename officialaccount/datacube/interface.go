@@ -41,7 +41,7 @@ type ResInterfaceSummaryHour struct {
 
 // GetInterfaceSummary 获取接口分析数据
 func (cube *DataCube) GetInterfaceSummary(ctx context.Context, s string, e string) (resInterfaceSummary ResInterfaceSummary, err error) {
-	accessToken, err := cube.GetAccessToken(ctx)
+	accessToken, err := cube.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -63,7 +63,7 @@ func (cube *DataCube) GetInterfaceSummary(ctx context.Context, s string, e strin
 
 // GetInterfaceSummaryHour 获取接口分析分时数据
 func (cube *DataCube) GetInterfaceSummaryHour(ctx context.Context, s string, e string) (resInterfaceSummaryHour ResInterfaceSummaryHour, err error) {
-	accessToken, err := cube.GetAccessToken(ctx)
+	accessToken, err := cube.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}

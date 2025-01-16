@@ -72,7 +72,7 @@ type OpenidList struct {
 // GetUserInfo 获取用户基本信息
 func (user *User) GetUserInfo(ctx context.Context, openID string) (userInfo *Info, err error) {
 	var accessToken string
-	accessToken, err = user.GetAccessToken(ctx)
+	accessToken, err = user.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -118,7 +118,7 @@ func (user *User) BatchGetUserInfo(ctx context.Context, params BatchGetUserInfoP
 		return nil, errors.New("params length must be less than or equal to 100")
 	}
 
-	ak, err := user.GetAccessToken(ctx)
+	ak, err := user.GetAccessTokenContext(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -140,7 +140,7 @@ func (user *User) BatchGetUserInfo(ctx context.Context, params BatchGetUserInfoP
 // UpdateRemark 设置用户备注名
 func (user *User) UpdateRemark(ctx context.Context, openID, remark string) (err error) {
 	var accessToken string
-	accessToken, err = user.GetAccessToken(ctx)
+	accessToken, err = user.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -157,7 +157,7 @@ func (user *User) UpdateRemark(ctx context.Context, openID, remark string) (err 
 
 // ListUserOpenIDs 返回用户列表
 func (user *User) ListUserOpenIDs(ctx context.Context, nextOpenid ...string) (*OpenidList, error) {
-	accessToken, err := user.GetAccessToken(ctx)
+	accessToken, err := user.GetAccessTokenContext(ctx)
 	if err != nil {
 		return nil, err
 	}

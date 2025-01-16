@@ -38,7 +38,7 @@ type IPListRes struct {
 
 // GetCallbackIP 获取微信callback IP地址
 func (basic *Basic) GetCallbackIP(ctx context.Context) ([]string, error) {
-	ak, err := basic.GetAccessToken(ctx)
+	ak, err := basic.GetAccessTokenContext(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -54,7 +54,7 @@ func (basic *Basic) GetCallbackIP(ctx context.Context) ([]string, error) {
 
 // GetAPIDomainIP 获取微信API接口 IP地址
 func (basic *Basic) GetAPIDomainIP(ctx context.Context) ([]string, error) {
-	ak, err := basic.GetAccessToken(ctx)
+	ak, err := basic.GetAccessTokenContext(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -70,7 +70,7 @@ func (basic *Basic) GetAPIDomainIP(ctx context.Context) ([]string, error) {
 
 // ClearQuota 清理接口调用次数
 func (basic *Basic) ClearQuota(ctx context.Context) error {
-	ak, err := basic.GetAccessToken(ctx)
+	ak, err := basic.GetAccessTokenContext(ctx)
 	if err != nil {
 		return err
 	}

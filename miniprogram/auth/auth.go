@@ -80,7 +80,7 @@ func (auth *Auth) CheckEncryptedDataContext(ctx context.Context, encryptedMsgHas
 	var (
 		at string
 	)
-	if at, err = auth.GetAccessToken(ctx); err != nil {
+	if at, err = auth.GetAccessTokenContext(ctx); err != nil {
 		return
 	}
 	// 由于GetPhoneNumberContext需要传入JSON，所以HTTPPostContext入参改为[]byte
@@ -118,7 +118,7 @@ func (auth *Auth) GetPhoneNumber(ctx context.Context, code string) (*GetPhoneNum
 		at  string
 		err error
 	)
-	if at, err = auth.GetAccessToken(ctx); err != nil {
+	if at, err = auth.GetAccessTokenContext(ctx); err != nil {
 		return nil, err
 	}
 	body := map[string]interface{}{

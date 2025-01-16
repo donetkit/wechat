@@ -74,7 +74,7 @@ type TemplateList struct {
 // Send 发送订阅消息
 func (s *Subscribe) Send(ctx context.Context, msg *Message) (err error) {
 	var accessToken string
-	accessToken, err = s.GetAccessToken(ctx)
+	accessToken, err = s.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -89,7 +89,7 @@ func (s *Subscribe) Send(ctx context.Context, msg *Message) (err error) {
 // ListTemplates 获取当前帐号下的个人模板列表
 // https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/subscribe-message/subscribeMessage.getTemplateList.html
 func (s *Subscribe) ListTemplates(ctx context.Context) (*TemplateList, error) {
-	accessToken, err := s.GetAccessToken(ctx)
+	accessToken, err := s.GetAccessTokenContext(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -131,7 +131,7 @@ type UniformMessage struct {
 // UniformSend 发送统一服务消息
 func (s *Subscribe) UniformSend(ctx context.Context, msg *UniformMessage) (err error) {
 	var accessToken string
-	accessToken, err = s.GetAccessToken(ctx)
+	accessToken, err = s.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -152,7 +152,7 @@ type resSubscribeAdd struct {
 // Add 添加订阅消息模板
 func (s *Subscribe) Add(ctx context.Context, ShortID string, kidList []int, sceneDesc string) (templateID string, err error) {
 	var accessToken string
-	accessToken, err = s.GetAccessToken(ctx)
+	accessToken, err = s.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -175,7 +175,7 @@ func (s *Subscribe) Add(ctx context.Context, ShortID string, kidList []int, scen
 // Delete 删除私有模板
 func (s *Subscribe) Delete(ctx context.Context, templateID string) (err error) {
 	var accessToken string
-	accessToken, err = s.GetAccessToken(ctx)
+	accessToken, err = s.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}

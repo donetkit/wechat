@@ -42,7 +42,7 @@ type ResDeviceState struct {
 // State 设备状态查询
 func (d *Device) State(ctx context.Context, device string) (res ResDeviceState, err error) {
 	var accessToken string
-	if accessToken, err = d.GetAccessToken(ctx); err != nil {
+	if accessToken, err = d.GetAccessTokenContext(ctx); err != nil {
 		return
 	}
 	uri := fmt.Sprintf("%s?access_token=%s&device_id=%s", uriState, accessToken, device)

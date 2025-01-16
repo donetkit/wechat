@@ -90,7 +90,7 @@ type Desc struct {
 
 // GetPrivacySetting 获取小程序权限配置
 func (s *Privacy) GetPrivacySetting(ctx context.Context, privacyVer int) (GetPrivacySettingResponse, error) {
-	accessToken, err := s.GetAccessToken(ctx)
+	accessToken, err := s.GetAccessTokenContext(ctx)
 	if err != nil {
 		return GetPrivacySettingResponse{}, err
 	}
@@ -112,7 +112,7 @@ func (s *Privacy) SetPrivacySetting(ctx context.Context, privacyVer int, ownerSe
 	if privacyVer == PrivacyV1 && len(settingList) > 0 {
 		return errors.New("当privacy_ver传2或者不传时，setting_list是必填；当privacy_ver传1时，该参数不可传")
 	}
-	accessToken, err := s.GetAccessToken(ctx)
+	accessToken, err := s.GetAccessTokenContext(ctx)
 	if err != nil {
 		return err
 	}
@@ -138,7 +138,7 @@ type UploadPrivacyExtFileResponse struct {
 
 // UploadPrivacyExtFile 上传权限定义模板
 func (s *Privacy) UploadPrivacyExtFile(ctx context.Context, fileData []byte) (UploadPrivacyExtFileResponse, error) {
-	accessToken, err := s.GetAccessToken(ctx)
+	accessToken, err := s.GetAccessTokenContext(ctx)
 	if err != nil {
 		return UploadPrivacyExtFileResponse{}, err
 	}

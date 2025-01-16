@@ -155,7 +155,7 @@ func NewOCR(c *context2.Context) *OCR {
 
 // IDCard 身份证OCR识别接口
 func (ocr *OCR) IDCard(ctx context.Context, path string) (resIDCard ResIDCard, err error) {
-	accessToken, err := ocr.GetAccessToken(ctx)
+	accessToken, err := ocr.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -170,7 +170,7 @@ func (ocr *OCR) IDCard(ctx context.Context, path string) (resIDCard ResIDCard, e
 
 // BankCard 银行卡OCR识别接口
 func (ocr *OCR) BankCard(ctx context.Context, path string) (resBankCard ResBankCard, err error) {
-	accessToken, err := ocr.GetAccessToken(ctx)
+	accessToken, err := ocr.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -187,7 +187,7 @@ func (ocr *OCR) BankCard(ctx context.Context, path string) (resBankCard ResBankC
 
 // Driving 行驶证OCR识别接口
 func (ocr *OCR) Driving(ctx context.Context, path string) (resDriving ResDriving, err error) {
-	accessToken, err := ocr.GetAccessToken(ctx)
+	accessToken, err := ocr.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -204,7 +204,7 @@ func (ocr *OCR) Driving(ctx context.Context, path string) (resDriving ResDriving
 
 // DrivingLicense 驾驶证OCR识别接口
 func (ocr *OCR) DrivingLicense(ctx context.Context, path string) (resDrivingLicense ResDrivingLicense, err error) {
-	accessToken, err := ocr.GetAccessToken(ctx)
+	accessToken, err := ocr.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -221,7 +221,7 @@ func (ocr *OCR) DrivingLicense(ctx context.Context, path string) (resDrivingLice
 
 // BizLicense 营业执照OCR识别接口
 func (ocr *OCR) BizLicense(ctx context.Context, path string) (resBizLicense ResBizLicense, err error) {
-	accessToken, err := ocr.GetAccessToken(ctx)
+	accessToken, err := ocr.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -238,7 +238,7 @@ func (ocr *OCR) BizLicense(ctx context.Context, path string) (resBizLicense ResB
 
 // Common 通用印刷体OCR识别接口
 func (ocr *OCR) Common(ctx context.Context, path string) (resCommon ResCommon, err error) {
-	accessToken, err := ocr.GetAccessToken(ctx)
+	accessToken, err := ocr.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -255,7 +255,7 @@ func (ocr *OCR) Common(ctx context.Context, path string) (resCommon ResCommon, e
 
 // PlateNumber 车牌OCR识别接口
 func (ocr *OCR) PlateNumber(ctx context.Context, path string) (resPlateNumber ResPlateNumber, err error) {
-	accessToken, err := ocr.GetAccessToken(ctx)
+	accessToken, err := ocr.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}

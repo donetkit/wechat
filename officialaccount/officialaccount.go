@@ -48,17 +48,24 @@ type OfficialAccount struct {
 
 // NewOfficialAccount 实例化公众号API
 func NewOfficialAccount(cfg *config.Config) *OfficialAccount {
-	defaultAkHandle := credential.NewDefaultAccessToken(cfg.AppID, cfg.AppSecret, credential.CacheKeyOfficialAccountPrefix, cfg.Cache)
+	//defaultAkHandle := credential.NewDefaultAccessToken(cfg.AppID, cfg.AppSecret, credential.CacheKeyOfficialAccountPrefix, cfg.Cache)
+	var defaultAkHandle credential.AccessTokenContextHandle
+	const cacheKeyPrefix = credential.CacheKeyOfficialAccountPrefix
+	if cfg.UseStableAK {
+		defaultAkHandle = credential.NewStableAccessToken(cfg.AppID, cfg.AppSecret, cacheKeyPrefix, cfg.Cache)
+	} else {
+		defaultAkHandle = credential.NewDefaultAccessToken(cfg.AppID, cfg.AppSecret, cacheKeyPrefix, cfg.Cache)
+	}
 	ctx := &context2.Context{
-		Config:            cfg,
-		AccessTokenHandle: defaultAkHandle,
+		Config:                   cfg,
+		AccessTokenContextHandle: defaultAkHandle,
 	}
 	return &OfficialAccount{ctx: ctx}
 }
 
 // SetAccessTokenHandle 自定义access_token获取方式
-func (officialAccount *OfficialAccount) SetAccessTokenHandle(accessTokenHandle credential.AccessTokenHandle) {
-	officialAccount.ctx.AccessTokenHandle = accessTokenHandle
+func (officialAccount *OfficialAccount) SetAccessTokenHandle(accessTokenHandle credential.AccessTokenContextHandle) {
+	officialAccount.ctx.AccessTokenContextHandle = accessTokenHandle
 }
 
 // GetContext get Context
@@ -90,8 +97,16 @@ func (officialAccount *OfficialAccount) GetServer(c *gin.Context) *server.Server
 }
 
 // GetAccessToken 获取access_token
-func (officialAccount *OfficialAccount) GetAccessToken(ctx context.Context) (string, error) {
-	return officialAccount.ctx.GetAccessToken(ctx)
+func (officialAccount *OfficialAccount) GetAccessToken() (string, error) {
+	return officialAccount.GetAccessTokenContext(context.Background())
+}
+
+// GetAccessTokenContext 获取access_token
+func (officialAccount *OfficialAccount) GetAccessTokenContext(ctx context.Context) (string, error) {
+	if c, ok := officialAccount.ctx.AccessTokenContextHandle.(credential.AccessTokenContextHandle); ok {
+		return c.GetAccessTokenContext(ctx)
+	}
+	return officialAccount.ctx.GetAccessToken()
 }
 
 // GetOauth oauth2网页授权

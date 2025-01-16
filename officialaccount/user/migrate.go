@@ -44,7 +44,7 @@ func (user *User) ListChangeOpenIDs(ctx context.Context, fromAppID string, openI
 		return
 	}
 
-	accessToken, err := user.GetAccessToken(ctx)
+	accessToken, err := user.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}

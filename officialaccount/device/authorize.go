@@ -87,7 +87,7 @@ type resDeviceAuthorize struct {
 // DeviceAuthorize 设备授权
 func (d *Device) DeviceAuthorize(ctx context.Context, devices []ReqDevice, opType int, product string) (res []ResBaseInfo, err error) {
 	var accessToken string
-	accessToken, err = d.GetAccessToken(ctx)
+	accessToken, err = d.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}

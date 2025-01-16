@@ -318,7 +318,7 @@ func (s *MiniDrama) GetCdnLogs(ctx context.Context, in *GetCdnLogsRequest) (out 
 
 // requestAddress 请求地址
 func (s *MiniDrama) requestAddress(ctx context.Context, url string) (string, error) {
-	accessToken, err := s.ctx.GetAccessToken(ctx)
+	accessToken, err := s.ctx.GetAccessTokenContext(ctx)
 	if err != nil {
 		return "", err
 	}

@@ -67,7 +67,7 @@ type USResult struct {
 
 // Generate 生成url link
 func (u *URLScheme) Generate(ctx context.Context, params *USParams) (string, error) {
-	accessToken, err := u.GetAccessToken(ctx)
+	accessToken, err := u.GetAccessTokenContext(ctx)
 	if err != nil {
 		return "", err
 	}

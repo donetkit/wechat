@@ -24,17 +24,31 @@ type QQMiniProgram struct {
 
 // NewQQMiniProgram 实例化小程序API
 func NewQQMiniProgram(cfg *config.Config) *QQMiniProgram {
-	defaultAkHandle := credential.NewDefaultAccessToken(cfg.AppID, cfg.AppSecret, credential.CacheKeyMiniProgramPrefix, cfg.Cache)
-	ctx := &context.Context{
-		Config:            cfg,
-		AccessTokenHandle: defaultAkHandle,
+	//defaultAkHandle := credential.NewDefaultAccessToken(cfg.AppID, cfg.AppSecret, credential.CacheKeyMiniProgramPrefix, cfg.Cache)
+	//ctx := &context.Context{
+	//	Config:            cfg,
+	//	AccessTokenHandle: defaultAkHandle,
+	//}
+	//return &QQMiniProgram{ctx}
+
+	var defaultAkHandle credential.AccessTokenContextHandle
+	const cacheKeyPrefix = credential.CacheKeyMiniProgramPrefix
+	if cfg.UseStableAK {
+		defaultAkHandle = credential.NewStableAccessToken(cfg.AppID, cfg.AppSecret, cacheKeyPrefix, cfg.Cache)
+	} else {
+		defaultAkHandle = credential.NewDefaultAccessToken(cfg.AppID, cfg.AppSecret, cacheKeyPrefix, cfg.Cache)
 	}
-	return &QQMiniProgram{ctx}
+	ctx := &context.Context{
+		Config:                   cfg,
+		AccessTokenContextHandle: defaultAkHandle,
+	}
+	return &QQMiniProgram{ctx: ctx}
+
 }
 
 // SetAccessTokenHandle 自定义access_token获取方式
-func (miniProgram *QQMiniProgram) SetAccessTokenHandle(accessTokenHandle credential.AccessTokenHandle) {
-	miniProgram.ctx.AccessTokenHandle = accessTokenHandle
+func (miniProgram *QQMiniProgram) SetAccessTokenHandle(accessTokenHandle credential.AccessTokenContextHandle) {
+	miniProgram.ctx.AccessTokenContextHandle = accessTokenHandle
 }
 
 // GetContext get Context

@@ -12,4 +12,5 @@ type Config struct {
 	Token          string `json:"token"`            // token
 	EncodingAESKey string `json:"encoding_aes_key"` // EncodingAESKey
 	Cache          cache.ICache
+	UseStableAK    bool // use the stable access_token
 }

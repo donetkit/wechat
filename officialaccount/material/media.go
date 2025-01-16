@@ -42,7 +42,7 @@ type Media struct {
 // MediaUpload 临时素材上传
 func (material *Material) MediaUpload(ctx context.Context, mediaType MediaType, filename string) (media Media, err error) {
 	var accessToken string
-	accessToken, err = material.GetAccessToken(ctx)
+	accessToken, err = material.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -67,7 +67,7 @@ func (material *Material) MediaUpload(ctx context.Context, mediaType MediaType, 
 // MediaUploadFromReader 临时素材上传
 func (material *Material) MediaUploadFromReader(ctx context.Context, mediaType MediaType, filename string, reader io.Reader) (media Media, err error) {
 	var accessToken string
-	accessToken, err = material.GetAccessToken(ctx)
+	accessToken, err = material.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -100,7 +100,7 @@ func (material *Material) MediaUploadFromReader(ctx context.Context, mediaType M
 // NOTICE: URL 不可公开，因为含access_token 需要立即另存文件
 func (material *Material) GetMediaURL(ctx context.Context, mediaID string) (mediaURL string, err error) {
 	var accessToken string
-	accessToken, err = material.GetAccessToken(ctx)
+	accessToken, err = material.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -118,7 +118,7 @@ type resMediaImage struct {
 // ImageUpload 图片上传
 func (material *Material) ImageUpload(ctx context.Context, filename string) (url string, err error) {
 	var accessToken string
-	accessToken, err = material.GetAccessToken(ctx)
+	accessToken, err = material.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}

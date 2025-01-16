@@ -28,7 +28,7 @@ type PhoneInfo struct {
 
 // GetPhoneNumber code换取用户手机号。 每个code只能使用一次，code的有效期为5min
 func (business *Business) GetPhoneNumber(ctx context.Context, in *GetPhoneNumberRequest) (info PhoneInfo, err error) {
-	accessToken, err := business.GetAccessToken(ctx)
+	accessToken, err := business.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}

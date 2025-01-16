@@ -47,7 +47,7 @@ type resQueryScheme struct {
 // QueryScheme 查询小程序 scheme 码
 func (u *URLScheme) QueryScheme(ctx context.Context, querySchemeParams QueryScheme) (schemeInfo SchemeInfo, visitOpenid string, err error) {
 	var accessToken string
-	accessToken, err = u.GetAccessToken(ctx)
+	accessToken, err = u.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}

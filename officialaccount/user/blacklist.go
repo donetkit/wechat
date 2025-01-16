@@ -27,7 +27,7 @@ func (user *User) GetBlackList(ctx context.Context, beginOpenid ...string) (user
 	}
 	// 获取 AccessToken
 	var accessToken string
-	if accessToken, err = user.GetAccessToken(ctx); err != nil {
+	if accessToken, err = user.GetAccessTokenContext(ctx); err != nil {
 		return
 	}
 
@@ -98,7 +98,7 @@ func (user *User) batch(ctx context.Context, url, apiName string, openidList ...
 
 	// 获取 AccessToken
 	var accessToken string
-	if accessToken, err = user.GetAccessToken(ctx); err != nil {
+	if accessToken, err = user.GetAccessTokenContext(ctx); err != nil {
 		return
 	}
 

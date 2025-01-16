@@ -108,13 +108,25 @@ func (o *OpenAPI) getAppIDAndSecret() (string, string, error) {
 func (o *OpenAPI) getAccessToken(ctx context.Context) (string, error) {
 	switch o.ctx.(type) {
 	case *mpContext.Context:
-		return o.ctx.(*mpContext.Context).GetAccessToken(ctx)
+		return o.ctx.(*mpContext.Context).GetAccessTokenContext(ctx)
 	case *ocContext.Context:
-		return o.ctx.(*ocContext.Context).GetAccessToken(ctx)
+		return o.ctx.(*ocContext.Context).GetAccessTokenContext(ctx)
 	default:
 		return "", errors.New("invalid context type")
 	}
 }
+
+// 获取 AccessToken
+//func (o *OpenAPI) getAccessToken1(ctx context.Context) (string, error) {
+//	switch o.ctx.(type) {
+//	case *mpContext.Context:
+//		return o.ctx.(*mpContext.Context).GetAccessToken(ctx)
+//	case *ocContext.Context:
+//		return o.ctx.(*ocContext.Context).GetAccessToken(ctx)
+//	default:
+//		return "", errors.New("invalid context type")
+//	}
+//}
 
 // 创建 POST 请求
 func (o *OpenAPI) doPostRequest(ctx context.Context, uri string, payload interface{}) ([]byte, error) {

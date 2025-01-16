@@ -121,7 +121,7 @@ func NewMenu(context *context2.Context) *Menu {
 
 // SetMenu 设置按钮
 func (menu *Menu) SetMenu(ctx context.Context, buttons []*Button) error {
-	accessToken, err := menu.GetAccessToken(ctx)
+	accessToken, err := menu.GetAccessTokenContext(ctx)
 	if err != nil {
 		return err
 	}
@@ -141,7 +141,7 @@ func (menu *Menu) SetMenu(ctx context.Context, buttons []*Button) error {
 
 // SetMenuByJSON 设置按钮
 func (menu *Menu) SetMenuByJSON(ctx context.Context, jsonInfo string) error {
-	accessToken, err := menu.GetAccessToken(ctx)
+	accessToken, err := menu.GetAccessTokenContext(ctx)
 	if err != nil {
 		return err
 	}
@@ -159,7 +159,7 @@ func (menu *Menu) SetMenuByJSON(ctx context.Context, jsonInfo string) error {
 // GetMenu 获取菜单配置
 func (menu *Menu) GetMenu(ctx context.Context) (resMenu ResMenu, err error) {
 	var accessToken string
-	accessToken, err = menu.GetAccessToken(ctx)
+	accessToken, err = menu.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -182,7 +182,7 @@ func (menu *Menu) GetMenu(ctx context.Context) (resMenu ResMenu, err error) {
 
 // DeleteMenu 删除菜单
 func (menu *Menu) DeleteMenu(ctx context.Context) error {
-	accessToken, err := menu.GetAccessToken(ctx)
+	accessToken, err := menu.GetAccessTokenContext(ctx)
 	if err != nil {
 		return err
 	}
@@ -197,7 +197,7 @@ func (menu *Menu) DeleteMenu(ctx context.Context) error {
 
 // AddConditional 添加个性化菜单
 func (menu *Menu) AddConditional(ctx context.Context, buttons []*Button, matchRule *MatchRule) error {
-	accessToken, err := menu.GetAccessToken(ctx)
+	accessToken, err := menu.GetAccessTokenContext(ctx)
 	if err != nil {
 		return err
 	}
@@ -218,7 +218,7 @@ func (menu *Menu) AddConditional(ctx context.Context, buttons []*Button, matchRu
 
 // AddConditionalByJSON 添加个性化菜单
 func (menu *Menu) AddConditionalByJSON(ctx context.Context, jsonInfo string) error {
-	accessToken, err := menu.GetAccessToken(ctx)
+	accessToken, err := menu.GetAccessTokenContext(ctx)
 	if err != nil {
 		return err
 	}
@@ -234,7 +234,7 @@ func (menu *Menu) AddConditionalByJSON(ctx context.Context, jsonInfo string) err
 
 // DeleteConditional 删除个性化菜单
 func (menu *Menu) DeleteConditional(ctx context.Context, menuID int64) error {
-	accessToken, err := menu.GetAccessToken(ctx)
+	accessToken, err := menu.GetAccessTokenContext(ctx)
 	if err != nil {
 		return err
 	}
@@ -255,7 +255,7 @@ func (menu *Menu) DeleteConditional(ctx context.Context, menuID int64) error {
 // MenuTryMatch 菜单匹配
 func (menu *Menu) MenuTryMatch(ctx context.Context, userID string) (buttons []Button, err error) {
 	var accessToken string
-	accessToken, err = menu.GetAccessToken(ctx)
+	accessToken, err = menu.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}
@@ -282,7 +282,7 @@ func (menu *Menu) MenuTryMatch(ctx context.Context, userID string) (buttons []Bu
 // GetCurrentSelfMenuInfo 获取自定义菜单配置接口
 func (menu *Menu) GetCurrentSelfMenuInfo(ctx context.Context) (resSelfMenuInfo ResSelfMenuInfo, err error) {
 	var accessToken string
-	accessToken, err = menu.GetAccessToken(ctx)
+	accessToken, err = menu.GetAccessTokenContext(ctx)
 	if err != nil {
 		return
 	}

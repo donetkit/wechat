@@ -33,17 +33,24 @@ type MiniProgram struct {
 
 // NewMiniProgram 实例化小程序API
 func NewMiniProgram(cfg *config.Config) *MiniProgram {
-	defaultAkHandle := credential.NewDefaultAccessToken(cfg.AppID, cfg.AppSecret, credential.CacheKeyMiniProgramPrefix, cfg.Cache)
+	//defaultAkHandle := credential.NewDefaultAccessToken(cfg.AppID, cfg.AppSecret, credential.CacheKeyMiniProgramPrefix, cfg.Cache)
+	var defaultAkHandle credential.AccessTokenContextHandle
+	const cacheKeyPrefix = credential.CacheKeyMiniProgramPrefix
+	if cfg.UseStableAK {
+		defaultAkHandle = credential.NewStableAccessToken(cfg.AppID, cfg.AppSecret, cacheKeyPrefix, cfg.Cache)
+	} else {
+		defaultAkHandle = credential.NewDefaultAccessToken(cfg.AppID, cfg.AppSecret, cacheKeyPrefix, cfg.Cache)
+	}
 	ctx := &context.Context{
-		Config:            cfg,
-		AccessTokenHandle: defaultAkHandle,
+		Config:                   cfg,
+		AccessTokenContextHandle: defaultAkHandle,
 	}
 	return &MiniProgram{ctx}
 }
 
 // SetAccessTokenHandle 自定义access_token获取方式
-func (miniProgram *MiniProgram) SetAccessTokenHandle(accessTokenHandle credential.AccessTokenHandle) {
-	miniProgram.ctx.AccessTokenHandle = accessTokenHandle
+func (miniProgram *MiniProgram) SetAccessTokenHandle(accessTokenHandle credential.AccessTokenContextHandle) {
+	miniProgram.ctx.AccessTokenContextHandle = accessTokenHandle
 }
 
 // GetContext get Context
