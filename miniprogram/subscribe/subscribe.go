@@ -2,6 +2,7 @@ package subscribe
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 
 	context2 "github.com/donetkit/wechat/miniprogram/context"
@@ -71,6 +72,12 @@ type TemplateList struct {
 	Data []TemplateItem `json:"data"`
 }
 
+// resTemplateSend 发送获取 msg id
+type resTemplateSend struct {
+	util.CommonError
+	MsgID int64 `json:"msgid"`
+}
+
 // Send 发送订阅消息
 func (s *Subscribe) Send(ctx context.Context, msg *Message) (err error) {
 	var accessToken string
@@ -84,6 +91,33 @@ func (s *Subscribe) Send(ctx context.Context, msg *Message) (err error) {
 		return
 	}
 	return util.DecodeWithCommonError(response, "Send")
+}
+
+// SendGetMsgID 发送订阅消息返回 msgid 小程序发送订阅消息支持返回 msgid
+func (s *Subscribe) SendGetMsgID(ctx context.Context, msg *Message) (msgID int64, err error) {
+	var accessToken string
+	accessToken, err = s.GetAccessToken()
+	if err != nil {
+		return
+	}
+	uri := fmt.Sprintf("%s?access_token=%s", subscribeSendURL, accessToken)
+	response, err := util.PostJSONContext(ctx, uri, msg)
+	if err != nil {
+		return
+	}
+
+	var result resTemplateSend
+	if err = json.Unmarshal(response, &result); err != nil {
+		return
+	}
+	if result.ErrCode != 0 {
+		err = fmt.Errorf("template msg send error : errcode=%v , errmsg=%v", result.ErrCode, result.ErrMsg)
+		return
+	}
+
+	msgID = result.MsgID
+
+	return
 }
 
 // ListTemplates 获取当前帐号下的个人模板列表
