@@ -151,10 +151,11 @@ func (ak *WorkAccessToken) GetAccessTokenContext(ctx context.Context) (accessTok
 // 不强制更新access_token,可用于不同环境不同服务而不需要分布式锁以及公用缓存，避免access_token争抢
 // https://developers.weixin.qq.com/miniprogram/dev/OpenApiDoc/mp-access-token/getStableAccessToken.html
 type StableAccessToken struct {
-	appID          string
-	appSecret      string
-	cacheKeyPrefix string
-	cache          cache.ICache
+	appID           string
+	appSecret       string
+	cacheKeyPrefix  string
+	cache           cache.ICache
+	accessTokenLock *sync.Mutex
 }
 
 // NewStableAccessToken new StableAccessToken
@@ -185,6 +186,10 @@ func (ak *StableAccessToken) GetAccessTokenContext(ctx context.Context) (accessT
 	if len(accessToken) > 0 {
 		return
 	}
+
+	// 加上lock，是为了防止在并发获取token时，cache刚好失效，导致从微信服务器上获取到不同token
+	ak.accessTokenLock.Lock()
+	defer ak.accessTokenLock.Unlock()
 
 	// cache失效，从微信服务器获取
 	var resAccessToken ResAccessToken
